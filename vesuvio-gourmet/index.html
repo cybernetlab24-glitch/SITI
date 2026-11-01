@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria Vesuvio Gourmet | Pizza Napoletana Contemporanea</title>
+    <meta name="description" content="Pizzeria Vesuvio Gourmet: l'arte della pizza napoletana incontra l'alta cucina. Ingredienti DOP, lievitazione 48h e sapori autentici nel cuore della città.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pizzeria Vesuvio Gourmet | Eccellenza e Tradizione">
+    <meta property="og:description" content="Scopri le nostre pizze gourmet realizzate con ingredienti presidio Slow Food e lievitazione naturale.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/hero-1.jpg">
+    
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            terracotta: '#C84B31',
+                            dark: '#191919',
+                            cream: '#F9F5F0',
+                            gold: '#D4A373',
+                            surface: '#222222',
+                            accent: '#EC9A29'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"DM Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .glass-nav {
+            background: rgba(25, 25, 25, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-cream font-sans antialiased selection:bg-brand-terracotta selection:text-white">
+
+    <!-- HEADER FISSO -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-brand-terracotta flex items-center justify-center text-white font-serif font-bold text-xl group-hover:scale-105 transition-transform">V</div>
+                <div class="flex flex-col">
+                    <span class="font-serif font-bold text-lg md:text-xl tracking-wider text-white uppercase leading-none">Vesuvio</span>
+                    <span class="text-xs text-brand-gold tracking-widest uppercase font-medium">Gourmet</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="#storia" class="hover:text-brand-gold transition-colors">La Nostra Storia</a>
+                <a href="#menu" class="hover:text-brand-gold transition-colors">Il Menu</a>
+                <a href="#filosofia" class="hover:text-brand-gold transition-colors">Eccellenza</a>
+                <a href="#dove-siamo" class="hover:text-brand-gold transition-colors">Dove Siamo</a>
+            </nav>
+
+            <div class="hidden md:flex items-center">
+                <a href="#contatti" class="bg-brand-terracotta hover:bg-opacity-90 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg shadow-brand-terracotta/20 hover:scale-105">
+                    Prenota un Tavolo
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none" aria-label="Apri menu">
+                <svg id="menu-icon-open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg id="menu-icon-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-surface border-b border-white/10 px-6 py-6 transition-all">
+            <div class="flex flex-col space-y-4 text-lg font-medium">
+                <a href="#storia" class="mobile-link hover:text-brand-gold transition-colors py-1">La Nostra Storia</a>
+                <a href="#menu" class="mobile-link hover:text-brand-gold transition-colors py-1">Il Menu</a>
+                <a href="#filosofia" class="mobile-link hover:text-brand-gold transition-colors py-1">Eccellenza</a>
+                <a href="#dove-siamo" class="mobile-link hover:text-brand-gold transition-colors py-1">Dove Siamo</a>
+                <a href="#contatti" class="mobile-link bg-brand-terracotta text-white text-center py-3 rounded-xl font-medium mt-2">Prenota un Tavolo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="img/hero-1.jpg" alt="Pizza gourmet appena sfornata con cornicione alto e ingredienti freschi" class="w-full h-full object-cover opacity-35 scale-105 animate-pulse" style="animation-duration: 10s;">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center reveal-on-scroll">
+            <span class="inline-block text-brand-gold text-sm md:text-base font-semibold tracking-widest uppercase mb-4 px-4 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10">
+                Pizzeria Tradizionale & Contemporanea
+            </span>
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+                L'Arte della Pizza Napoletana,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-brand-terracotta">Elevata al Gourmet.</span>
+            </h1>
+            <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+                Impasti ad alta idratazione lievitati 48 ore, abbinati alle migliori eccellenze gastronomiche italiane e presidi Slow Food.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#menu" class="w-full sm:w-auto bg-brand-terracotta hover:bg-opacity-90 text-white px-8 py-4 rounded-full font-medium transition-all shadow-xl shadow-brand-terracotta/30 hover:scale-105 text-center">
+                    Esplora il Menu
+                </a>
+                <a href="#contatti" class="w-full sm:w-auto border border-white/30 hover:border-white bg-white/5 backdrop-blur-sm text-white px-8 py-4 rounded-full font-medium transition-all hover:bg-white/10 text-center">
+                    Prenota Ora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHI SIAMO / LA NOSTRA STORIA -->
+    <section id="storia" class="py-24 bg-brand-dark relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal-on-scroll">
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                        <img src="img/chi-siamo-2.jpg" alt="Mastro pizzaiolo mentre stende l'impasto per la pizza" class="w-full h-[450px] md:h-[550px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-brand-terracotta/20 rounded-full blur-3xl -z-10"></div>
+                    <div class="absolute -top-6 -left-6 w-48 h-48 bg-brand-gold/20 rounded-full blur-3xl -z-10"></div>
+                </div>
+
+                <div class="space-y-6 reveal-on-scroll">
+                    <div class="inline-flex items-center gap-2 text-brand-gold font-medium text-sm tracking-widest uppercase">
+                        <span class="w-8 h-[1px] bg-brand-gold"></span>
+                        La Nostra Storia
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
+                        Passione, Fuoco e Lunga Lievitazione.
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed text-lg font-light">
+                        Pizzeria Vesuvio Gourmet nasce dall'amore per le radici partenopee e dalla costante ricerca dell'eccellenza in tavola. La nostra non è una semplice pizza, ma un viaggio sensoriale tra tradizione e innovazione.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        Selezioniamo farine tipo 1 macinate a pietra, pomodoro San Marzano DOP dell'Agro Sarnese-Nocerino e fiordilatte di agerola lavorato a mano. Ogni disco di pasta viene lavorato con estrema cura per garantire la massima digeribilità e una fragranza inimitabile.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 pt-4 border-t border-white/10">
+                        <div>
+                            <span class="block font-serif text-3xl font-bold text-brand-gold">48 Ore</span>
+                            <span class="text-sm text-gray-400">Lievitazione naturale</span>
+                        </div>
+                        <div>
+                            <span class="block font-serif text-3xl font-bold text-brand-gold">100% DOP</span>
+                            <span class="text-sm text-gray-400">Ingredienti Certificati</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILOSOFIA / SERVIZI -->
+    <section id="filosofia" class="py-24 bg-brand-surface relative border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+                <span class="text-brand-gold font-medium text-sm tracking-widest uppercase">Eccellenza Artigianale</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">Cosa Rende Unica la Nostra Pizza</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-brand-dark p-8 rounded-2xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 reveal-on-scroll group">
+                    <div class="w-14 h-14 rounded-xl bg-brand-terracotta/10 text-brand-terracotta flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18m9-9H3"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mb-3">Farine Selenzionate</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Utilizziamo solo farine macinate a pietra da grano 100% italiano, mantenendo intatto il germe di grano per profumi e nutrienti unici.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-brand-dark p-8 rounded-2xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 reveal-on-scroll group">
+                    <div class="w-14 h-14 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.364A8 8 0 016.343 7.05M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mb-3">Presidi Slow Food</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        I nostri ingredienti provengono da piccoli produttori locali: salumi artigianali, formaggi rari e verdure di stagione.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-brand-dark p-8 rounded-2xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 reveal-on-scroll group">
+                    <div class="w-14 h-14 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mb-3">Cottura Perfetta</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Il nostro forno a legna di cotto napoletano raggiunge la temperatura ideale per una cottura uniforme e un alveolatura pronunciata.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Immagine Servizio Extra -->
+            <div class="mt-16 rounded-2xl overflow-hidden shadow-2xl relative reveal-on-scroll border border-white/10">
+                <img src="img/servizi-3.jpg" alt="Selezione di pizze gourmet pronte al servizio in ambiente accogliente" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/70 to-transparent flex items-center p-8 sm:p-12">
+                    <div class="max-w-md">
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">Esperienza in Sala & Asporto</h3>
+                        <p class="text-gray-300 text-sm sm:text-base">Goditi il nostro ambiente caldo e moderno oppure ordina le nostre creazioni da gustare direttamente a casa tua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEZIONE MENU -->
+    <section id="menu" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+                <span class="text-brand-gold font-medium text-sm tracking-widest uppercase">Gusto & Tradizione</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">Le Nostre Specialità</h2>
+                <p class="text-gray-400 mt-4">Una selezione curata di pizze classiche e creazioni d'autore contemporanee.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                <!-- Item 1 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-serif text-xl font-bold text-white">Vesuvio D.O.P.</h3>
+                            <span class="text-xs bg-brand-terracotta/20 text-brand-terracotta font-semibold px-2 py-0.5 rounded">Signature</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mt-2">Pomodoro San Marzano DOP, Mozzarella di Bufala Campana DOP, Basilico fresco, Olio EVO biologico a crudo.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 12,00</span>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <h3 class="font-serif text-xl font-bold text-white">Tartufo e Pistacchio</h3>
+                        <p class="text-gray-400 text-sm mt-2">Fiordilatte di Agerola, Crema di Tartufo Nero, Mortadella IGP, Granella di Pistacchio di Bronte, Burrata intera.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 16,50</span>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <h3 class="font-serif text-xl font-bold text-white">Marinara Arricchita</h3>
+                        <p class="text-gray-400 text-sm mt-2">Pomodoro Corbarino, Aglio Nero fermentato, Origano di Montagna, Alici di Cetara, Capperi di Salina.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 10,50</span>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-serif text-xl font-bold text-white">Calabrese Gourmet</h3>
+                            <span class="text-xs bg-brand-gold/20 text-brand-gold font-semibold px-2 py-0.5 rounded">Piccante</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mt-2">Fiordilatte, 'Nduja artigianale di Spilinga, Spianata piccante, Stracciatella pugliese, Miele di castagno.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 14,00</span>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <h3 class="font-serif text-xl font-bold text-white">Primavera Gialla</h3>
+                        <p class="text-gray-400 text-sm mt-2">Passata di Pomodorino Giallo del Piennolo, Provola Affumicata, Porcini trifolati, Scaglie di Parmigiano 30 mesi.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 13,50</span>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="bg-brand-surface p-6 rounded-xl border border-white/5 reveal-on-scroll flex justify-between items-start">
+                    <div class="pr-4">
+                        <h3 class="font-serif text-xl font-bold text-white">Orto Botanico</h3>
+                        <p class="text-gray-400 text-sm mt-2">Vellutata di Zucchine, Fiori di Zucca, Pomodori Confit, Tofu affumicato marinato, Granella di Nocciole.</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-brand-gold">€ 12,50</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOVE SIAMO ED ORARI -->
+    <section id="dove-siamo" class="py-24 bg-brand-surface relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 reveal-on-scroll">
+                    <span class="text-brand-gold font-medium text-sm tracking-widest uppercase">Vieni a Trovarci</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">Posizione & Orari</h2>
+                    <p class="text-gray-300">Ci troviamo in una posizione centrale, facilmente raggiungibile. Ti consigliamo di prenotare il tuo tavolo con anticipo nei fine settimana.</p>
+                    
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-terracotta/20 text-brand-terracotta flex items-center justify-center shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Indirizzo</h4>
+                                <p class="text-gray-400 text-sm">[INDIRIZZO E CIVICO], [CITTÀ] (IT)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-gold/20 text-brand-gold flex items-center justify-center shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Orari di Apertura</h4>
+                                <p class="text-gray-400 text-sm">Lunedì - Venerdì: 19:00 - 23:30</p>
+                                <p class="text-gray-400 text-sm">Sabato - Domenica: 12:30 - 15:00 | 19:00 - 00:00</p>
+                                <p class="text-brand-terracotta text-xs font-semibold mt-1">Martedì: Chiuso per riposo settimanale</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="https://maps.google.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-brand-gold hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">
+                            Apri su Google Maps
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mappa o Immagine Posizione -->
+                <div class="h-96 rounded-2xl bg-brand-dark border border-white/10 overflow-hidden relative reveal-on-scroll flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <svg class="w-16 h-16 text-brand-gold mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                        </svg>
+                        <h3 class="font-serif text-xl font-bold text-white mb-2">Mappa Interattiva</h3>
+                        <p class="text-gray-400 text-sm max-w-xs mx-auto mb-4">Mappa in fase di caricamento o raggiungibile tramite il pulsante Google Maps.</p>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener" class="bg-white/10 hover:bg-white/20 text-white text-xs px-4 py-2 rounded-full transition-colors inline-block">Indicazioni Stradali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTATTI E PRENOTAZIONI -->
+    <section id="contatti" class="py-24 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 reveal-on-scroll">
+                    <span class="text-brand-gold font-medium text-sm tracking-widest uppercase">Riserva il tuo tavolo</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">Prenotazioni & Contatti</h2>
+                    <p class="text-gray-400 mt-4">Scrivici o chiamaci per informazioni, prenotazioni o richieste per eventi privati.</p>
+                </div>
+
+                <!-- Pulsanti Rapidi -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 reveal-on-scroll">
+                    <a href="tel:[TELEFONO]" class="flex items-center justify-center gap-3 bg-brand-surface border border-white/10 hover:border-brand-gold p-4 rounded-xl transition-all group">
+                        <svg class="w-5 h-5 text-brand-gold group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <span class="text-sm font-medium text-white">Chiama: [TELEFONO]</span>
+                    </a>
+
+                    <a href="https://wa.me/[TELEFONO]" target="_blank" rel="noopener" class="flex items-center justify-center gap-3 bg-brand-surface border border-white/10 hover:border-green-500 p-4 rounded-xl transition-all group">
+                        <svg class="w-5 h-5 text-green-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <span class="text-sm font-medium text-white">WhatsApp</span>
+                    </a>
+
+                    <a href="mailto:[EMAIL]" class="flex items-center justify-center gap-3 bg-brand-surface border border-white/10 hover:border-brand-terracotta p-4 rounded-xl transition-all group">
+                        <svg class="w-5 h-5 text-brand-terracotta group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span class="text-sm font-medium text-white">Email: [EMAIL]</span>
+                    </a>
+                </div>
+
+                <!-- Form di Contatto -->
+                <form action="mailto:[EMAIL]" method="GET" class="bg-brand-surface p-8 sm:p-10 rounded-2xl border border-white/10 space-y-6 reveal-on-scroll">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-gray-300 mb-2">Nome e Cognome *</label>
+                            <input type="text" id="nome" name="subject" required class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors" placeholder="Mario Rossi">
+                        </div>
+                        <div>
+                            <label for="telefono" class="block text-sm font-medium text-gray-300 mb-2">Telefono *</label>
+                            <input type="tel" id="telefono" required class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors" placeholder="+39 333 1234567">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="persone" class="block text-sm font-medium text-gray-300 mb-2">Numero di Persone</label>
+                            <select id="persone" class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                <option>2 Persone</option>
+                                <option>3-4 Persone</option>
+                                <option>5-8 Persone</option>
+                                <option>Gruppo numeroso (> 8)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="data" class="block text-sm font-medium text-gray-300 mb-2">Data e Ora Desiderata</label>
+                            <input type="text" id="data" class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors" placeholder="Es. 20 Ottobre - 20:30">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="messaggio" class="block text-sm font-medium text-gray-300 mb-2">Note o Richieste Speciali</label>
+                        <textarea id="messaggio" name="body" rows="4" class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors" placeholder="Intolleranze, allergie, seggioloni o preferenza tavolo..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-terracotta hover:bg-opacity-90 text-white font-medium py-4 rounded-xl transition-all shadow-lg shadow-brand-terracotta/20 hover:scale-[1.01]">
+                        Invia Richiesta di Prenotazione
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-white/10 py-16 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-terracotta flex items-center justify-center text-white font-serif font-bold">V</div>
+                        <span class="font-serif font-bold text-lg text-white uppercase tracking-wider">Vesuvio Gourmet</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-gray-500">
+                        Pizzeria Napoletana Contemporanea. Il gusto autentico della tradizione unito all'eccellenza degli ingredienti.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Navigazione</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#storia" class="hover:text-white transition-colors">La Nostra Storia</a></li>
+                        <li><a href="#menu" class="hover:text-white transition-colors">Il Menu</a></li>
+                        <li><a href="#filosofia" class="hover:text-white transition-colors">Eccellenza</a></li>
+                        <li><a href="#dove-siamo" class="hover:text-white transition-colors">Dove Siamo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Dati Aziendali</h4>
+                    <p class="text-xs text-gray-500 mb-1">Pizzeria Vesuvio Gourmet S.r.l.</p>
+                    <p class="text-xs text-gray-500 mb-1">P.IVA: [PARTITA_IVA]</p>
+                    <p class="text-xs text-gray-500">[INDIRIZZO COMPLETO]</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legale & Privacy</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Termini e Condizioni</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+                <p>&copy; <span id="year"></span> Pizzeria Vesuvio Gourmet. Tutti i diritti riservati.</p>
+                <p>Designed with passion for authentic Italian taste.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Anno Corrente Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            menuIconOpen.classList.toggle('hidden');
+            menuIconClose.classList.toggle('hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Intersection Observer per Animazioni allo Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
