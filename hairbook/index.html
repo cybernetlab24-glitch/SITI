@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HairBook - Gestione Salone</title>
+  <meta name="theme-color" content="#2C3E50">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#2C3E50', 'brand-dark': '#1a252f', 'brand-light': '#34495e' },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 4rem); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="h-full flex flex-col text-slate-800 antialiased selection:bg-slate-200">
+
+  <header class="bg-brand text-white sticky top-0 z-30 shadow-md flex-none">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">✂️</span>
+        <h1 class="font-bold text-lg tracking-wide">HairBook</h1>
+      </div>
+      <div class="flex items-center space-x-3 text-xs">
+        <span id="role-badge" class="bg-brand-light px-2.5 py-1 rounded-full font-medium border border-slate-600">Titolare</span>
+        <button onclick="switchTab('impostazioni')" class="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-brand-light transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
+    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 p-4 space-y-1 flex-none">
+      <button onclick="switchTab('calendario')" data-nav="calendario" class="nav-btn flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Calendario</span>
+      </button>
+      <button onclick="switchTab('clienti')" data-nav="clienti" class="nav-btn flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <span>Clienti</span>
+      </button>
+      <button onclick="switchTab('servizi')" data-nav="servizi" class="nav-btn flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L3 3m6 6l7 7m-7-7l-2.879 2.879"/></svg>
+        <span>Servizi e Prezzi</span>
+      </button>
+      <button onclick="switchTab('incassi')" data-nav="incassi" class="nav-btn flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Incassi</span>
+      </button>
+      <button onclick="switchTab('impostazioni')" data-nav="impostazioni" class="nav-btn flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>Impostazioni</span>
+      </button>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
+      
+      <!-- CALENDARIO -->
+      <section id="tab-calendario" class="tab-content space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-2">
+            <input type="date" id="cal-date" onchange="renderCalendario()" class="font-semibold text-slate-800 border border-slate-300 rounded-lg p-1.5 text-sm focus:ring-2 focus:ring-brand outline-none">
+            <button onclick="changeDate(-1)" class="p-2 border rounded-lg hover:bg-slate-50"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+            <button onclick="changeDate(1)" class="p-2 border rounded-lg hover:bg-slate-50"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            <button onclick="setDateToday()" class="text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg font-medium">Oggi</button>
+          </div>
+          <button onclick="openAppuntamentoModal()" class="bg-brand text-white font-medium px-4 py-2 rounded-xl text-sm hover:bg-brand-dark transition flex items-center justify-center space-x-1 shadow-sm">
+            <span>+ Nuovo Appuntamento</span>
+          </button>
+        </div>
+        <div id="calendar-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+      </section>
+
+      <!-- CLIENTI -->
+      <section id="tab-clienti" class="tab-content hidden space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <input type="text" id="search-clienti" oninput="renderClienti()" placeholder="Cerca cliente per nome o telefono..." class="border border-slate-300 rounded-xl px-3.5 py-2 text-sm w-full sm:w-72 focus:ring-2 focus:ring-brand outline-none">
+          <button onclick="openEntityModal('cliente')" class="bg-brand text-white font-medium px-4 py-2 rounded-xl text-sm hover:bg-brand-dark transition shadow-sm">+ Nuovo Cliente</button>
+        </div>
+        <div id="clienti-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- SERVIZI -->
+      <section id="tab-servizi" class="tab-content hidden space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <input type="text" id="search-servizi" oninput="renderServizi()" placeholder="Cerca servizio..." class="border border-slate-300 rounded-xl px-3.5 py-2 text-sm w-full sm:w-72 focus:ring-2 focus:ring-brand outline-none">
+          <button onclick="openEntityModal('servizio')" class="bg-brand text-white font-medium px-4 py-2 rounded-xl text-sm hover:bg-brand-dark transition shadow-sm">+ Nuovo Servizio</button>
+        </div>
+        <div id="servizi-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- INCASSI -->
+      <section id="tab-incassi" class="tab-content hidden space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Incasso Oggi</span>
+            <div id="stat-incasso-oggi" class="text-2xl font-bold text-slate-800 mt-1">€ 0.00</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Incasso Mese</span>
+            <div id="stat-incasso-mese" class="text-2xl font-bold text-slate-800 mt-1">€ 0.00</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Appuntamenti Completati</span>
+            <div id="stat-appuntamenti-count" class="text-2xl font-bold text-slate-800 mt-1">0</div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-slate-800 mb-3">Storico Transazioni</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b text-xs text-slate-400 uppercase">
+                  <th class="py-2 px-3">Data</th>
+                  <th class="py-2 px-3">Cliente</th>
+                  <th class="py-2 px-3">Servizio</th>
+                  <th class="py-2 px-3">Metodo</th>
+                  <th class="py-2 px-3 text-right">Importo</th>
+                </tr>
+              </thead>
+              <tbody id="transazioni-list" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPOSTAZIONI -->
+      <section id="tab-impostazioni" class="tab-content hidden space-y-6 max-w-2xl">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-800 text-lg border-b pb-2">Profilo Utente</h3>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1">Ruolo Corrente</label>
+            <select id="user-role-select" onchange="changeRole(this.value)" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand outline-none">
+              <option value="Amministratore / Titolare del salone">Amministratore / Titolare del salone</option>
+              <option value="Parrucchiere / Operatore">Parrucchiere / Operatore</option>
+              <option value="Receptionist">Receptionist</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b pb-2">
+            <h3 class="font-bold text-slate-800 text-lg">Operatori / Collaboratori</h3>
+            <button onclick="openEntityModal('operatore')" class="text-xs bg-brand text-white px-3 py-1.5 rounded-lg hover:bg-brand-dark">+ Aggiungi</button>
+          </div>
+          <div id="operatori-list" class="space-y-2"></div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-bold text-slate-800 text-lg border-b pb-2">Gestione Dati</h3>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="exportCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition">Esporta in CSV</button>
+            <button onclick="resetDemoData()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-4 py-2 rounded-xl text-sm font-medium transition">Ripristina dati di esempio</button>
+            <button onclick="clearAllData()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-sm font-medium transition">Cancella tutti i dati</button>
+          </div>
+        </div>
+
+        <div class="text-center text-xs text-slate-400 py-4">
+          Prototipo realizzato da <span class="font-semibold text-slate-600">CybernetLab</span>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-2 py-2 flex justify-around items-center z-30 pb-safe shadow-lg">
+    <button onclick="switchTab('calendario')" data-nav="calendario" class="nav-btn flex flex-col items-center p-1 text-slate-500 font-medium text-xs">
+      <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      Calendario
+    </button>
+    <button onclick="switchTab('clienti')" data-nav="clienti" class="nav-btn flex flex-col items-center p-1 text-slate-500 font-medium text-xs">
+      <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      Clienti
+    </button>
+    <button onclick="switchTab('servizi')" data-nav="servizi" class="nav-btn flex flex-col items-center p-1 text-slate-500 font-medium text-xs">
+      <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L3 3m6 6l7 7m-7-7l-2.879 2.879"/></svg>
+      Servizi
+    </button>
+    <button onclick="switchTab('incassi')" data-nav="incassi" class="nav-btn flex flex-col items-center p-1 text-slate-500 font-medium text-xs">
+      <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Incassi
+    </button>
+  </nav>
+
+  <!-- MODALE GENERICO -->
+  <div id="generic-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl max-h-[90vh] overflow-y-auto">
+      <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-4"></h3>
+      <form id="generic-form" onsubmit="handleFormSubmit(event)" class="space-y-3"></form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICHE -->
+  <div id="toast" class="fixed top-4 right-4 bg-slate-800 text-white px-4 py-2.5 rounded-xl text-sm shadow-lg transform transition-all duration-300 translate-y-[-100px] opacity-0 z-50"></div>
+
+  <script>
+    const INITIAL_DATA = {
+      role: 'Amministratore / Titolare del salone',
+      operatore: [
+        { id: 'op1', nome: 'Marco', colore_agenda: '#3b82f6', attivo: true },
+        { id: 'op2', nome: 'Elena', colore_agenda: '#ec4899', attivo: true }
+      ],
+      cliente: [
+        { id: 'cl1', nome: 'Giulia', cognome: 'Rossi', telefono: '3331234567', email: 'giulia@example.com', note_allergie: 'Cute sensibile, no ammoniaca', creato_il: new Date().toISOString().split('T')[0] },
+        { id: 'cl2', nome: 'Luca', cognome: 'Bianchi', telefono: '3399876543', email: 'luca@example.com', note_allergie: 'Nessuna', creato_il: new Date().toISOString().split('T')[0] }
+      ],
+      servizio: [
+        { id: 'se1', nome: 'Taglio Donna', durata_minuti: 45, prezzo: 35, categoria: 'Taglio' },
+        { id: 'se2', nome: 'Colore & Piega', durata_minuti: 90, prezzo: 65, categoria: 'Colore' },
+        { id: 'se3', nome: 'Taglio Uomo', durata_minuti: 30, prezzo: 22, categoria: 'Taglio' }
+      ],
+      appuntamento: [],
+      transazione: []
+    };
+
+    let store = JSON.parse(localStorage.getItem('hairbook_dati')) || INITIAL_DATA;
+
+    function saveStore() {
+      localStorage.setItem('hairbook_dati', JSON.stringify(store));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.remove('translate-y-[-100px]', 'opacity-0');
+      setTimeout(() => t.classList.add('translate-y-[-100px]', 'opacity-0'), 2500);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const active = btn.getAttribute('data-nav') === tabId;
+        btn.classList.toggle('text-brand', active);
+        btn.classList.toggle('font-bold', active);
+        btn.classList.toggle('bg-slate-100', active && window.innerWidth >= 768);
+      });
+      if(tabId === 'calendario') renderCalendario();
+      if(tabId === 'clienti') renderClienti();
+      if(tabId === 'servizi') renderServizi();
+      if(tabId === 'incassi') renderIncassi();
+      if(tabId === 'impostazioni') renderImpostazioni();
+    }
+
+    function setDateToday() {
+      document.getElementById('cal-date').value = new Date().toISOString().split('T')[0];
+      renderCalendario();
+    }
+
+    function changeDate(days) {
+      const input = document.getElementById('cal-date');
+      const d = new Date(input.value || Date.now());
+      d.setDate(d.getDate() + days);
+      input.value = d.toISOString().split('T')[0];
+      renderCalendario();
+    }
+
+    function renderCalendario() {
+      const selectedDate = document.getElementById('cal-date').value;
+      const grid = document.getElementById('calendar-grid');
+      grid.innerHTML = '';
+
+      const ops = store.operatore.filter(o => o.attivo);
+      if (ops.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">Nessun operatore attivo.</div>';
+        return;
+      }
+
+      ops.forEach(op => {
+        const apps = store.appuntamento.filter(a => a.operatore_id === op.id && a.data_ora_inizio.startsWith(selectedDate));
+        apps.sort((a,b) => a.data_ora_inizio.localeCompare(b.data_ora_inizio));
+
+        let appCards = apps.map(a => {
+          const cli = store.cliente.find(c => c.id === a.cliente_id) || { nome: 'Sconosciuto', cognome: '' };
+          const srv = store.servizio.find(s => s.id === a.servizio_id) || { nome: 'Servizio', prezzo: 0 };
+          const oraInizio = a.data_ora_inizio.split('T')[1] || '';
+          const oraFine = a.data_ora_fine.split('T')[1] || '';
+          const isCompletato = a.stato === 'Completato';
+
+          return `
+            <div class="p-3 rounded-xl border border-slate-100 shadow-sm bg-white space-y-1.5 relative border-l-4" style="border-left-color: ${op.colore_agenda}">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-slate-500">${oraInizio} - ${oraFine}</span>
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${isCompletato ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${a.stato}</span>
+              </div>
+              <div class="font-bold text-slate-800">${cli.nome} ${cli.cognome}</div>
+              <div class="text-xs text-slate-600">${srv.nome} • <span class="font-semibold">€${srv.prezzo}</span></div>
+              ${a.note ? `<div class="text-xs text-slate-400 italic">${a.note}</div>` : ''}
+              <div class="flex gap-2 pt-2 border-t border-slate-50 mt-2">
+                ${!isCompletato ? `<button onclick="completaAppuntamento('${a.id}')" class="text-xs font-medium text-emerald-600 hover:bg-emerald-50 px-2 py-1 rounded-lg">Incassa</button>` : ''}
+                <button onclick="deleteEntity('appuntamento', '${a.id}')" class="text-xs font-medium text-red-500 hover:bg-red-50 px-2 py-1 rounded-lg ml-auto">Elimina</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (apps.length === 0) {
+          appCards = '<div class="text-xs text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">Nessun appuntamento</div>';
+        }
+
+        grid.innerHTML += `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center space-x-2 pb-2 border-b border-slate-100">
+              <span class="w-3 h-3 rounded-full" style="background:${op.colore_agenda}"></span>
+              <h4 class="font-bold text-slate-800">${op.nome}</h4>
+            </div>
+            <div class="space-y-2">${appCards}</div>
+          </div>
+        `;
+      });
+    }
+
+    function renderClienti() {
+      const q = (document.getElementById('search-clienti').value || '').toLowerCase();
+      const list = document.getElementById('clienti-list');
+      const filtered = store.cliente.filter(c => `${c.nome} ${c.cognome} ${c.telefono}`.toLowerCase().includes(q));
+
+      if(filtered.length === 0) {
+        list.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">Nessun cliente trovato</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(c => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-start">
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-800">${c.nome} ${c.cognome}</h4>
+            <div class="text-xs text-slate-500">📞 ${c.telefono} | ✉️ ${c.email || 'N/D'}</div>
+            ${c.note_allergie ? `<div class="text-xs bg-red-50 text-red-600 p-1.5 rounded-lg mt-1 font-medium">⚠️ ${c.note_allergie}</div>` : ''}
+          </div>
+          <div class="flex space-x-1">
+            <button onclick="openEntityModal('cliente', '${c.id}')" class="p-1.5 text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/></svg></button>
+            <button onclick="deleteEntity('cliente', '${c.id}')" class="p-1.5 text-red-400 hover:text-red-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderServizi() {
+      const q = (document.getElementById('search-servizi').value || '').toLowerCase();
+      const list = document.getElementById('servizi-list');
+      const filtered = store.servizio.filter(s => s.nome.toLowerCase().includes(q) || s.categoria.toLowerCase().includes(q));
+
+      if(filtered.length === 0) {
+        list.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">Nessun servizio trovato</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(s => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">${s.categoria}</span>
+            <h4 class="font-bold text-slate-800">${s.nome}</h4>
+            <div class="text-xs text-slate-500">⏱️ ${s.durata_minuti} min</div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="text-lg font-bold text-slate-800">€${parseFloat(s.prezzo).toFixed(2)}</span>
+            <button onclick="openEntityModal('servizio', '${s.id}')" class="p-1.5 text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/></svg></button>
+            <button onclick="deleteEntity('servizio', '${s.id}')" class="p-1.5 text-red-400 hover:text-red-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderIncassi() {
+      const oggi = new Date().toISOString().split('T')[0];
+      const mese = oggi.substring(0, 7);
+
+      let incassoOggi = 0;
+      let incassoMese = 0;
+
+      store.transazione.forEach(t => {
+        if(t.data_incasso.startsWith(oggi)) incassoOggi += parseFloat(t.importo);
+        if(t.data_incasso.startsWith(mese)) incassoMese += parseFloat(t.importo);
+      });
+
+      document.getElementById('stat-incasso-oggi').innerText = `€ ${incassoOggi.toFixed(2)}`;
+      document.getElementById('stat-incasso-mese').innerText = `€ ${incassoMese.toFixed(2)}`;
+      document.getElementById('stat-appuntamenti-count').innerText = store.appuntamento.filter(a => a.stato === 'Completato').length;
+
+      const list = document.getElementById('transazioni-list');
+      if(store.transazione.length === 0) {
+        list.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400">Nessuna transazione registrata</td></tr>';
+        return;
+      }
+
+      list.innerHTML = store.transazione.slice().reverse().map(t => {
+        const app = store.appuntamento.find(a => a.id === t.appuntamento_id) || {};
+        const cli = store.cliente.find(c => c.id === app.cliente_id) || { nome: 'N/D', cognome: '' };
+        const srv = store.servizio.find(s => s.id === app.servizio_id) || { nome: 'N/D' };
+
+        return `
+          <tr>
+            <td class="py-2.5 px-3 font-medium text-slate-600">${t.data_incasso}</td>
+            <td class="py-2.5 px-3 font-bold text-slate-800">${cli.nome} ${cli.cognome}</td>
+            <td class="py-2.5 px-3 text-slate-600">${srv.nome}</td>
+            <td class="py-2.5 px-3"><span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full">${t.metodo_pagamento}</span></td>
+            <td class="py-2.5 px-3 text-right font-bold text-slate-800">€ ${parseFloat(t.importo).toFixed(2)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderImpostazioni() {
+      document.getElementById('role-badge').innerText = store.role || 'Titolare';
+      document.getElementById('user-role-select').value = store.role || 'Amministratore / Titolare del salone';
+
+      const list = document.getElementById('operatori-list');
+      list.innerHTML = store.operatore.map(op => `
+        <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="flex items-center space-x-2">
+            <span class="w-3.5 h-3.5 rounded-full" style="background:${op.colore_agenda}"></span>
+            <span class="font-medium text-slate-800 text-sm">${op.nome}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="openEntityModal('operatore', '${op.id}')" class="text-xs text-slate-500 hover:text-slate-800">Modifica</button>
+            <button onclick="deleteEntity('operatore', '${op.id}')" class="text-xs text-red-500 hover:text-red-700">Elimina</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeRole(val) {
+      store.role = val;
+      saveStore();
+      document.getElementById('role-badge').innerText = val.split(' ')[0];
+      showToast('Ruolo aggiornato');
+    }
+
+    function openEntityModal(type, id = null) {
+      const isEdit = !!id;
+      const modal = document.getElementById('generic-modal');
+      const title = document.getElementById('modal-title');
+      const form = document.getElementById('generic-form');
+
+      let item = {};
+      if(isEdit) item = store[type].find(x => x.id === id) || {};
+
+      title.innerText = `${isEdit ? 'Modifica' : 'Nuovo'} ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+      form.setAttribute('data-type', type);
+      form.setAttribute('data-id', id || '');
+
+      let fields = '';
+      if (type === 'cliente') {
+        fields = `
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nome</label><input type="text" name="nome" value="${item.nome||''}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Cognome</label><input type="text" name="cognome" value="${item.cognome||''}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Telefono</label><input type="tel" name="telefono" value="${item.telefono||''}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Email</label><input type="email" name="email" value="${item.email||''}" class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Note / Allergie</label><textarea name="note_allergie" class="w-full border rounded-xl p-2 text-sm">${item.note_allergie||''}</textarea></div>
+        `;
+      } else if (type === 'servizio') {
+        fields = `
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nome Servizio</label><input type="text" name="nome" value="${item.nome||''}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Categoria</label><input type="text" name="categoria" value="${item.categoria||'Generale'}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Durata (minuti)</label><input type="number" name="durata_minuti" value="${item.durata_minuti||30}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Prezzo (€)</label><input type="number" step="0.01" name="prezzo" value="${item.prezzo||15}" required class="w-full border rounded-xl p-2 text-sm"></div>
+        `;
+      } else if (type === 'operatore') {
+        fields = `
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Nome Operatore</label><input type="text" name="nome" value="${item.nome||''}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Colore Agenda</label><input type="color" name="colore_agenda" value="${item.colore_agenda||'#3b82f6'}" class="w-full h-10 border rounded-xl p-1"></div>
+        `;
+      }
+
+      form.innerHTML = fields + `
+        <div class="flex justify-end space-x-2 pt-4">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 border rounded-xl text-sm font-medium hover:bg-slate-50">Annulla</button>
+          <button type="submit" class="px-4 py-2 bg-brand text-white rounded-xl text-sm font-medium hover:bg-brand-dark">Salva</button>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function openAppuntamentoModal() {
+      const modal = document.getElementById('generic-modal');
+      const title = document.getElementById('modal-title');
+      const form = document.getElementById('generic-form');
+
+      title.innerText = 'Nuovo Appuntamento';
+      form.setAttribute('data-type', 'appuntamento');
+      form.setAttribute('data-id', '');
+
+      const dateVal = document.getElementById('cal-date').value || new Date().toISOString().split('T')[0];
+
+      const clientOpts = store.cliente.map(c => `<option value="${c.id}">${c.nome} ${c.cognome}</option>`).join('');
+      const opOpts = store.operatore.filter(o => o.attivo).map(o => `<option value="${o.id}">${o.nome}</option>`).join('');
+      const srvOpts = store.servizio.map(s => `<option value="${s.id}">${s.nome} (${s.durata_minuti}m - €${s.prezzo})</option>`).join('');
+
+      form.innerHTML = `
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Cliente</label><select name="cliente_id" required class="w-full border rounded-xl p-2 text-sm">${clientOpts}</select></div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Operatore</label><select name="operatore_id" required class="w-full border rounded-xl p-2 text-sm">${opOpts}</select></div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Servizio</label><select name="servizio_id" required class="w-full border rounded-xl p-2 text-sm">${srvOpts}</select></div>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Data</label><input type="date" name="data" value="${dateVal}" required class="w-full border rounded-xl p-2 text-sm"></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Ora Inizio</label><input type="time" name="ora" value="09:00" required class="w-full border rounded-xl p-2 text-sm"></div>
+        </div>
+        <div><label class="block text-xs font-semibold text-slate-500 mb-1">Note</label><input type="text" name="note" placeholder="Opzionali" class="w-full border rounded-xl p-2 text-sm"></div>
+        <div class="flex justify-end space-x-2 pt-4">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 border rounded-xl text-sm font-medium hover:bg-slate-50">Annulla</button>
+          <button type="submit" class="px-4 py-2 bg-brand text-white rounded-xl text-sm font-medium hover:bg-brand-dark">Prenota</button>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('generic-modal').classList.add('hidden');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const type = form.getAttribute('data-type');
+      const id = form.getAttribute('data-id');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      if (type === 'appuntamento') {
+        const srv = store.servizio.find(s => s.id === data.servizio_id);
+        const dur = srv ? parseInt(srv.durata_minuti) : 30;
+        const start = `${data.data}T${data.ora}`;
+        
+        const endD = new Date(`${data.data}T${data.ora}`);
+        endD.setMinutes(endD.getMinutes() + dur);
+        const end = `${data.data}T${String(endD.getHours()).padStart(2,'0')}:${String(endD.getMinutes()).padStart(2,'0')}`;
+
+        store.appuntamento.push({
+          id: 'app_' + Date.now(),
+          cliente_id: data.cliente_id,
+          operatore_id: data.operatore_id,
+          servizio_id: data.servizio_id,
+          data_ora_inizio: start,
+          data_ora_fine: end,
+          stato: 'In Programma',
+          note: data.note || ''
+        });
+      } else {
+        if (id) {
+          const idx = store[type].findIndex(x => x.id === id);
+          if (idx !== -1) store[type][idx] = { ...store[type][idx], ...data };
+        } else {
+          data.id = type.slice(0, 2) + '_' + Date.now();
+          if (type === 'cliente') data.creato_il = new Date().toISOString().split('T')[0];
+          if (type === 'operatore') data.attivo = true;
+          store[type].push(data);
+        }
+      }
+
+      saveStore();
+      closeModal();
+      showToast('Salvato con successo!');
+      
+      const currentTab = document.querySelector('.tab-content:not(.hidden)').id.replace('tab-', '');
+      switchTab(currentTab);
+    }
+
+    function completaAppuntamento(id) {
+      const app = store.appuntamento.find(a => a.id === id);
+      if(!app) return;
+
+      const srv = store.servizio.find(s => s.id === app.servizio_id) || { prezzo: 0 };
+      const metodo = confirm('Paga in contanti? (Annulla per Carta/POS)') ? 'Contanti' : 'POS';
+
+      app.stato = 'Completato';
+      store.transazione.push({
+        id: 'tr_' + Date.now(),
+        appuntamento_id: app.id,
+        importo: srv.prezzo,
+        metodo_pagamento: metodo,
+        data_incasso: new Date().toISOString().split('T')[0]
+      });
+
+      saveStore();
+      showToast('Incasso registrato!');
+      renderCalendario();
+    }
+
+    function deleteEntity(type, id) {
+      if(!confirm('Sei sicuro di voler eliminare questo elemento?')) return;
+      store[type] = store[type].filter(x => x.id !== id);
+      saveStore();
+      showToast('Eliminato');
+      const currentTab = document.querySelector('.tab-content:not(.hidden)').id.replace('tab-', '');
+      switchTab(currentTab);
+    }
+
+    function resetDemoData() {
+      if(!confirm('Ripristinare i dati di esempio iniziali?')) return;
+      store = JSON.parse(JSON.stringify(INITIAL_DATA));
+      saveStore();
+      showToast('Dati ripristinati');
+      switchTab('calendario');
+    }
+
+    function clearAllData() {
+      if(!confirm('ATTENZIONE: Verranno cancellati tutti i dati. Continuare?')) return;
+      store = { role: store.role, operatore: [], cliente: [], servizio: [], appuntamento: [], transazione: [] };
+      saveStore();
+      showToast('Tutti i dati cancellati');
+      switchTab('impostazioni');
+    }
+
+    function exportCSV() {
+      let csv = 'ID,Data,Importo,Metodo\n';
+      store.transazione.forEach(t => {
+        csv += `${t.id},${t.data_incasso},${t.importo},${t.metodo_pagamento}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `incassi_hairbook_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('cal-date').value = new Date().toISOString().split('T')[0];
+      switchTab('calendario');
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    }
+  </script>
+</body>
+</html>
