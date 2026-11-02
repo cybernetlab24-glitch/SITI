@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HairFlow - Gestionale Salone</title>
+  <meta name="theme-color" content="#1E1035">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#1E1035', light: '#2D194F', dark: '#120922', accent: '#D4AF37' }
+          },
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="h-full font-sans antialiased text-slate-800 flex flex-col md:flex-row overflow-hidden bg-slate-100">
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex flex-col w-64 bg-brand text-white border-r border-brand-light flex-shrink-0">
+    <div class="p-5 flex items-center gap-3 border-b border-white/10">
+      <div class="w-10 h-10 rounded-xl bg-brand-accent flex items-center justify-center text-brand font-bold text-xl shadow-lg">H</div>
+      <div>
+        <h1 class="font-bold text-lg leading-none">HairFlow</h1>
+        <span class="text-xs text-brand-accent font-medium tracking-wider uppercase">Salone Pro</span>
+      </div>
+    </div>
+    <nav class="flex-1 p-3 space-y-1">
+      <button onclick="switchTab('agenda')" id="nav-d-agenda" class="nav-d-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all bg-white/10 text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Agenda Appuntamenti
+      </button>
+      <button onclick="switchTab('clienti')" id="nav-d-clienti" class="nav-d-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        Anagrafica Clienti
+      </button>
+      <button onclick="switchTab('servizi')" id="nav-d-servizi" class="nav-d-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 11-4.243-4.243 3 3 0 014.243 4.243z"/></svg>
+        Catalogo Servizi
+      </button>
+      <button onclick="switchTab('promemoria')" id="nav-d-promemoria" class="nav-d-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v1.351A6.002 6.002 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        Promemoria
+      </button>
+      <button onclick="switchTab('impostazioni')" id="nav-d-impostazioni" class="nav-d-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Impostazioni
+      </button>
+    </nav>
+    <div class="p-4 border-t border-white/10 text-xs text-slate-400">
+      Ruolo attivo: <span id="role-display-d" class="font-bold text-white">Titolare</span>
+    </div>
+  </aside>
+
+  <!-- Content Container -->
+  <div class="flex-1 flex flex-col h-full overflow-hidden">
+    
+    <!-- Top Header Mobile -->
+    <header class="bg-brand text-white p-4 flex items-center justify-between shadow-md md:hidden flex-shrink-0">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center text-brand font-bold text-base">H</div>
+        <span class="font-bold text-lg tracking-tight">HairFlow</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="role-display-m" class="text-xs bg-brand-light px-2.5 py-1 rounded-full text-brand-accent font-medium border border-brand-accent/20">Titolare</span>
+      </div>
+    </header>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="fixed top-4 right-4 z-50 transform translate-y-[-100%] opacity-0 transition-all duration-300 pointer-events-none">
+      <div id="toast-body" class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700 max-w-sm">
+        <span id="toast-icon"></span>
+        <p id="toast-msg" class="text-sm font-medium"></p>
+      </div>
+    </div>
+
+    <!-- Main Screens Container -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 no-scrollbar pb-24 md:pb-6">
+
+      <!-- SCREEN 1: AGENDA -->
+      <section id="sec-agenda" class="space-y-4 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Agenda Appuntamenti</h2>
+            <p class="text-xs text-slate-500">Gestisci le prenotazioni e lo stato del salone</p>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <input type="date" id="agenda-date" onchange="renderAgenda()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-brand focus:outline-none">
+            <button onclick="openAppointmentModal()" class="flex-1 sm:flex-none bg-brand hover:bg-brand-light text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md flex items-center justify-center gap-2 transition-all">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Nuovo
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <!-- Main List -->
+          <div class="lg:col-span-2 space-y-3">
+            <div id="agenda-list" class="space-y-3"></div>
+          </div>
+          <!-- Stats Summary -->
+          <div class="space-y-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-slate-800 text-sm mb-3">Riepilogo Giornaliero</h3>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <span class="text-xs text-slate-500 block">Totale Clienti</span>
+                  <span id="stat-tot-app" class="text-xl font-bold text-brand">0</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <span class="text-xs text-slate-500 block">Incasso Stimato</span>
+                  <span id="stat-incasso" class="text-xl font-bold text-emerald-600">€0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: CLIENTI -->
+      <section id="sec-clienti" class="hidden space-y-4 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Anagrafica Clienti</h2>
+            <p class="text-xs text-slate-500">Storico e formule tecniche per ogni cliente</p>
+          </div>
+          <button onclick="openClientModal()" class="w-full sm:w-auto bg-brand hover:bg-brand-light text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md flex items-center justify-center gap-2 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            Nuovo Cliente
+          </button>
+        </div>
+
+        <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200">
+          <input type="text" id="search-clienti" oninput="renderClienti()" placeholder="Cerca per nome, cognome o telefono..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+        </div>
+
+        <div id="clienti-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- SCREEN 3: SERVIZI -->
+      <section id="sec-servizi" class="hidden space-y-4 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Catalogo Servizi</h2>
+            <p class="text-xs text-slate-500">Listino trattamenti, tempi di posa e prezzi</p>
+          </div>
+          <button onclick="openServiceModal()" class="w-full sm:w-auto bg-brand hover:bg-brand-light text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md flex items-center justify-center gap-2 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Nuovo Servizio
+          </button>
+        </div>
+
+        <div id="servizi-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </section>
+
+      <!-- SCREEN 4: PROMEMORIA -->
+      <section id="sec-promemoria" class="hidden space-y-4 max-w-6xl mx-auto">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <h2 class="text-xl font-bold text-slate-900">Centro Promemoria</h2>
+          <p class="text-xs text-slate-500">Invia e controlla le notifiche per ridurre gli appuntamenti mancati</p>
+        </div>
+
+        <div id="promemoria-list" class="space-y-3"></div>
+      </section>
+
+      <!-- SCREEN 5: IMPOSTAZIONI -->
+      <section id="sec-impostazioni" class="hidden space-y-4 max-w-3xl mx-auto">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <h2 class="text-xl font-bold text-slate-900">Impostazioni & Profilo</h2>
+          <p class="text-xs text-slate-500">Personalizza il tuo flusso di lavoro e gestisci i dati</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+          <h3 class="font-bold text-sm text-slate-800 border-b pb-2">Seleziona Ruolo Operativo</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="setRole('Titolare')" class="p-3 rounded-xl border text-left flex flex-col justify-between hover:border-brand transition-all bg-slate-50">
+              <span class="font-bold text-sm text-slate-800">Titolare</span>
+              <span class="text-xs text-slate-500 mt-1">Accesso completo</span>
+            </button>
+            <button onclick="setRole('Receptionist')" class="p-3 rounded-xl border text-left flex flex-col justify-between hover:border-brand transition-all bg-slate-50">
+              <span class="font-bold text-sm text-slate-800">Receptionist</span>
+              <span class="text-xs text-slate-500 mt-1">Gestione cassa/agenda</span>
+            </button>
+            <button onclick="setRole('Staff')" class="p-3 rounded-xl border text-left flex flex-col justify-between hover:border-brand transition-all bg-slate-50">
+              <span class="font-bold text-sm text-slate-800">Staff Sala</span>
+              <span class="text-xs text-slate-500 mt-1">Lettura schede/note</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+          <h3 class="font-bold text-sm text-slate-800 border-b pb-2">Gestione Dati LocalStorage</h3>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="exportCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl transition-all flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Esporta in CSV
+            </button>
+            <button onclick="resetData()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-semibold px-3 py-2 rounded-xl transition-all">
+              Ripristina dati di esempio
+            </button>
+            <button onclick="clearData()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-semibold px-3 py-2 rounded-xl transition-all">
+              Cancella tutti i dati
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center py-6 text-slate-400 text-xs border-t border-slate-200 mt-6">
+          <p class="font-semibold text-slate-500">Prototipo realizzato da CybernetLab</p>
+          <p class="mt-1">HairFlow v1.0.0 • All Rights Reserved</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Nav Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-brand text-white border-t border-white/10 flex justify-around p-2 z-40 shadow-lg">
+      <button onclick="switchTab('agenda')" id="nav-m-agenda" class="nav-m-btn flex flex-col items-center py-1 px-3 text-xs font-medium text-brand-accent">
+        <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Agenda
+      </button>
+      <button onclick="switchTab('clienti')" id="nav-m-clienti" class="nav-m-btn flex flex-col items-center py-1 px-3 text-xs font-medium text-slate-400">
+        <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        Clienti
+      </button>
+      <button onclick="switchTab('servizi')" id="nav-m-servizi" class="nav-m-btn flex flex-col items-center py-1 px-3 text-xs font-medium text-slate-400">
+        <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 11-4.243-4.243 3 3 0 014.243 4.243z"/></svg>
+        Servizi
+      </button>
+      <button onclick="switchTab('promemoria')" id="nav-m-promemoria" class="nav-m-btn flex flex-col items-center py-1 px-3 text-xs font-medium text-slate-400">
+        <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v1.351A6.002 6.002 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        Notifiche
+      </button>
+      <button onclick="switchTab('impostazioni')" id="nav-m-impostazioni" class="nav-m-btn flex flex-col items-center py-1 px-3 text-xs font-medium text-slate-400">
+        <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Menu
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- MODALS -->
+  <!-- Modal Appuntamento -->
+  <div id="modal-appuntamento" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 id="modal-app-title" class="font-bold text-lg text-slate-800">Nuovo Appuntamento</h3>
+        <button onclick="closeModal('modal-appuntamento')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <form id="form-appuntamento" onsubmit="saveAppointment(event)" class="space-y-3">
+        <input type="hidden" id="app-id">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Cliente</label>
+          <select id="app-cliente" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Servizio</label>
+          <select id="app-servizio" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none" onchange="updateAppPrice()"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Data e Ora Inizio</label>
+            <input type="datetime-local" id="app-inizio" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Stato</label>
+            <select id="app-stato" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+              <option value="Prenotato">Prenotato</option>
+              <option value="In Corso">In Corso</option>
+              <option value="Completato">Completato</option>
+              <option value="Annullato">Annullato</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Prezzo (€)</label>
+            <input type="number" step="0.5" id="app-prezzo" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Invia Promemoria</label>
+            <select id="app-promo-option" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+              <option value="SI">WhatsApp / SMS</option>
+              <option value="NO">No</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Note</label>
+          <textarea id="app-note" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none" placeholder="Es. Desidera il piega soft..."></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t">
+          <button type="button" onclick="closeModal('modal-appuntamento')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl">Annulla</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand rounded-xl">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Cliente -->
+  <div id="modal-cliente" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 id="modal-cli-title" class="font-bold text-lg text-slate-800">Nuovo Cliente</h3>
+        <button onclick="closeModal('modal-cliente')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <form id="form-cliente" onsubmit="saveClient(event)" class="space-y-3">
+        <input type="hidden" id="cli-id">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Nome</label>
+            <input type="text" id="cli-nome" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Cognome</label>
+            <input type="text" id="cli-cognome" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Telefono</label>
+            <input type="tel" id="cli-telefono" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Email</label>
+            <input type="email" id="cli-email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Note Tecniche (Formule Colore / Trattamenti)</label>
+          <textarea id="cli-note" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none" placeholder="Es: Ricrescita 6.0 + 20vol. Riflessante punte 7.3..."></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t">
+          <button type="button" onclick="closeModal('modal-cliente')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl">Annulla</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand rounded-xl">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Servizio -->
+  <div id="modal-servizio" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 id="modal-srv-title" class="font-bold text-lg text-slate-800">Nuovo Servizio</h3>
+        <button onclick="closeModal('modal-servizio')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <form id="form-servizio" onsubmit="saveService(event)" class="space-y-3">
+        <input type="hidden" id="srv-id">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Nome Servizio</label>
+          <input type="text" id="srv-nome" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Categoria</label>
+          <select id="srv-categoria" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+            <option value="Taglio & Piega">Taglio & Piega</option>
+            <option value="Colore & Schiariture">Colore & Schiariture</option>
+            <option value="Trattamenti Specifici">Trattamenti Specifici</option>
+            <option value="Estetica & Barba">Estetica & Barba</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Durata (Minuti)</label>
+            <input type="number" id="srv-durata" step="5" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Prezzo Base (€)</label>
+            <input type="number" id="srv-prezzo" step="0.5" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t">
+          <button type="button" onclick="closeModal('modal-servizio')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl">Annulla</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand rounded-xl">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Storico Trattamenti Cliente -->
+  <div id="modal-historico" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div>
+          <h3 id="hist-client-name" class="font-bold text-lg text-slate-800">Storico Cliente</h3>
+          <p id="hist-client-tech" class="text-xs text-brand font-medium"></p>
+        </div>
+        <button onclick="closeModal('modal-historico')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <div id="hist-list" class="space-y-2"></div>
+      <div class="flex justify-end pt-2 border-t">
+        <button onclick="closeModal('modal-historico')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'hairflow-gestionale-salone_dati';
+
+    const sampleData = {
+      role: 'Titolare',
+      Cliente: [
+        { id: 'c1', nome: 'Elena', cognome: 'Rossi', telefono: '3331234567', email: 'elena.rossi@email.it', note_tecniche_colore: 'Radici 5.0 20vol + Sfumature Balayage Biondo Freddo. Sensibile al cuoio capelluto.', data_registrazione: '2023-01-15' },
+        { id: 'c2', nome: 'Marco', cognome: 'Bianchi', telefono: '3479876543', email: 'marco.b@email.it', note_tecniche_colore: 'Taglio sfumato 1mm ai lati. Gel effetto opaco.', data_registrazione: '2023-03-22' },
+        { id: 'c3', nome: 'Giulia', cognome: 'Verdi', telefono: '3205554433', email: 'giulia.v@email.it', note_tecniche_colore: 'Trattamento Cheratina ricostruttivo. Evitare piega troppo calda.', data_registrazione: '2023-05-10' }
+      ],
+      Servizio: [
+        { id: 's1', nome_servizio: 'Taglio & Piega Donna', categoria: 'Taglio & Piega', durata_minuti: 45, prezzo_base: 35.00 },
+        { id: 's2', nome_servizio: 'Colore & Lucido', categoria: 'Colore & Schiariture', durata_minuti: 90, prezzo_base: 55.00 },
+        { id: 's3', nome_servizio: 'Balayage / Sfumature', categoria: 'Colore & Schiariture', durata_minuti: 120, prezzo_base: 85.00 },
+        { id: 's4', nome_servizio: 'Taglio Uomo', categoria: 'Estetica & Barba', durata_minuti: 30, prezzo_base: 22.00 }
+      ],
+      Appuntamento: [
+        { id: 'a1', cliente_id: 'c1', servizio_id: 's3', data_ora_inizio: new Date().toISOString().slice(0,10) + 'T09:30', data_ora_fine: new Date().toISOString().slice(0,10) + 'T11:30', stato: 'In Corso', importo_totale: 85.00, note: 'Cliente abituale, richiede balayage' },
+        { id: 'a2', cliente_id: 'c2', servizio_id: 's4', data_ora_inizio: new Date().toISOString().slice(0,10) + 'T11:30', data_ora_fine: new Date().toISOString().slice(0,10) + 'T12:00', stato: 'Prenotato', importo_totale: 22.00, note: '' },
+        { id: 'a3', cliente_id: 'c3', servizio_id: 's1', data_ora_inizio: new Date().toISOString().slice(0,10) + 'T15:00', data_ora_fine: new Date().toISOString().slice(0,10) + 'T15:45', stato: 'Prenotato', importo_totale: 35.00, note: 'Piega liscia' }
+      ],
+      Promemoria: [
+        { id: 'p1', appuntamento_id: 'a1', data_ora_invio: new Date().toISOString().slice(0,10) + ' 08:00', stato_invio: 'Inviato', canale_invio: 'WhatsApp' },
+        { id: 'p2', appuntamento_id: 'a2', data_ora_invio: new Date().toISOString().slice(0,10) + ' 08:30', stato_invio: 'Inviato', canale_invio: 'SMS' },
+        { id: 'p3', appuntamento_id: 'a3', data_ora_invio: new Date().toISOString().slice(0,10) + ' 09:00', stato_invio: 'Da Inviare', canale_invio: 'WhatsApp' }
+      ]
+    };
+
+    let DB = loadData();
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(sampleData));
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DB));
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+      toastMsg.innerText = msg;
+      toastIcon.innerHTML = type === 'success' 
+        ? `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`
+        : `<svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+      
+      toast.classList.remove('translate-y-[-100%]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-[-100%]', 'opacity-0');
+      }, 3000);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-m-btn').forEach(b => {
+        b.classList.remove('text-brand-accent');
+        b.classList.add('text-slate-400');
+      });
+      const activeMBtn = document.getElementById(`nav-m-${tabId}`);
+      if(activeMBtn) {
+        activeMBtn.classList.remove('text-slate-400');
+        activeMBtn.classList.add('text-brand-accent');
+      }
+
+      document.querySelectorAll('.nav-d-btn').forEach(b => {
+        b.classList.remove('bg-white/10', 'text-white');
+        b.classList.add('text-slate-300');
+      });
+      const activeDBtn = document.getElementById(`nav-d-${tabId}`);
+      if(activeDBtn) {
+        activeDBtn.classList.add('bg-white/10', 'text-white');
+        activeDBtn.classList.remove('text-slate-300');
+      }
+
+      if(tabId === 'agenda') renderAgenda();
+      if(tabId === 'clienti') renderClienti();
+      if(tabId === 'servizi') renderServizi();
+      if(tabId === 'promemoria') renderPromemoria();
+    }
+
+    function setRole(role) {
+      DB.role = role;
+      saveData();
+      document.getElementById('role-display-m').innerText = role;
+      document.getElementById('role-display-d').innerText = role;
+      showToast(`Ruolo cambiato in: ${role}`);
+    }
+
+    // Modal helpers
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // --- AGENDA LOGIC ---
+    function renderAgenda() {
+      const selectedDate = document.getElementById('agenda-date').value || new Date().toISOString().slice(0,10);
+      document.getElementById('agenda-date').value = selectedDate;
+
+      const list = document.getElementById('agenda-list');
+      const apps = DB.Appuntamento.filter(a => a.data_ora_inizio.startsWith(selectedDate))
+        .sort((a,b) => a.data_ora_inizio.localeCompare(b.data_ora_inizio));
+
+      let totalIncasso = 0;
+      apps.forEach(a => { if(a.stato !== 'Annullato') totalIncasso += parseFloat(a.importo_totale || 0); });
+      document.getElementById('stat-tot-app').innerText = apps.length;
+      document.getElementById('stat-incasso').innerText = `€${totalIncasso.toFixed(2)}`;
+
+      if(apps.length === 0) {
+        list.innerHTML = `
+          <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-2">
+            <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <p class="font-semibold text-slate-700">Nessun appuntamento per questa data</p>
+            <p class="text-xs text-slate-400">Clicca "+ Nuovo" per pianificare un servizio</p>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = apps.map(app => {
+        const cli = DB.Cliente.find(c => c.id === app.cliente_id) || { nome: 'Cliente', cognome: 'Eliminato', telefono: '' };
+        const srv = DB.Servizio.find(s => s.id === app.servizio_id) || { nome_servizio: 'Servizio' };
+        const horaInizio = app.data_ora_inizio.slice(11,16);
+        const horaFine = app.data_ora_fine ? app.data_ora_fine.slice(11,16) : '';
+
+        let badgeColor = 'bg-slate-100 text-slate-700';
+        if(app.stato === 'In Corso') badgeColor = 'bg-amber-100 text-amber-800 border-amber-200';
+        if(app.stato === 'Completato') badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+        if(app.stato === 'Annullato') badgeColor = 'bg-red-100 text-red-700 border-red-200';
+
+        return `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div class="flex items-start gap-3">
+              <div class="bg-brand/5 border border-brand/10 p-2.5 rounded-xl text-center min-w-[65px]">
+                <span class="block text-sm font-bold text-brand">${horaInizio}</span>
+                <span class="block text-[10px] text-slate-400">${horaFine}</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-slate-900">${cli.nome} ${cli.cognome}</h4>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold border ${badgeColor}">${app.stato}</span>
+                </div>
+                <p class="text-xs text-brand font-medium mt-0.5">${srv.nome_servizio} • €${parseFloat(app.importo_totale).toFixed(2)}</p>
+                ${app.note ? `<p class="text-xs text-slate-500 italic mt-1">"${app.note}"</p>` : ''}
+              </div>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0">
+              <a href="https://wa.me/${cli.telefono.replace(/[^0-9]/g,'')}" target="_blank" class="p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 transition-all text-xs font-semibold flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              </a>
+              <button onclick="editAppointment('${app.id}')" class="p-2 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-all text-xs font-medium">Modifica</button>
+              <button onclick="deleteAppointment('${app.id}')" class="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-all text-xs font-medium">Elimina</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function openAppointmentModal(app = null) {
+      document.getElementById('modal-app-title').innerText = app ? 'Modifica Appuntamento' : 'Nuovo Appuntamento';
+      
+      const cliSelect = document.getElementById('app-cliente');
+      cliSelect.innerHTML = DB.Cliente.map(c => `<option value="${c.id}">${c.nome} ${c.cognome}</option>`).join('');
+      
+      const srvSelect = document.getElementById('app-servizio');
+      srvSelect.innerHTML = DB.Servizio.map(s => `<option value="${s.id}">${s.nome_servizio} (€${s.prezzo_base})</option>`).join('');
+
+      if(app) {
+        document.getElementById('app-id').value = app.id;
+        document.getElementById('app-cliente').value = app.cliente_id;
+        document.getElementById('app-servizio').value = app.servizio_id;
+        document.getElementById('app-inizio').value = app.data_ora_inizio;
+        document.getElementById('app-stato').value = app.stato;
+        document.getElementById('app-prezzo').value = app.importo_totale;
+        document.getElementById('app-note').value = app.note || '';
+      } else {
+        document.getElementById('form-appuntamento').reset();
+        document.getElementById('app-id').value = '';
+        const now = new Date();
+        now.setMinutes(0);
+        document.getElementById('app-inizio').value = now.toISOString().slice(0,16);
+        updateAppPrice();
+      }
+      openModal('modal-appuntamento');
+    }
+
+    function updateAppPrice() {
+      const srvId = document.getElementById('app-servizio').value;
+      const srv = DB.Servizio.find(s => s.id === srvId);
+      if(srv) document.getElementById('app-prezzo').value = srv.prezzo_base;
+    }
+
+    function saveAppointment(e) {
+      e.preventDefault();
+      const id = document.getElementById('app-id').value;
+      const srvId = document.getElementById('app-servizio').value;
+      const srv = DB.Servizio.find(s => s.id === srvId);
+      
+      const inizio = document.getElementById('app-inizio').value;
+      let fine = inizio;
+      if(srv) {
+        const d = new Date(inizio);
+        d.setMinutes(d.getMinutes() + parseInt(srv.durata_minuti));
+        fine = d.toISOString().slice(0,16);
+      }
+
+      const payload = {
+        id: id || 'a_' + Date.now(),
+        cliente_id: document.getElementById('app-cliente').value,
+        servizio_id: srvId,
+        data_ora_inizio: inizio,
+        data_ora_fine: fine,
+        stato: document.getElementById('app-stato').value,
+        importo_totale: parseFloat(document.getElementById('app-prezzo').value),
+        note: document.getElementById('app-note').value
+      };
+
+      if(id) {
+        const idx = DB.Appuntamento.findIndex(a => a.id === id);
+        DB.Appuntamento[idx] = payload;
+      } else {
+        DB.Appuntamento.push(payload);
+        if(document.getElementById('app-promo-option').value === 'SI') {
+          DB.Promemoria.push({
+            id: 'p_' + Date.now(),
+            appuntamento_id: payload.id,
+            data_ora_invio: new Date().toISOString().slice(0,10) + ' 09:00',
+            stato_invio: 'Da Inviare',
+            canale_invio: 'WhatsApp'
+          });
+        }
+      }
+
+      saveData();
+      closeModal('modal-appuntamento');
+      renderAgenda();
+      showToast('Appuntamento salvato con successo');
+    }
+
+    function editAppointment(id) {
+      const app = DB.Appuntamento.find(a => a.id === id);
+      if(app) openAppointmentModal(app);
+    }
+
+    function deleteAppointment(id) {
+      if(confirm('Sei sicuro di voler eliminare questo appuntamento?')) {
+        DB.Appuntamento = DB.Appuntamento.filter(a => a.id !== id);
+        saveData();
+        renderAgenda();
+        showToast('Appuntamento eliminato');
+      }
+    }
+
+    // --- CLIENTI LOGIC ---
+    function renderClienti() {
+      const q = document.getElementById('search-clienti').value.toLowerCase();
+      const list = document.getElementById('clienti-list');
+      
+      const items = DB.Cliente.filter(c => 
+        c.nome.toLowerCase().includes(q) || 
+        c.cognome.toLowerCase().includes(q) || 
+        c.telefono.includes(q)
+      );
+
+      if(items.length === 0) {
+        list.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-sm">Nessun cliente trovato</div>`;
+        return;
+      }
+
+      list.innerHTML = items.map(c => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-3">
+          <div>
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-bold text-slate-900">${c.nome} ${c.cognome}</h3>
+                <p class="text-xs text-slate-500">${c.telefono} ${c.email ? '• ' + c.email : ''}</p>
+              </div>
+              <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Dal ${c.data_registrazione || '2023'}</span>
+            </div>
+            ${c.note_tecniche_colore ? `
+              <div class="mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <span class="text-[10px] font-bold text-brand uppercase tracking-wider block mb-0.5">Note Tecniche & Colore</span>
+                <p class="text-xs text-slate-700 leading-relaxed">${c.note_tecniche_colore}</p>
+              </div>
+            ` : ''}
+          </div>
+          <div class="flex items-center justify-between border-t pt-2 mt-1">
+            <button onclick="showHistory('${c.id}')" class="text-xs font-semibold text-brand hover:underline flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Storico Trattamenti
+            </button>
+            <div class="flex items-center gap-2">
+              <button onclick="editClient('${c.id}')" class="p-1.5 text-slate-500 hover:text-brand transition-all text-xs font-medium">Modifica</button>
+              <button onclick="deleteClient('${c.id}')" class="p-1.5 text-red-500 hover:text-red-700 transition-all text-xs font-medium">Elimina</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openClientModal(cli = null) {
+      document.getElementById('modal-cli-title').innerText = cli ? 'Modifica Cliente' : 'Nuovo Cliente';
+      if(cli) {
+        document.getElementById('cli-id').value = cli.id;
+        document.getElementById('cli-nome').value = cli.nome;
+        document.getElementById('cli-cognome').value = cli.cognome;
+        document.getElementById('cli-telefono').value = cli.telefono;
+        document.getElementById('cli-email').value = cli.email || '';
+        document.getElementById('cli-note').value = cli.note_tecniche_colore || '';
+      } else {
+        document.getElementById('form-cliente').reset();
+        document.getElementById('cli-id').value = '';
+      }
+      openModal('modal-cliente');
+    }
+
+    function saveClient(e) {
+      e.preventDefault();
+      const id = document.getElementById('cli-id').value;
+      const payload = {
+        id: id || 'c_' + Date.now(),
+        nome: document.getElementById('cli-nome').value,
+        cognome: document.getElementById('cli-cognome').value,
+        telefono: document.getElementById('cli-telefono').value,
+        email: document.getElementById('cli-email').value,
+        note_tecniche_colore: document.getElementById('cli-note').value,
+        data_registrazione: new Date().toISOString().slice(0,10)
+      };
+
+      if(id) {
+        const idx = DB.Cliente.findIndex(c => c.id === id);
+        DB.Cliente[idx] = payload;
+      } else {
+        DB.Cliente.push(payload);
+      }
+
+      saveData();
+      closeModal('modal-cliente');
+      renderClienti();
+      showToast('Cliente salvato correttamente');
+    }
+
+    function editClient(id) {
+      const cli = DB.Cliente.find(c => c.id === id);
+      if(cli) openClientModal(cli);
+    }
+
+    function deleteClient(id) {
+      if(confirm('Attenzione: eliminando il cliente cancellerai la sua scheda. Continuare?')) {
+        DB.Cliente = DB.Cliente.filter(c => c.id !== id);
+        saveData();
+        renderClienti();
+        showToast('Cliente eliminato');
+      }
+    }
+
+    function showHistory(cliId) {
+      const cli = DB.Cliente.find(c => c.id === cliId);
+      if(!cli) return;
+
+      document.getElementById('hist-client-name').innerText = `${cli.nome} ${cli.cognome}`;
+      document.getElementById('hist-client-tech').innerText = cli.note_tecniche_colore ? `Note: ${cli.note_tecniche_colore}` : 'Nessuna nota tecnica registrata';
+
+      const apps = DB.Appuntamento.filter(a => a.cliente_id === cliId)
+        .sort((a,b) => b.data_ora_inizio.localeCompare(a.data_ora_inizio));
+
+      const histList = document.getElementById('hist-list');
+      if(apps.length === 0) {
+        histList.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">Nessun trattamento passato registrato.</p>`;
+      } else {
+        histList.innerHTML = apps.map(a => {
+          const srv = DB.Servizio.find(s => s.id === a.servizio_id) || { nome_servizio: 'Servizio' };
+          return `
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center text-xs">
+              <div>
+                <span class="font-bold text-slate-800 block">${srv.nome_servizio}</span>
+                <span class="text-slate-400">${a.data_ora_inizio.replace('T', ' ore ')}</span>
+              </div>
+              <span class="font-bold text-brand">€${parseFloat(a.importo_totale).toFixed(2)}</span>
+            </div>`;
+        }).join('');
+      }
+      openModal('modal-historico');
+    }
+
+    // --- SERVIZI LOGIC ---
+    function renderServizi() {
+      const list = document.getElementById('servizi-list');
+      if(DB.Servizio.length === 0) {
+        list.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-sm">Nessun servizio a catalogo</div>`;
+        return;
+      }
+
+      list.innerHTML = DB.Servizio.map(s => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] bg-brand/10 text-brand px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${s.categoria}</span>
+            <h3 class="font-bold text-slate-900 mt-2 text-base">${s.nome_servizio}</h3>
+            <div class="flex items-center gap-4 mt-3 text-xs text-slate-500">
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                ${s.durata_minuti} min
+              </span>
+              <span class="font-bold text-slate-900 text-sm">€${parseFloat(s.prezzo_base).toFixed(2)}</span>
+            </div>
+          </div>
+          <div class="flex justify-end gap-2 border-t pt-2 mt-4">
+            <button onclick="editService('${s.id}')" class="p-1.5 text-slate-500 hover:text-brand transition-all text-xs font-medium">Modifica</button>
+            <button onclick="deleteService('${s.id}')" class="p-1.5 text-red-500 hover:text-red-700 transition-all text-xs font-medium">Elimina</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openServiceModal(srv = null) {
+      document.getElementById('modal-srv-title').innerText = srv ? 'Modifica Servizio' : 'Nuovo Servizio';
+      if(srv) {
+        document.getElementById('srv-id').value = srv.id;
+        document.getElementById('srv-nome').value = srv.nome_servizio;
+        document.getElementById('srv-categoria').value = srv.categoria;
+        document.getElementById('srv-durata').value = srv.durata_minuti;
+        document.getElementById('srv-prezzo').value = srv.prezzo_base;
+      } else {
+        document.getElementById('form-servizio').reset();
+        document.getElementById('srv-id').value = '';
+      }
+      openModal('modal-servizio');
+    }
+
+    function saveService(e) {
+      e.preventDefault();
+      const id = document.getElementById('srv-id').value;
+      const payload = {
+        id: id || 's_' + Date.now(),
+        nome_servizio: document.getElementById('srv-nome').value,
+        categoria: document.getElementById('srv-categoria').value,
+        durata_minuti: parseInt(document.getElementById('srv-durata').value),
+        prezzo_base: parseFloat(document.getElementById('srv-prezzo').value)
+      };
+
+      if(id) {
+        const idx = DB.Servizio.findIndex(s => s.id === id);
+        DB.Servizio[idx] = payload;
+      } else {
+        DB.Servizio.push(payload);
+      }
+
+      saveData();
+      closeModal('modal-servizio');
+      renderServizi();
+      showToast('Servizio aggiornato');
+    }
+
+    function editService(id) {
+      const srv = DB.Servizio.find(s => s.id === id);
+      if(srv) openServiceModal(srv);
+    }
+
+    function deleteService(id) {
+      if(confirm('Eliminare questo servizio dal listino?')) {
+        DB.Servizio = DB.Servizio.filter(s => s.id !== id);
+        saveData();
+        renderServizi();
+        showToast('Servizio eliminato');
+      }
+    }
+
+    // --- PROMEMORIA LOGIC ---
+    function renderPromemoria() {
+      const list = document.getElementById('promemoria-list');
+      if(DB.Promemoria.length === 0) {
+        list.innerHTML = `<div class="bg-white p-8 rounded-2xl text-center text-slate-400 text-sm">Nessun promemoria programmato</div>`;
+        return;
+      }
+
+      list.innerHTML = DB.Promemoria.map(p => {
+        const app = DB.Appuntamento.find(a => a.id === p.appuntamento_id);
+        const cli = app ? DB.Cliente.find(c => c.id === app.cliente_id) : null;
+        const srv = app ? DB.Servizio.find(s => s.id === app.servizio_id) : null;
+
+        const isSent = p.stato_invio === 'Inviato';
+
+        return `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isSent ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${p.stato_invio}</span>
+                <span class="text-xs font-semibold text-slate-500">${p.canale_invio} • ${p.data_ora_invio}</span>
+              </div>
+              <h4 class="font-bold text-slate-900 mt-1">${cli ? cli.nome + ' ' + cli.cognome : 'Cliente'}</h4>
+              <p class="text-xs text-slate-500">${srv ? srv.nome_servizio : 'Appuntament'}: ${app ? app.data_ora_inizio.replace('T', ' ore ') : ''}</p>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+              ${!isSent && cli ? `
+                <button onclick="sendReminderWhatsApp('${p.id}', '${cli.telefono}', '${cli.nome}', '${app.data_ora_inizio}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+                  Invia WhatsApp
+                </button>
+              ` : ''}
+              <button onclick="deletePromemoria('${p.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-all text-xs">
+                &times;
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function sendReminderWhatsApp(promoId, phone, name, datetime) {
+      const p = DB.Promemoria.find(item => item.id === promoId);
+      if(p) {
+        p.stato_invio = 'Inviato';
+        saveData();
+      }
+      
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      const text = encodeURIComponent(`Ciao ${name}, ti ricordiamo il tuo appuntamento in salone HairFlow il ${datetime.replace('T', ' alle ')}. A presto!`);
+      window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
+      
+      renderPromemoria();
+      showToast('Promemoria segnato come inviato');
+    }
+
+    function deletePromemoria(id) {
+      DB.Promemoria = DB.Promemoria.filter(p => p.id !== id);
+      saveData();
+      renderPromemoria();
+      showToast('Promemoria rimosso');
+    }
+
+    // --- SETTINGS LOGIC ---
+    function resetData() {
+      if(confirm('Ripristinare i dati di esempio iniziali? Le modifiche andranno perse.')) {
+        DB = JSON.parse(JSON.stringify(sampleData));
+        saveData();
+        location.reload();
+      }
+    }
+
+    function clearData() {
+      if(confirm('Sei SICURO di voler cancellare TUTTI i dati? L\'operazione è irreversibile.')) {
+        DB = { role: 'Titolare', Cliente: [], Servizio: [], Appuntamento: [], Promemoria: [] };
+        saveData();
+        location.reload();
+      }
+    }
+
+    function exportCSV() {
+      let csv = 'Nome,Cognome,Telefono,Email,NoteTecniche\n';
+      DB.Cliente.forEach(c => {
+        csv += `"${c.nome}","${c.cognome}","${c.telefono}","${c.email || ''}","${c.note_tecniche_colore || ''}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', `hairflow_clienti_${new Date().toISOString().slice(0,10)}.csv`);
+      a.click();
+      showToast('Esportazione completata');
+    }
+
+    // Init App
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('role-display-m').innerText = DB.role || 'Titolare';
+      document.getElementById('role-display-d').innerText = DB.role || 'Titolare';
+      switchTab('agenda');
+    });
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+  </script>
+</body>
+</html>
