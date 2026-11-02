@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HairBook</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1E1E24">
+    <link rel="icon" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #1E1E24; color: #F3F4F6; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-full flex flex-col md:flex-row overflow-hidden select-none">
+    <header class="bg-[#1E1E24] border-b border-gray-800 md:hidden flex items-center justify-between px-4 py-3 shrink-0 z-20">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center font-bold text-gray-900">HB</div>
+            <h1 class="font-bold text-lg tracking-tight">HairBook</h1>
+        </div>
+        <div id="active-role-badge" class="text-xs px-2.5 py-1 rounded-full bg-gray-800 text-amber-400 font-medium">Titolare</div>
+    </header>
+
+    <aside class="hidden md:flex flex-col w-64 bg-[#16161a] border-r border-gray-800 shrink-0 z-20">
+        <div class="p-6 flex items-center space-x-3 border-b border-gray-800/60">
+            <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center font-bold text-gray-900 text-lg">HB</div>
+            <div>
+                <h1 class="font-bold text-lg tracking-tight">HairBook</h1>
+                <p class="text-xs text-gray-400">Gestionale Salone</p>
+            </div>
+        </div>
+        <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto" id="desktop-nav"></nav>
+        <div class="p-4 border-t border-gray-800/60">
+            <div class="bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+                <span class="text-xs text-gray-400 block mb-1">Profilo attivo:</span>
+                <select id="role-selector" class="w-full bg-gray-800 text-sm rounded-lg p-2 border border-gray-700 text-gray-200 outline-none focus:border-amber-500">
+                    <option value="titolare">Titolare / Receptionist</option>
+                    <option value="staff">Staff Parrucchieri</option>
+                </select>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-[#1e1e24] relative overflow-hidden">
+        <div id="toast" class="absolute top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-4">
+            <div class="bg-gray-900 text-white px-4 py-2.5 rounded-xl shadow-xl border border-gray-700 flex items-center space-x-2 text-sm">
+                <span id="toast-icon">✓</span>
+                <span id="toast-msg">Messaggio</span>
+            </div>
+        </div>
+        <div id="views-container" class="flex-1 overflow-y-auto pb-20 md:pb-0 relative"></div>
+    </main>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#16161a]/95 backdrop-blur border-t border-gray-800 flex justify-around p-2 z-30" id="mobile-nav"></nav>
+
+    <script>
+        const STORAGE_KEY = 'hairbook-appuntamenti_dati';
+        const defaultData = {
+            ruolo: 'titolare',
+            clienti: [
+                {id: 1, nome: 'Mario', cognome: 'Rossi', telefono: '3331234567', email: 'mario@email.it', note_tecniche: 'Sensibile alla cute, usa tinta senza ammoniaca', data_registrazione: '2023-01-15'},
+                {id: 2, nome: 'Giulia', cognome: 'Bianchi', telefono: '3389876543', email: 'giulia@email.it', note_tecniche: 'Biondo platino, richiede sempre piega mossa', data_registrazione: '2023-03-20'},
+                {id: 3, nome: 'Luca', cognome: 'Verdi', telefono: '3405556677', email: 'luca@email.it', note_tecniche: 'Taglio classico a forbice', data_registrazione: '2023-05-10'}
+            ],
+            servizi: [
+                {id: 1, nome_servizio: 'Taglio Uomo', durata_minuti: 30, prezzo: 22.00, categoria: 'Uomo'},
+                {id: 2, nome_servizio: 'Taglio Donna + Piega', durata_minuti: 60, prezzo: 45.00, categoria: 'Donna'},
+                {id: 3, nome_servizio: 'Colore & Tinta', durata_minuti: 90, prezzo: 60.00, categoria: 'Tecnico'},
+                {id: 4, nome_servizio: 'Trattamento Barba', durata_minuti: 20, prezzo: 15.00, categoria: 'Uomo'}
+            ],
+            prenotazioni: [
+                {id: 1, cliente_id: 1, servizio_id: 1, data_ora_inizio: new Date(Date.now() + 3600000).toISOString().slice(0,16), data_ora_fine: new Date(Date.now() + 7200000).toISOString().slice(0,16), stato: 'confermato', note: 'Arriva 5 minuti prima'},
+                {id: 2, cliente_id: 2, servizio_id: 2, data_ora_inizio: new Date(Date.now() + 86400000).toISOString().slice(0,16), data_ora_fine: new Date(Date.now() + 90000000).toISOString().slice(0,16), stato: 'in_attesa', note: ''}
+            ],
+            promemoria: [
+                {id: 1, prenotazione_id: 1, canale: 'WhatsApp', data_ora_invio: new Date().toISOString().slice(0,16), stato_invio: 'inviato', testo_messaggio: 'Ciao Mario, ti ricordiamo il tuo appuntamento per Taglio Uomo domani.'}
+            ]
+        };
+
+        let db = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+        function saveDB() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+
+        let currentView = 'calendario';
+        let filterDate = new Date().toISOString().slice(0,10);
+
+        const icons = {
+            calendario: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>',
+            prenotazione: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>',
+            clienti: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>',
+            servizi: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>',
+            promemoria: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>',
+            impostazioni: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>'
+        };
+
+        const navItems = [
+            { id: 'calendario', label: 'Agenda', icon: icons.calendario },
+            { id: 'prenotazione', label: 'Nuova', icon: icons.prenotazione },
+            { id: 'clienti', label: 'Clienti', icon: icons.clienti },
+            { id: 'servizi', label: 'Servizi', icon: icons.servizi },
+            { id: 'promemoria', label: 'Promemoria', icon: icons.promemoria },
+            { id: 'impostazioni', label: 'Altro', icon: icons.impostazioni }
+        ];
+
+        function showToast(msg, isErr = false) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            document.getElementById('toast-icon').innerText = isErr ? '✕' : '✓';
+            t.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            setTimeout(() => t.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4'), 3000);
+        }
+
+        function renderNav() {
+            const mobileNav = document.getElementById('mobile-nav');
+            const desktopNav = document.getElementById('desktop-nav');
+            
+            let htmlMob = '', htmlDesk = '';
+            navItems.forEach(item => {
+                const active = currentView === item.id;
+                const activeClass = active ? 'text-amber-500 font-semibold' : 'text-gray-400 hover:text-gray-200';
+                
+                htmlMob += `<button onclick="switchView('${item.id}')" class="flex flex-col items-center justify-center flex-1 py-1 ${activeClass}"><div class="p-1">${item.icon}</div><span class="text-[10px]">${item.label}</span></button>`;
+                
+                htmlDesk += `<button onclick="switchView('${item.id}')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition ${active ? 'bg-amber-500/10 text-amber-500 font-semibold border border-amber-500/20' : 'text-gray-400 hover:bg-gray-800/50 hover:text-gray-200'}">${item.icon}<span class="text-sm">${item.label}</span></button>`;
+            });
+
+            mobileNav.innerHTML = htmlMob;
+            desktopNav.innerHTML = htmlDesk;
+
+            const badge = document.getElementById('active-role-badge');
+            badge.innerText = db.ruolo === 'titolare' ? 'Titolare' : 'Staff';
+            document.getElementById('role-selector').value = db.ruolo;
+        }
+
+        function switchView(viewId) {
+            currentView = viewId;
+            renderNav();
+            renderView();
+        }
+
+        document.getElementById('role-selector').addEventListener('change', (e) => {
+            db.ruolo = e.target.value;
+            saveDB();
+            renderNav();
+            renderView();
+            showToast('Profilo cambiato in: ' + e.target.options[e.target.selectedIndex].text);
+        });
+
+        function renderView() {
+            const c = document.getElementById('views-container');
+            c.innerHTML = '';
+            
+            if (currentView === 'calendario') c.innerHTML = renderCalendario();
+            if (currentView === 'prenotazione') c.innerHTML = renderNuovaPrenotazione();
+            if (currentView === 'clienti') c.innerHTML = renderClienti();
+            if (currentView === 'servizi') c.innerHTML = renderServizi();
+            if (currentView === 'promemoria') c.innerHTML = renderPromemoria();
+            if (currentView === 'impostazioni') c.innerHTML = renderImpostazioni();
+        }
+
+        function renderCalendario() {
+            const dayAppts = db.prenotazioni.filter(p => p.data_ora_inizio.startsWith(filterDate));
+            dayAppts.sort((a,b) => a.data_ora_inizio.localeCompare(b.data_ora_inizio));
+
+            let listHtml = '';
+            if (dayAppts.length === 0) {
+                listHtml = `<div class="text-center py-12"><div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-500">${icons.calendario}</div><p class="text-gray-400 text-sm">Nessun appuntamento per questa data</p></div>`;
+            } else {
+                dayAppts.forEach(p => {
+                    const cl = db.clienti.find(c => c.id == p.cliente_id) || {nome:'Cliente', cognome:'Eliminato', note_tecniche:''};
+                    const sv = db.servizi.find(s => s.id == p.servizio_id) || {nome_servizio:'Servizio', prezzo:0};
+                    const timeStart = p.data_ora_inizio.split('T')[1];
+                    const timeEnd = p.data_ora_fine.split('T')[1];
+                    const isStaff = db.ruolo === 'staff';
+
+                    listHtml += `
+                    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-4 flex flex-col space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-amber-500/10 text-amber-400 font-bold px-3 py-2 rounded-xl text-sm border border-amber-500/20">${timeStart} - ${timeEnd}</div>
+                                <div>
+                                    <h3 class="font-bold text-base text-gray-100">${cl.nome} ${cl.cognome}</h3>
+                                    <p class="text-sm text-amber-500 font-medium">${sv.nome_servizio} &bull; €${Number(sv.prezzo).toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs px-2.5 py-1 rounded-full font-medium ${p.stato === 'confermato' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'}">${p.stato}</span>
+                        </div>
+                        ${cl.note_tecniche ? `<div class="bg-gray-800/60 p-2.5 rounded-xl text-xs text-gray-300 border border-gray-700/50"><strong>Note tecniche:</strong> ${cl.note_tecniche}</div>` : ''}
+                        ${p.note ? `<p class="text-xs text-gray-400">Note prenotazione: ${p.note}</p>` : ''}
+                        ${!isStaff ? `
+                        <div class="flex justify-end space-x-2 pt-2 border-t border-gray-800">
+                            <button onclick="editAppt(${p.id})" class="text-xs px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300">Modifica</button>
+                            <button onclick="deleteAppt(${p.id})" class="text-xs px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-lg">Elimina</button>
+                        </div>` : ''}
+                    </div>`;
+                });
+            }
+
+            return `
+            <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight">Agenda Appuntamenti</h2>
+                        <p class="text-sm text-gray-400">Gestisci gli appuntamenti giornalieri</p>
+                    </div>
+                    <div class="flex items-center space-x-3 w-full sm:w-auto">
+                        <input type="date" id="filter-date" value="${filterDate}" onchange="updateDate(this.value)" class="bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-gray-200 outline-none focus:border-amber-500 w-full sm:w-auto">
+                        ${db.ruolo === 'titolare' ? `<button onclick="switchView('prenotazione')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-4 py-2 rounded-xl text-sm shrink-0">Nuova</button>` : ''}
+                    </div>
+                </div>
+                <div class="space-y-3" id="appt-list">${listHtml}</div>
+            </div>`;
+        }
+
+        function updateDate(val) {
+            filterDate = val;
+            renderView();
+        }
+
+        function deleteAppt(id) {
+            if(confirm('Eliminare questo appuntamento?')) {
+                db.prenotazioni = db.prenotazioni.filter(p => p.id != id);
+                saveDB();
+                renderView();
+                showToast('Appuntamento eliminato');
+            }
+        }
+
+        function editAppt(id) {
+            const p = db.prenotazioni.find(item => item.id == id);
+            if(!p) return;
+            currentView = 'prenotazione';
+            renderView();
+            setTimeout(() => {
+                document.getElementById('prenotazione-id').value = p.id;
+                document.getElementById('cliente_id').value = p.cliente_id;
+                document.getElementById('servizio_id').value = p.servizio_id;
+                document.getElementById('data_ora_inizio').value = p.data_ora_inizio;
+                document.getElementById('stato').value = p.stato;
+                document.getElementById('note').value = p.note;
+                document.getElementById('form-title').innerText = 'Modifica Prenotazione';
+            }, 50);
+        }
+
+        function renderNuovaPrenotazione() {
+            let clientOpts = db.clienti.map(c => `<option value="${c.id}">${c.nome} ${c.cognome} (${c.telefono})</option>`).join('');
+            let servOpts = db.servizi.map(s => `<option value="${s.id}">${s.nome_servizio} - €${s.prezzo} (${s.durata_minuti} min)</option>`).join('');
+            const nowIso = new Date().toISOString().slice(0,16);
+
+            return `
+            <div class="p-4 md:p-8 max-w-2xl mx-auto w-full space-y-6">
+                <div>
+                    <h2 id="form-title" class="text-2xl font-bold tracking-tight">Nuova Prenotazione</h2>
+                    <p class="text-sm text-gray-400">Compila i dati per registrare un appuntamento</p>
+                </div>
+                <form id="appt-form" onsubmit="saveAppt(event)" class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 space-y-4">
+                    <input type="hidden" id="prenotazione-id">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Cliente</label>
+                        <select id="cliente_id" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 outline-none focus:border-amber-500">${clientOpts}</select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Servizio</label>
+                        <select id="servizio_id" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 outline-none focus:border-amber-500">${servOpts}</select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Data e Ora Inizio</label>
+                        <input type="datetime-local" id="data_ora_inizio" value="${nowIso}" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Stato</label>
+                        <select id="stato" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 outline-none focus:border-amber-500">
+                            <option value="confermato">Confermato</option>
+                            <option value="in_attesa">In attesa</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Note</label>
+                        <textarea id="note" rows="3" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 outline-none focus:border-amber-500"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-2">
+                        <button type="button" onclick="switchView('calendario')" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-sm font-medium">Annulla</button>
+                        <button type="submit" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-gray-900 rounded-xl text-sm font-semibold">Salva Prenotazione</button>
+                    </div>
+                </form>
+            </div>`;
+        }
+
+        function saveAppt(e) {
+            e.preventDefault();
+            const id = document.getElementById('prenotazione-id').value;
+            const cliente_id = document.getElementById('cliente_id').value;
+            const servizio_id = document.getElementById('servizio_id').value;
+            const data_ora_inizio = document.getElementById('data_ora_inizio').value;
+            const stato = document.getElementById('stato').value;
+            const note = document.getElementById('note').value;
+
+            const serv = db.servizi.find(s => s.id == servizio_id);
+            const startDt = new Date(data_ora_inizio);
+            const endDt = new Date(startDt.getTime() + (serv ? serv.durata_minuti : 30) * 60000);
+            const data_ora_fine = endDt.toISOString().slice(0,16);
+
+            if(id) {
+                const idx = db.prenotazioni.findIndex(p => p.id == id);
+                if(idx !== -1) {
+                    db.prenotazioni[idx] = {id: Number(id), cliente_id, servizio_id, data_ora_inizio, data_ora_fine, stato, note};
+                }
+                showToast('Appuntamento modificato');
+            } else {
+                const newId = db.prenotazioni.length > 0 ? Math.max(...db.prenotazioni.map(p => p.id)) + 1 : 1;
+                db.prenotazioni.push({id: newId, cliente_id, servizio_id, data_ora_inizio, data_ora_fine, stato, note});
+                
+                db.promemoria.push({
+                    id: db.promemoria.length > 0 ? Math.max(...db.promemoria.map(p => p.id)) + 1 : 1,
+                    prenotazione_id: newId,
+                    canale: 'WhatsApp',
+                    data_ora_invio: data_ora_inizio,
+                    stato_invio: 'programmato',
+                    testo_messaggio: `Promemoria: Ti aspettiamo per il tuo appuntamento. A presto!`
+                });
+
+                showToast('Prenotazione creata con successo');
+            }
+
+            saveDB();
+            switchView('calendario');
+        }
+
+        function renderClienti() {
+            let clientListHtml = '';
+            db.clienti.forEach(c => {
+                clientListHtml += `
+                <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-4 flex flex-col space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-base text-gray-100">${c.nome} ${c.cognome}</h3>
+                            <p class="text-sm text-gray-400">${c.telefono} &bull; ${c.email}</p>
+                        </div>
+                        ${db.ruolo === 'titolare' ? `
+                        <div class="flex space-x-1">
+                            <button onclick="editClient(${c.id})" class="p-2 bg-gray-800 hover:bg-gray-700 rounded-xl text-gray-300 text-xs">Modifica</button>
+                            <button onclick="deleteClient(${c.id})" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl text-xs">Elimina</button>
+                        </div>` : ''}
+                    </div>
+                    ${c.note_tecniche ? `<div class="bg-gray-800/60 p-2.5 rounded-xl text-xs text-gray-300 border border-gray-700/50"><strong>Note tecniche:</strong> ${c.note_tecniche}</div>` : ''}
+                </div>`;
+            });
+
+            return `
+            <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight">Anagrafica Clienti</h2>
+                        <p class="text-sm text-gray-400">Gestisci clienti e note tecniche</p>
+                    </div>
+                    ${db.ruolo === 'titolare' ? `<button onclick="openClientModal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-4 py-2 rounded-xl text-sm shrink-0">Nuovo Cliente</button>` : ''}
+                </div>
+                <div class="space-y-3">${clientListHtml}</div>
+
+                <div id="client-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 max-w-lg w-full space-y-4">
+                        <h3 id="client-modal-title" class="text-lg font-bold">Nuovo Cliente</h3>
+                        <form onsubmit="saveClient(event)" class="space-y-3">
+                            <input type="hidden" id="client-id">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="block text-xs text-gray-400 mb-1">Nome</label><input type="text" id="c-nome" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                                <div><label class="block text-xs text-gray-400 mb-1">Cognome</label><input type="text" id="c-cognome" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            </div>
+                            <div><label class="block text-xs text-gray-400 mb-1">Telefono</label><input type="text" id="c-telefono" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            <div><label class="block text-xs text-gray-400 mb-1">Email</label><input type="email" id="c-email" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            <div><label class="block text-xs text-gray-400 mb-1">Note Tecniche</label><textarea id="c-note" rows="2" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></textarea></div>
+                            <div class="flex justify-end space-x-2 pt-2">
+                                <button type="button" onclick="closeClientModal()" class="px-4 py-2 bg-gray-800 text-sm rounded-xl">Annulla</button>
+                                <button type="submit" class="px-4 py-2 bg-amber-500 text-gray-900 font-semibold text-sm rounded-xl">Salva</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function openClientModal() {
+            document.getElementById('client-id').value = '';
+            document.getElementById('c-nome').value = '';
+            document.getElementById('c-cognome').value = '';
+            document.getElementById('c-telefono').value = '';
+            document.getElementById('c-email').value = '';
+            document.getElementById('c-note').value = '';
+            document.getElementById('client-modal-title').innerText = 'Nuovo Cliente';
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function closeClientModal() {
+            document.getElementById('client-modal').classList.add('hidden');
+        }
+
+        function editClient(id) {
+            const c = db.clienti.find(item => item.id == id);
+            if(!c) return;
+            document.getElementById('client-id').value = c.id;
+            document.getElementById('c-nome').value = c.nome;
+            document.getElementById('c-cognome').value = c.cognome;
+            document.getElementById('c-telefono').value = c.telefono;
+            document.getElementById('c-email').value = c.email || '';
+            document.getElementById('c-note').value = c.note_tecniche || '';
+            document.getElementById('client-modal-title').innerText = 'Modifica Cliente';
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function saveClient(e) {
+            e.preventDefault();
+            const id = document.getElementById('client-id').value;
+            const nome = document.getElementById('c-nome').value;
+            const cognome = document.getElementById('c-cognome').value;
+            const telefono = document.getElementById('c-telefono').value;
+            const email = document.getElementById('c-email').value;
+            const note_tecniche = document.getElementById('c-note').value;
+
+            if(id) {
+                const idx = db.clienti.findIndex(item => item.id == id);
+                if(idx !== -1) {
+                    db.clienti[idx] = {...db.clienti[idx], nome, cognome, telefono, email, note_tecniche};
+                }
+                showToast('Cliente aggiornato');
+            } else {
+                const newId = db.clienti.length > 0 ? Math.max(...db.clienti.map(i => i.id)) + 1 : 1;
+                db.clienti.push({id: newId, nome, cognome, telefono, email, note_tecniche, data_registrazione: new Date().toISOString().slice(0,10)});
+                showToast('Cliente aggiunto');
+            }
+            saveDB();
+            closeClientModal();
+            renderView();
+        }
+
+        function deleteClient(id) {
+            if(confirm('Eliminare questo cliente?')) {
+                db.clienti = db.clienti.filter(c => c.id != id);
+                saveDB();
+                renderView();
+                showToast('Cliente eliminato');
+            }
+        }
+
+        function renderServizi() {
+            let servListHtml = '';
+            db.servizi.forEach(s => {
+                servListHtml += `
+                <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-4 flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-gray-800 text-amber-400 font-semibold">${s.categoria}</span>
+                        <h3 class="font-bold text-base text-gray-100 mt-1">${s.nome_servizio}</h3>
+                        <p class="text-sm text-gray-400">${s.durata_minuti} min &bull; €${Number(s.prezzo).toFixed(2)}</p>
+                    </div>
+                    ${db.ruolo === 'titolare' ? `
+                    <div class="flex space-x-1">
+                        <button onclick="editServizio(${s.id})" class="p-2 bg-gray-800 hover:bg-gray-700 rounded-xl text-gray-300 text-xs">Modifica</button>
+                        <button onclick="deleteServizio(${s.id})" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl text-xs">Elimina</button>
+                    </div>` : ''}
+                </div>`;
+            });
+
+            return `
+            <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight">Gestione Servizi</h2>
+                        <p class="text-sm text-gray-400">Listino prezzi e durate trattamenti</p>
+                    </div>
+                    ${db.ruolo === 'titolare' ? `<button onclick="openServizioModal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-4 py-2 rounded-xl text-sm shrink-0">Nuovo Servizio</button>` : ''}
+                </div>
+                <div class="space-y-3">${servListHtml}</div>
+
+                <div id="servizio-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 max-w-md w-full space-y-4">
+                        <h3 id="servizio-modal-title" class="text-lg font-bold">Nuovo Servizio</h3>
+                        <form onsubmit="saveServizio(event)" class="space-y-3">
+                            <input type="hidden" id="s-id">
+                            <div><label class="block text-xs text-gray-400 mb-1">Nome Servizio</label><input type="text" id="s-nome" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="block text-xs text-gray-400 mb-1">Durata (min)</label><input type="number" id="s-durata" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                                <div><label class="block text-xs text-gray-400 mb-1">Prezzo (€)</label><input type="number" step="0.01" id="s-prezzo" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            </div>
+                            <div><label class="block text-xs text-gray-400 mb-1">Categoria</label><input type="text" id="s-categoria" required class="w-full bg-gray-800 border border-gray-700 rounded-xl p-2.5 text-sm outline-none focus:border-amber-500"></div>
+                            <div class="flex justify-end space-x-2 pt-2">
+                                <button type="button" onclick="closeServizioModal()" class="px-4 py-2 bg-gray-800 text-sm rounded-xl">Annulla</button>
+                                <button type="submit" class="px-4 py-2 bg-amber-500 text-gray-900 font-semibold text-sm rounded-xl">Salva</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function openServizioModal() {
+            document.getElementById('s-id').value = '';
+            document.getElementById('s-nome').value = '';
+            document.getElementById('s-durata').value = '30';
+            document.getElementById('s-prezzo').value = '25.00';
+            document.getElementById('s-categoria').value = 'Generale';
+            document.getElementById('servizio-modal-title').innerText = 'Nuovo Servizio';
+            document.getElementById('servizio-modal').classList.remove('hidden');
+        }
+
+        function closeServizioModal() {
+            document.getElementById('servizio-modal').classList.add('hidden');
+        }
+
+        function editServizio(id) {
+            const s = db.servizi.find(item => item.id == id);
+            if(!s) return;
+            document.getElementById('s-id').value = s.id;
+            document.getElementById('s-nome').value = s.nome_servizio;
+            document.getElementById('s-durata').value = s.durata_minuti;
+            document.getElementById('s-prezzo').value = s.prezzo;
+            document.getElementById('s-categoria').value = s.categoria;
+            document.getElementById('servizio-modal-title').innerText = 'Modifica Servizio';
+            document.getElementById('servizio-modal').classList.remove('hidden');
+        }
+
+        function saveServizio(e) {
+            e.preventDefault();
+            const id = document.getElementById('s-id').value;
+            const nome_servizio = document.getElementById('s-nome').value;
+            const durata_minuti = Number(document.getElementById('s-durata').value);
+            const prezzo = Number(document.getElementById('s-prezzo').value);
+            const categoria = document.getElementById('s-categoria').value;
+
+            if(id) {
+                const idx = db.servizi.findIndex(item => item.id == id);
+                if(idx !== -1) {
+                    db.servizi[idx] = {id: Number(id), nome_servizio, durata_minuti, prezzo, categoria};
+                }
+                showToast('Servizio aggiornato');
+            } else {
+                const newId = db.servizi.length > 0 ? Math.max(...db.servizi.map(i => i.id)) + 1 : 1;
+                db.servizi.push({id: newId, nome_servizio, durata_minuti, prezzo, categoria});
+                showToast('Servizio aggiunto');
+            }
+            saveDB();
+            closeServizioModal();
+            renderView();
+        }
+
+        function deleteServizio(id) {
+            if(confirm('Eliminare questo servizio?')) {
+                db.servizi = db.servizi.filter(s => s.id != id);
+                saveDB();
+                renderView();
+                showToast('Servizio eliminato');
+            }
+        }
+
+        function renderPromemoria() {
+            let listHtml = '';
+            db.promemoria.forEach(p => {
+                const appt = db.prenotazioni.find(a => a.id == p.prenotazione_id);
+                const cl = appt ? db.clienti.find(c => c.id == appt.cliente_id) : null;
+                const clientName = cl ? `${cl.nome} ${cl.cognome}` : 'Cliente';
+
+                listHtml += `
+                <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-4 flex flex-col space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-gray-800 text-amber-400 font-semibold">${p.canale}</span>
+                            <h3 class="font-bold text-base text-gray-100 mt-1">${clientName}</h3>
+                            <p class="text-xs text-gray-400">Invio previsto: ${p.data_ora_invio.replace('T', ' ')}</p>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded-full font-medium ${p.stato_invio === 'inviato' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'}">${p.stato_invio}</span>
+                    </div>
+                    <p class="text-xs text-gray-300 bg-gray-800/50 p-2.5 rounded-xl border border-gray-700/50">"${p.testo_messaggio}"</p>
+                    ${db.ruolo === 'titolare' && p.stato_invio !== 'inviato' ? `
+                    <div class="flex justify-end pt-1">
+                        <button onclick="sendRemind(${p.id})" class="text-xs px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg">Invia Ora</button>
+                    </div>` : ''}
+                </div>`;
+            });
+
+            return `
+            <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight">Centro Promemoria</h2>
+                    <p class="text-sm text-gray-400">Monitora e invia notifiche automatiche</p>
+                </div>
+                <div class="space-y-3">${listHtml}</div>
+            </div>`;
+        }
+
+        function sendRemind(id) {
+            const p = db.promemoria.find(item => item.id == id);
+            if(p) {
+                p.stato_invio = 'inviato';
+                saveDB();
+                renderView();
+                showToast('Promemoria inviato con successo!');
+            }
+        }
+
+        function renderImpostazioni() {
+            return `
+            <div class="p-4 md:p-8 max-w-2xl mx-auto w-full space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight">Impostazioni & Altro</h2>
+                    <p class="text-sm text-gray-400">Gestione dati e sistema</p>
+                </div>
+                <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 space-y-4">
+                    <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                        <div>
+                            <h4 class="font-bold text-sm">Ripristina dati di esempio</h4>
+                            <p class="text-xs text-gray-400">Ricarica i dati iniziali di test</p>
+                        </div>
+                        <button onclick="resetData()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-xs text-amber-400 rounded-xl">Ripristina</button>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                        <div>
+                            <h4 class="font-bold text-sm">Esporta in CSV</h4>
+                            <p class="text-xs text-gray-400">Scarica i dati delle prenotazioni</p>
+                        </div>
+                        <button onclick="exportCSV()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-xs text-gray-300 rounded-xl">Esporta</button>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                        <div>
+                            <h4 class="font-bold text-sm text-rose-400">Cancella tutti i dati</h4>
+                            <p class="text-xs text-gray-400">Elimina permanentemente ogni informazione</p>
+                        </div>
+                        <button onclick="clearAllData()" class="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-xs text-rose-400 rounded-xl">Elimina</button>
+                    </div>
+                    <div class="pt-4 text-center">
+                        <p class="text-xs text-gray-500 font-medium">Prototipo realizzato da CybernetLab</p>
+                        <p class="text-[10px] text-gray-600 mt-1">HairBook v1.0.0</p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function resetData() {
+            if(confirm('Ripristinare i dati di esempio?')) {
+                db = JSON.parse(JSON.stringify(defaultData));
+                saveDB();
+                renderView();
+                showToast('Dati ripristinati');
+            }
+        }
+
+        function clearAllData() {
+            if(confirm('Sei sicuro di voler cancellare tutto?')) {
+                db = { ruolo: 'titolare', clienti: [], servizi: [], prenotazioni: [], promemoria: [] };
+                saveDB();
+                renderView();
+                showToast('Tutti i dati sono stati cancellati');
+            }
+        }
+
+        function exportCSV() {
+            let csv = 'ID,ClienteID,ServizioID,Inizio,Fine,Stato,Note\n';
+            db.prenotazioni.forEach(p => {
+                csv += `${p.id},${p.cliente_id},${p.servizio_id},${p.data_ora_inizio},${p.data_ora_fine},${p.stato},"${p.note}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute('download', 'prenotazioni_hairbook.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Esportazione completata');
+        }
+
+        renderNav();
+        renderView();
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(function(){});
+        }
+    </script>
+</body>
+</html>
