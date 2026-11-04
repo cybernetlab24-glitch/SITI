@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Anodica Manager</title>
+  <meta name="theme-color" content="#1E3A8A">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { DEFAULT: '#1E3A8A', 50: '#eff6ff', 100: '#dbeafe', 600: '#2563eb', 800: '#1e40af', 900: '#1e3a8a' } },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .touch-callout-none { -webkit-touch-callout: none; }
+  </style>
+</head>
+<body class="h-full flex flex-col md:flex-row text-slate-800 font-sans antialiased overflow-hidden select-none">
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex flex-col w-64 bg-brand-900 text-white flex-shrink-0 z-20 shadow-xl">
+    <div class="p-5 flex items-center gap-3 border-b border-blue-800/50">
+      <div class="p-2 bg-blue-600 rounded-lg text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h5m0 0v-5a2 2 0 012-2h2a2 2 0 012 2v5"></path></svg>
+      </div>
+      <div>
+        <h1 class="font-bold text-lg leading-tight tracking-wide">ANODICA</h1>
+        <p class="text-xs text-blue-300 font-medium">Manager v1.0</p>
+      </div>
+    </div>
+    <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto" id="desktop-nav"></nav>
+    <div class="p-4 border-t border-blue-800/50 bg-brand-900/50">
+      <div class="text-xs text-blue-300 mb-1">Utente Attivo:</div>
+      <select id="user-role-select" onchange="changeRole(this.value)" class="w-full bg-blue-950 text-white text-xs rounded-lg p-2.5 border border-blue-700/50 focus:outline-none focus:ring-1 focus:ring-blue-400">
+        <option value="Amministratore / Commerciale">Admin / Commerciale</option>
+        <option value="Ufficio Tecnico / Progettista">Ufficio Tecnico</option>
+        <option value="Responsabile Magazzino / Fornitori">Magazzino / Ordini</option>
+        <option value="Capo Squadra Posa in Cantiere">Capo Squadra Posa</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- Content Area -->
+  <div class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+    <!-- Header Mobile -->
+    <header class="md:hidden bg-brand-900 text-white p-4 flex items-center justify-between shadow-md z-10 flex-shrink-0">
+      <div class="flex items-center gap-2.5">
+        <div class="p-1.5 bg-blue-600 rounded-md">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h5m0 0v-5a2 2 0 012-2h2a2 2 0 012 2v5"></path></svg>
+        </div>
+        <h1 class="font-bold tracking-wide" id="mobile-title">Anodica Manager</h1>
+      </div>
+      <span id="role-badge-mobile" class="text-[10px] bg-blue-800 text-blue-200 px-2 py-1 rounded-full font-medium max-w-[120px] truncate">Admin</span>
+    </header>
+
+    <!-- Main Viewport -->
+    <main id="main-container" class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-6 pb-24 md:pb-8 hide-scrollbar">
+      <!-- Dynamic Views Rendered Here -->
+    </main>
+
+    <!-- Bottom Navigation Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-1.5 z-30 shadow-lg" id="mobile-nav"></nav>
+  </div>
+
+  <!-- Global Modal Container -->
+  <div id="modal-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity">
+    <div id="modal-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden transform transition-all scale-95 opacity-0">
+      <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+        <h3 id="modal-title" class="font-bold text-slate-800 text-lg"></h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div id="modal-body" class="p-5 overflow-y-auto flex-1 space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-3 transition-all duration-300 transform translate-y-[-100px] opacity-0 pointer-events-none">
+    <div id="toast-icon"></div>
+    <div id="toast-msg" class="text-sm font-medium"></div>
+  </div>
+
+<script>
+// --- INITIAL DATA & STATE MANAGEMENT ---
+const INITIAL_DATA = {
+  role: "Amministratore / Commerciale",
+  clientes: [
+    { id: 1, ragione_sociale: "Edilizia Modern SpA", partita_iva: "01234567890", telefono: "06 5551234", email: "info@edilmodern.it", indirizzo: "Via Roma 45, Milano" },
+    { id: 2, ragione_sociale: "Rossi Arch. Giuseppe", partita_iva: "09876543210", telefono: "02 4445566", email: "g.rossi@studioarch.it", indirizzo: "Corso Italia 12, Torino" }
+  ],
+  preventivis: [
+    { id: 101, cliente_id: 1, data_creazione: "2025-02-10", stato: "Approvato", totale: 8450.00, note: "Finitura Anodizzata Argento Lucido. Consegna urgente." },
+    { id: 102, cliente_id: 2, data_creazione: "2025-02-14", stato: "In Attesa", totale: 3200.00, note: "Profilo a taglio termico. Anodizzato Bronzo." }
+  ],
+  serramentis: [
+    { id: 1, preventivo_id: 101, tipologia: "Finestra 2 Ante", larghezza: 1200, altezza: 1400, colore_anodizzazione: "Argento", vetro: "Doppio Vetro Selettivo 4/16/4", disegno_tecnico_url: "" },
+    { id: 2, preventivo_id: 101, tipologia: "Portafinestra 1 Anta", larghezza: 900, altezza: 2200, colore_anodizzazione: "Argento", vetro: "Stipass Stratificato 33.1/12/33.1", disegno_tecnico_url: "" }
+  ],
+  ordinis: [
+    { id: 501, fornitore: "AluProfile Italia Srl", data_ordine: "2025-02-11", data_consegna_stimata: "2025-02-22", stato: "In Lavorazione", materiali_richiesti: "50x Barre Alluminio Anodizzato Argento (6m), Guarnizioni EPDM" },
+    { id: 502, fornitore: "Vetrerie Padane SpA", data_ordine: "2025-02-12", data_consegna_stimata: "2025-02-25", stato: "In Attesa", materiali_richiesti: "12x Vetrocamere 4/16/4 Selettivo riscaldamento" }
+  ],
+  cantieris: [
+    { id: 901, preventivo_id: 101, indirizzo_installazione: "Via Roma 45, Milano - Cantiere Torre A", data_posa: "2025-03-01", squadra_assegnata: "Squadra Alfa (Marco & Luca)", stato_lavorazione: "Programmato" }
+  ]
+};
+
+const STORAGE_KEY = "anodica-manager_dati";
+let db = loadData();
+let activeTab = "dashboard";
+
+function loadData() {
+  const local = localStorage.getItem(STORAGE_KEY);
+  return local ? JSON.parse(local) : JSON.parse(JSON.stringify(INITIAL_DATA));
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+
+function resetData() {
+  if(confirm("Ripristinare i dati di esempio iniziali?")) {
+    db = JSON.parse(JSON.stringify(INITIAL_DATA));
+    saveData();
+    showToast("Dati ripristinati correttamente");
+    render();
+  }
+}
+
+function clearAllData() {
+  if(confirm("ATTENZIONE: Eliminare TUTTI i dati salvati? L'azione è irreversibile.")) {
+    db = { role: db.role, clientes: [], preventivis: [], serramentis: [], ordinis: [], cantieris: [] };
+    saveData();
+    showToast("Tutti i dati sono stati cancellati");
+    render();
+  }
+}
+
+function exportCSV() {
+  let csv = "Entita;ID;Dettaglio1;Dettaglio2;Stato/Importo\n";
+  db.clientes.forEach(c => csv += `Cliente;${c.id};"${c.ragione_sociale}";"${c.email}";${c.telefono}\n`);
+  db.preventivis.forEach(p => csv += `Preventivo;${p.id};Cliente ID:${p.cliente_id};Data:${p.data_creazione};€${p.totale}\n`);
+  db.ordinis.forEach(o => csv += `Ordine;${o.id};"${o.fornitore}";Consegna:${o.data_consegna_stimata};${o.stato}\n`);
+  db.cantieris.forEach(c => csv += `Cantiere;${c.id};"${c.indirizzo_installazione}";Squadra:${c.squadra_assegnata};${c.stato_lavorazione}\n`);
+  
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `Anodica_Manager_Export_${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+}
+
+// --- UI CONFIGURATION & NAVIGATION ---
+const NAVIGATION = [
+  { id: 'dashboard', name: 'Dashboard', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>' },
+  { id: 'preventivi', name: 'Preventivi & Misure', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>' },
+  { id: 'ordini', name: 'Ordini Fornitori', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>' },
+  { id: 'cantieri', name: 'Posa & Cantieri', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>' },
+  { id: 'impostazioni', name: 'Impostazioni', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>' }
+];
+
+function switchTab(tabId) {
+  activeTab = tabId;
+  render();
+}
+
+function changeRole(role) {
+  db.role = role;
+  saveData();
+  showToast(`Ruolo attivo: ${role}`);
+  render();
+}
+
+// --- RENDER ROUTER ---
+function render() {
+  // Mobile Title & Badges
+  document.getElementById('mobile-title').innerText = NAVIGATION.find(n => n.id === activeTab).name;
+  document.getElementById('role-badge-mobile').innerText = db.role.split(' ')[0];
+  
+  // Render Navigation Menus
+  const desktopNav = document.getElementById('desktop-nav');
+  const mobileNav = document.getElementById('mobile-nav');
+  
+  desktopNav.innerHTML = NAVIGATION.map(item => `
+    <button onclick="switchTab('${item.id}')" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium text-sm transition-all ${activeTab === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-blue-100 hover:bg-blue-800/60 hover:text-white'}">
+      ${item.icon} <span>${item.name}</span>
+    </button>
+  `).join('');
+
+  mobileNav.innerHTML = NAVIGATION.map(item => `
+    <button onclick="switchTab('${item.id}')" class="flex flex-col items-center justify-center w-full py-1.5 text-[10px] font-medium transition-colors ${activeTab === item.id ? 'text-brand-900 font-bold' : 'text-slate-400 hover:text-slate-600'}">
+      <div class="${activeTab === item.id ? 'transform scale-110 text-brand-900 transition-transform' : ''}">${item.icon}</div>
+      <span class="mt-0.5 truncate max-w-full">${item.name}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('user-role-select').value = db.role;
+
+  // Render Screens
+  const main = document.getElementById('main-container');
+  switch(activeTab) {
+    case 'dashboard': renderDashboard(main); break;
+    case 'preventivi': renderPreventivi(main); break;
+    case 'ordini': renderOrdini(main); break;
+    case 'cantieri': renderCantieri(main); break;
+    case 'impostazioni': renderImpostazioni(main); break;
+  }
+}
+
+// --- SCREEN 1: DASHBOARD ---
+function renderDashboard(container) {
+  const prevTot = db.preventivis.reduce((sum, p) => sum + Number(p.totale), 0);
+  const cantieriProgrammati = db.cantieris.filter(c => c.stato_lavorazione !== 'Completato').length;
+  const ordiniAttivi = db.ordinis.filter(o => o.stato !== 'Consegnato').length;
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="bg-gradient-to-r from-brand-900 to-blue-800 text-white p-6 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-2xl font-bold">Benvenuto in Anodica Manager</h2>
+          <p class="text-blue-200 text-sm mt-1">Gestione alluminio anodizzato, preventivi e posa in cantiere.</p>
+        </div>
+        <span class="bg-blue-500/30 text-blue-100 text-xs px-3 py-1.5 rounded-full border border-blue-400/30">${db.role}</span>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+          <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Totale Preventivi</p>
+            <h3 class="text-xl font-bold text-slate-800">€ ${prevTot.toLocaleString('it-IT', {minimumFractionDigits: 2})}</h3>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+          <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Ordini Fornitori in Corso</p>
+            <h3 class="text-2xl font-bold text-slate-800">${ordiniAttivi}</h3>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+          <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Cantieri Attivi</p>
+            <h3 class="text-2xl font-bold text-slate-800">${cantieriProgrammati}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Tables Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Ultimi Preventivi -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Ultimi Preventivi
+            </h3>
+            <button onclick="switchTab('preventivi')" class="text-xs text-blue-600 font-semibold hover:underline">Vedi tutti &rarr;</button>
+          </div>
+          <div class="divide-y divide-slate-100">
+            ${db.preventivis.slice(0, 3).map(p => {
+              const cliente = db.clientes.find(c => c.id == p.cliente_id);
+              return `
+                <div class="py-3 flex justify-between items-center">
+                  <div>
+                    <p class="font-semibold text-sm text-slate-800">${cliente ? cliente.ragione_sociale : 'Cliente #' + p.cliente_id}</p>
+                    <p class="text-xs text-slate-400">${p.data_creazione}</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-sm font-bold text-slate-800">€ ${Number(p.totale).toLocaleString('it-IT')}</span>
+                    <span class="block text-[10px] px-2 py-0.5 rounded-full ${p.stato==='Approvato'?'bg-emerald-100 text-emerald-800':'bg-amber-100 text-amber-800'} font-medium mt-0.5">${p.stato}</span>
+                  </div>
+                </div>
+              `;
+            }).join('') || '<p class="text-xs text-slate-400 py-4 text-center">Nessun preventivo presente.</p>'}
+          </div>
+        </div>
+
+        <!-- Prossimi Cantieri -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Prossime Pose in Cantiere
+            </h3>
+            <button onclick="switchTab('cantieri')" class="text-xs text-blue-600 font-semibold hover:underline">Vedi tutti &rarr;</button>
+          </div>
+          <div class="divide-y divide-slate-100">
+            ${db.cantieris.slice(0, 3).map(c => `
+              <div class="py-3 flex justify-between items-center">
+                <div>
+                  <p class="font-semibold text-sm text-slate-800 truncate max-w-[200px]">${c.indirizzo_installazione}</p>
+                  <p class="text-xs text-slate-500">${c.squadra_assegnata}</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-medium">${c.data_posa}</span>
+                </div>
+              </div>
+            `).join('') || '<p class="text-xs text-slate-400 py-4 text-center">Nessun cantiere programmato.</p>'}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// --- SCREEN 2: PREVENTIVI & MISURES ---
+function renderPreventivi(container) {
+  const canEdit = db.role.includes("Amministratore") || db.role.includes("Tecnico");
+  
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Preventivi & Calcolo Misure</h2>
+          <p class="text-xs text-slate-500">Gestisci preventivi, calcola materiale alluminio e genera il disegno SVG.</p>
+        </div>
+        ${canEdit ? `<button onclick="openFormModal('preventivo')" class="w-full sm:w-auto bg-brand-900 hover:bg-brand-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Nuovo Preventivo
+        </button>` : ''}
+      </div>
+
+      <!-- Filter/Search Bar -->
+      <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-3">
+        <input type="text" id="search-prev" onkeyup="filterPreventivi()" placeholder="Cerca per cliente o nota..." class="flex-1 bg-slate-50 text-xs rounded-lg p-2.5 border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        <select id="filter-prev-status" onchange="filterPreventivi()" class="bg-slate-50 text-xs rounded-lg p-2.5 border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <option value="">Tutti gli stati</option>
+          <option value="Bozza">Bozza</option>
+          <option value="In Attesa">In Attesa</option>
+          <option value="Approvato">Approvato</option>
+          <option value="Rifiutato">Rifiutato</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4" id="preventivi-list">
+        <!-- Cards generated by JS -->
+      </div>
+    </div>
+  `;
+  filterPreventivi();
+}
+
+function filterPreventivi() {
+  const query = (document.getElementById('search-prev')?.value || '').toLowerCase();
+  const statusFilter = document.getElementById('filter-prev-status')?.value || '';
+  const listContainer = document.getElementById('preventivi-list');
+  const canEdit = db.role.includes("Amministratore") || db.role.includes("Tecnico");
+
+  const filtered = db.preventivis.filter(p => {
+    const cliente = db.clientes.find(c => c.id == p.cliente_id);
+    const clientName = cliente ? cliente.ragione_sociale.toLowerCase() : '';
+    const matchesSearch = clientName.includes(query) || p.note.toLowerCase().includes(query);
+    const matchesStatus = !statusFilter || p.stato === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  if(filtered.length === 0) {
+    listContainer.innerHTML = `
+      <div class="bg-white p-8 text-center rounded-2xl border border-slate-100">
+        <p class="text-slate-400 text-sm">Nessun preventivo trovato.</p>
+      </div>`;
+    return;
+  }
+
+  listContainer.innerHTML = filtered.map(p => {
+    const cliente = db.clientes.find(c => c.id == p.cliente_id);
+    const serramenti = db.serramentis.filter(s => s.preventivo_id == p.id);
+    
+    return `
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="p-5 flex flex-col md:flex-row justify-between md:items-center gap-4 bg-slate-50/50 border-b border-slate-100">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-800 text-base">${cliente ? cliente.ragione_sociale : 'Cliente Sconosciuto'}</span>
+              <span class="text-xs text-slate-400">#PREV-${p.id}</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Data: ${p.data_creazione} | Note: ${p.note || 'Nessuna'}</p>
+          </div>
+          <div class="flex items-center justify-between md:justify-end gap-3">
+            <div class="text-right">
+              <p class="text-xs text-slate-400 uppercase font-semibold">Totale</p>
+              <p class="text-lg font-bold text-brand-900">€ ${Number(p.totale).toLocaleString('it-IT', {minimumFractionDigits: 2})}</p>
+            </div>
+            <span class="px-3 py-1 text-xs rounded-full font-semibold ${p.stato==='Approvato'?'bg-emerald-100 text-emerald-800':p.stato==='In Attesa'?'bg-amber-100 text-amber-800':'bg-slate-100 text-slate-700'}">${p.stato}</span>
+          </div>
+        </div>
+
+        <!-- Section Serramenti per preventivo -->
+        <div class="p-5 space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Serramenti & Calcolo Materiali (${serramenti.length})</h4>
+            ${canEdit ? `<button onclick="openFormModal('serramento', {preventivo_id: ${p.id}})" class="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1">
+              + Aggiungi Serramento
+            </button>` : ''}
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${serramenti.map(s => {
+              // Calcolo stimato alluminio (Perimetro in metri * peso medio 1.2kg/m * 2 per telaio e anta)
+              const perimetroMeters = ((Number(s.larghezza) + Number(s.altezza)) * 2) / 1000;
+              const alluminioKg = (perimetroMeters * 2.4).toFixed(1);
+              
+              return `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 flex flex-col justify-between space-y-3">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h5 class="font-bold text-sm text-slate-800">${s.tipologia}</h5>
+                      <p class="text-xs text-slate-500">${s.larghezza}mm x ${s.altezza}mm | Anodizzazione: <span class="font-medium text-slate-700">${s.colore_anodizzazione}</span></p>
+                      <p class="text-[11px] text-slate-500 mt-1">Vetro: ${s.vetro}</p>
+                    </div>
+                    <div class="bg-blue-50 text-brand-900 text-[10px] font-bold px-2 py-1 rounded border border-blue-200">
+                      ~ ${alluminioKg} Kg Alluminio
+                    </div>
+                  </div>
+
+                  <!-- Technical Drawing Generator -->
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      ${generateTechnicalDrawingSVG(s.tipologia, s.larghezza, s.altezza)}
+                      <div>
+                        <p class="text-[11px] font-semibold text-slate-700">Disegno Tecnico Auto-generato</p>
+                        <p class="text-[10px] text-slate-400">Progetto Ingegnerizzato Cad 2D</p>
+                      </div>
+                    </div>
+                    ${canEdit ? `<button onclick="deleteEntity('serramentis', ${s.id})" class="text-red-500 hover:text-red-700 p-1">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('') || '<p class="text-xs text-slate-400 italic">Nessun serramento inserito per questo preventivo.</p>'}
+          </div>
+
+          ${canEdit ? `
+          <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <button onclick="openFormModal('preventivo', ${JSON.stringify(p).replace(/"/g, '&quot;')})" class="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg">Modifica Preventivo</button>
+            <button onclick="deleteEntity('preventivis', ${p.id})" class="text-xs bg-red-50 text-red-600 hover:bg-red-100 font-medium px-3 py-1.5 rounded-lg">Elimina</button>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Draw Technical CAD-like SVG for aluminum frames
+function generateTechnicalDrawingSVG(tipo, w, h) {
+  const is2Ante = tipo.includes("2 Ante");
+  return `
+    <svg class="w-12 h-12 bg-slate-900 rounded p-1" viewBox="0 0 100 100">
+      <!-- Outer Frame -->
+      <rect x="5" y="5" width="90" height="90" fill="none" stroke="#60A5FA" stroke-width="4"/>
+      <!-- Inner Glass/Sash -->
+      ${is2Ante ? `
+        <rect x="10" y="10" width="38" height="80" fill="none" stroke="#93C5FD" stroke-width="2"/>
+        <rect x="52" y="10" width="38" height="80" fill="none" stroke="#93C5FD" stroke-width="2"/>
+        <!-- Opening Lines -->
+        <path d="M 10 50 L 48 10 L 48 90 Z" fill="none" stroke="#475569" stroke-dasharray="2,2" stroke-width="1"/>
+        <path d="M 90 50 L 52 10 L 52 90 Z" fill="none" stroke="#475569" stroke-dasharray="2,2" stroke-width="1"/>
+      ` : `
+        <rect x="10" y="10" width="80" height="80" fill="none" stroke="#93C5FD" stroke-width="2"/>
+        <path d="M 10 50 L 90 10 L 90 90 Z" fill="none" stroke="#475569" stroke-dasharray="2,2" stroke-width="1"/>
+      `}
+      <!-- Anodized Metallic Accent -->
+      <circle cx="50" cy="50" r="3" fill="#38BDF8"/>
+    </svg>
+  `;
+}
+
+// --- SCREEN 3: ORDINI FORNITORI ---
+function renderOrdini(container) {
+  const canEdit = db.role.includes("Amministratore") || db.role.includes("Magazzino");
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Ordini Fornitori</h2>
+          <p class="text-xs text-slate-500">Tracciamento alluminio anodizzato, vetri e accessori di montaggio.</p>
+        </div>
+        ${canEdit ? `<button onclick="openFormModal('ordine')" class="w-full sm:w-auto bg-brand-900 hover:bg-brand-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Nuovo Ordine Materiali
+        </button>` : ''}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        ${db.ordinis.map(o => `
+          <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Fornitore</span>
+                  <h3 class="font-bold text-slate-800 text-base leading-tight">${o.fornitore}</h3>
+                </div>
+                <span class="px-2.5 py-1 text-xs rounded-full font-semibold ${o.stato==='Consegnato'?'bg-emerald-100 text-emerald-800':o.stato==='In Lavorazione'?'bg-blue-100 text-blue-800':'bg-amber-100 text-amber-800'}">${o.stato}</span>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <p class="text-xs text-slate-600 font-medium">Materiali Richiesti:</p>
+                <p class="text-xs text-slate-800 mt-0.5">${o.materiali_richiesti}</p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <div>
+                <p>Data Ordine: <span class="font-semibold text-slate-700">${o.data_ordine}</span></p>
+                <p>Consegna Stimata: <span class="font-semibold text-slate-700">${o.data_consegna_stimata}</span></p>
+              </div>
+              ${canEdit ? `
+              <div class="flex gap-2">
+                <button onclick="openFormModal('ordine', ${JSON.stringify(o).replace(/"/g, '&quot;')})" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </button>
+                <button onclick="deleteEntity('ordinis', ${o.id})" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+        `).join('') || '<div class="col-span-2 bg-white p-8 text-center rounded-2xl border border-slate-100 text-slate-400">Nessun ordine fornitori registrato.</div>'}
+      </div>
+    </div>
+  `;
+}
+
+// --- SCREEN 4: PIANIFICAZIONE POSA ---
+function renderCantieri(container) {
+  const canEdit = db.role.includes("Amministratore") || db.role.includes("Squadra");
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Pianificazione Pose e Cantieri</h2>
+          <p class="text-xs text-slate-500">Assegnazione squadre e monitoraggio installazioni infissi.</p>
+        </div>
+        ${canEdit ? `<button onclick="openFormModal('cantiere')" class="w-full sm:w-auto bg-brand-900 hover:bg-brand-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Programma Cantiere
+        </button>` : ''}
+      </div>
+
+      <div class="space-y-4">
+        ${db.cantieris.map(c => {
+          const prev = db.preventivis.find(p => p.id == c.preventivo_id);
+          const cliente = prev ? db.clientes.find(cli => cli.id == prev.cliente_id) : null;
+
+          return `
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-4">
+              <div class="flex items-start gap-4">
+                <div class="p-3 bg-blue-50 text-brand-900 rounded-xl hidden sm:block">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <div>
+                  <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase">Posa #${c.id}</span>
+                  <h3 class="font-bold text-slate-800 text-base mt-0.5">${c.indirizzo_installazione}</h3>
+                  <p class="text-xs text-slate-500">Cliente: <span class="font-medium text-slate-700">${cliente ? cliente.ragione_sociale : 'N/D'}</span> | Ref. Preventivo: #${c.preventivo_id}</p>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap md:flex-nowrap items-center justify-between md:justify-end gap-4 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
+                <div class="text-left md:text-right">
+                  <p class="text-xs font-semibold text-slate-800">${c.squadra_assegnata}</p>
+                  <p class="text-xs text-slate-500">Data Posa: <span class="font-bold text-brand-900">${c.data_posa}</span></p>
+                </div>
+                <span class="px-3 py-1 text-xs rounded-full font-semibold ${c.stato_lavorazione==='Completato'?'bg-emerald-100 text-emerald-800':c.stato_lavorazione==='In Corso'?'bg-amber-100 text-amber-800':'bg-slate-100 text-slate-700'}">${c.stato_lavorazione}</span>
+                
+                ${canEdit ? `
+                <div class="flex gap-1">
+                  <button onclick="openFormModal('cantiere', ${JSON.stringify(c).replace(/"/g, '&quot;')})" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                  </button>
+                  <button onclick="deleteEntity('cantieris', ${c.id})" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('') || '<div class="bg-white p-8 text-center rounded-2xl border border-slate-100 text-slate-400">Nessun cantiere in programmazione.</div>'}
+      </div>
+    </div>
+  `;
+}
+
+// --- SCREEN 5: IMPOSTAZIONI & ANAGRAFICA CLIENTES ---
+function renderImpostazioni(container) {
+  container.innerHTML = `
+    <div class="space-y-6 max-w-4xl">
+      <div>
+        <h2 class="text-xl font-bold text-slate-800">Impostazioni & Sistema</h2>
+        <p class="text-xs text-slate-500">Gestisci i profili utenti, anagrafica clienti e la memoria locale dell'app.</p>
+      </div>
+
+      <!-- Ruolo Simulo -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+        <h3 class="font-bold text-slate-800 text-sm">Profilo Utente Attivo</h3>
+        <select onchange="changeRole(this.value)" class="w-full bg-slate-50 text-slate-800 text-xs rounded-xl p-3 border border-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <option value="Amministratore / Commerciale" ${db.role==='Amministratore / Commerciale'?'selected':''}>Amministratore / Commerciale</option>
+          <option value="Ufficio Tecnico / Progettista" ${db.role==='Ufficio Tecnico / Progettista'?'selected':''}>Ufficio Tecnico / Progettista</option>
+          <option value="Responsabile Magazzino / Fornitori" ${db.role==='Responsabile Magazzino / Fornitori'?'selected':''}>Responsabile Magazzino / Fornitori</option>
+          <option value="Capo Squadra Posa in Cantiere" ${db.role==='Capo Squadra Posa in Cantiere'?'selected':''}>Capo Squadra Posa in Cantiere</option>
+        </select>
+      </div>
+
+      <!-- Anagrafica Clienti rapida -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-sm">Anagrafica Clienti</h3>
+          <button onclick="openFormModal('cliente')" class="text-xs bg-brand-900 text-white font-semibold px-3 py-1.5 rounded-lg">+ Nuovo Cliente</button>
+        </div>
+        <div class="divide-y divide-slate-100">
+          ${db.clientes.map(c => `
+            <div class="py-3 flex justify-between items-center text-xs">
+              <div>
+                <p class="font-bold text-slate-800">${c.ragione_sociale}</p>
+                <p class="text-slate-400">P.IVA: ${c.partita_iva} | ${c.email}</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="openFormModal('cliente', ${JSON.stringify(c).replace(/"/g, '&quot;')})" class="text-blue-600 hover:underline">Modifica</button>
+                <button onclick="deleteEntity('clientes', ${c.id})" class="text-red-500 hover:underline">Elimina</button>
+              </div>
+            </div>
+          `).join('') || '<p class="text-xs text-slate-400 py-2">Nessun cliente registrato.</p>'}
+        </div>
+      </div>
+
+      <!-- Actions Data -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+        <h3 class="font-bold text-slate-800 text-sm">Gestione Dati LocalStorage</h3>
+        <div class="flex flex-wrap gap-3">
+          <button onclick="exportCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow transition-all">Esporta Dati in CSV</button>
+          <button onclick="resetData()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow transition-all">Ripristina Dati di Esempio</button>
+          <button onclick="clearAllData()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow transition-all">Cancella Tutti i Dati</button>
+        </div>
+      </div>
+
+      <!-- Credits Footer -->
+      <div class="text-center pt-4 border-t border-slate-200">
+        <p class="text-xs text-slate-400 font-medium">Prototipo realizzato da <span class="font-bold text-slate-600">CybernetLab</span></p>
+      </div>
+    </div>
+  `;
+}
+
+// --- GENERIC MODAL & FORM HANDLER ---
+function openFormModal(type, item = null) {
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalBox = document.getElementById('modal-box');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+
+  let title = "";
+  let fieldsHTML = "";
+
+  if (type === 'preventivo') {
+    title = item ? 'Modifica Preventivo' : 'Nuovo Preventivo';
+    const clientOptions = db.clientes.map(c => `<option value="${c.id}" ${item && item.cliente_id == c.id ? 'selected':''}>${c.ragione_sociale}</option>`).join('');
+    fieldsHTML = `
+      <form onsubmit="saveEntity(event, 'preventivis', ${item ? item.id : 'null'})" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Cliente</label>
+          <select name="cliente_id" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            ${clientOptions || '<option value="">Crea prima un cliente in Impostazioni</option>'}
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Data Creazione</label>
+            <input type="date" name="data_creazione" value="${item ? item.data_creazione : new Date().toISOString().slice(0,10)}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Stato</label>
+            <select name="stato" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+              <option value="Bozza" ${item && item.stato==='Bozza'?'selected':''}>Bozza</option>
+              <option value="In Attesa" ${item && item.stato==='In Attesa'?'selected':''}>In Attesa</option>
+              <option value="Approvato" ${item && item.stato==='Approvato'?'selected':''}>Approvato</option>
+              <option value="Rifiutato" ${item && item.stato==='Rifiutato'?'selected':''}>Rifiutato</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Totale Preventivato (€)</label>
+          <input type="number" step="0.01" name="totale" value="${item ? item.totale : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Note / Finitura Alluminio</label>
+          <textarea name="note" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3 h-20">${item ? item.note : ''}</textarea>
+        </div>
+        <button type="submit" class="w-full bg-brand-900 text-white font-bold text-xs p-3 rounded-xl shadow-lg hover:bg-brand-800 transition-all">Salva Preventivo</button>
+      </form>
+    `;
+  } else if (type === 'serramento') {
+    title = 'Aggiungi Serramento & Disegno';
+    fieldsHTML = `
+      <form onsubmit="saveEntity(event, 'serramentis', null)" class="space-y-4">
+        <input type="hidden" name="preventivo_id" value="${item.preventivo_id}">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipologia Serramento</label>
+          <select name="tipologia" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+            <option value="Finestra 1 Anta">Finestra 1 Anta</option>
+            <option value="Finestra 2 Ante">Finestra 2 Ante</option>
+            <option value="Portafinestra 1 Anta">Portafinestra 1 Anta</option>
+            <option value="Scorrevole 2 Ante">Scorrevole 2 Ante</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Larghezza (mm)</label>
+            <input type="number" name="larghezza" placeholder="1200" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Altezza (mm)</label>
+            <input type="number" name="altezza" placeholder="1400" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Finitura Anodizzazione</label>
+          <select name="colore_anodizzazione" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+            <option value="Argento">Argento Naturale</option>
+            <option value="Bronzo">Bronzo Scuro</option>
+            <option value="Nero Anodizzato">Nero Anodizzato</option>
+            <option value="Oro">Oro / Elettrocolore</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipologia Vetro</label>
+          <input type="text" name="vetro" value="Doppio Vetro 4/16/4" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <button type="submit" class="w-full bg-brand-900 text-white font-bold text-xs p-3 rounded-xl shadow-lg hover:bg-brand-800 transition-all">Calcola e Aggiungi</button>
+      </form>
+    `;
+  } else if (type === 'ordine') {
+    title = item ? 'Modifica Ordine Fornitore' : 'Nuovo Ordine Fornitore';
+    fieldsHTML = `
+      <form onsubmit="saveEntity(event, 'ordinis', ${item ? item.id : 'null'})" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Fornitore</label>
+          <input type="text" name="fornitore" value="${item ? item.fornitore : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Data Ordine</label>
+            <input type="date" name="data_ordine" value="${item ? item.data_ordine : new Date().toISOString().slice(0,10)}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Consegna Stimata</label>
+            <input type="date" name="data_consegna_stimata" value="${item ? item.data_consegna_stimata : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Stato Ordine</label>
+          <select name="stato" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+            <option value="In Attesa" ${item && item.stato==='In Attesa'?'selected':''}>In Attesa</option>
+            <option value="In Lavorazione" ${item && item.stato==='In Lavorazione'?'selected':''}>In Lavorazione</option>
+            <option value="Consegnato" ${item && item.stato==='Consegnato'?'selected':''}>Consegnato</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Materiali Richiesti</label>
+          <textarea name="materiali_richiesti" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3 h-20">${item ? item.materiali_richiesti : ''}</textarea>
+        </div>
+        <button type="submit" class="w-full bg-brand-900 text-white font-bold text-xs p-3 rounded-xl shadow-lg hover:bg-brand-800 transition-all">Salva Ordine</button>
+      </form>
+    `;
+  } else if (type === 'cantiere') {
+    title = item ? 'Modifica Programmazione Posa' : 'Programma Nuovo Cantiere';
+    const prevOptions = db.preventivis.map(p => `<option value="${p.id}" ${item && item.preventivo_id == p.id ? 'selected':''}>Preventivo #${p.id}</option>`).join('');
+    fieldsHTML = `
+      <form onsubmit="saveEntity(event, 'cantieris', ${item ? item.id : 'null'})" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Riferimento Preventivo</label>
+          <select name="preventivo_id" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+            ${prevOptions}
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Indirizzo Installazione</label>
+          <input type="text" name="indirizzo_installazione" value="${item ? item.indirizzo_installazione : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Data Posa</label>
+            <input type="date" name="data_posa" value="${item ? item.data_posa : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Stato Lavori</label>
+            <select name="stato_lavorazione" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+              <option value="Programmato" ${item && item.stato_lavorazione==='Programmato'?'selected':''}>Programmato</option>
+              <option value="In Corso" ${item && item.stato_lavorazione==='In Corso'?'selected':''}>In Corso</option>
+              <option value="Completato" ${item && item.stato_lavorazione==='Completato'?'selected':''}>Completato</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Squadra Assegnata</label>
+          <input type="text" name="squadra_assegnata" value="${item ? item.squadra_assegnata : ''}" required placeholder="es. Squadra Alfa" class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <button type="submit" class="w-full bg-brand-900 text-white font-bold text-xs p-3 rounded-xl shadow-lg hover:bg-brand-800 transition-all">Salva Programmazione</button>
+      </form>
+    `;
+  } else if (type === 'cliente') {
+    title = item ? 'Modifica Cliente' : 'Nuovo Cliente';
+    fieldsHTML = `
+      <form onsubmit="saveEntity(event, 'clientes', ${item ? item.id : 'null'})" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Ragione Sociale / Nome</label>
+          <input type="text" name="ragione_sociale" value="${item ? item.ragione_sociale : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Partita IVA / CF</label>
+            <input type="text" name="partita_iva" value="${item ? item.partita_iva : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Telefono</label>
+            <input type="text" name="telefono" value="${item ? item.telefono : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
+          <input type="email" name="email" value="${item ? item.email : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Indirizzo Completo</label>
+          <input type="text" name="indirizzo" value="${item ? item.indirizzo : ''}" required class="w-full bg-slate-50 border border-slate-200 text-xs rounded-xl p-3">
+        </div>
+        <button type="submit" class="w-full bg-brand-900 text-white font-bold text-xs p-3 rounded-xl shadow-lg hover:bg-brand-800 transition-all">Salva Cliente</button>
+      </form>
+    `;
+  }
+
+  modalTitle.innerText = title;
+  modalBody.innerHTML = fieldsHTML;
+  modalBackdrop.classList.remove('hidden');
+  setTimeout(() => {
+    modalBox.classList.remove('scale-95', 'opacity-0');
+    modalBox.classList.add('scale-100', 'opacity-100');
+  }, 10);
+}
+
+function closeModal() {
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalBox = document.getElementById('modal-box');
+  modalBox.classList.remove('scale-100', 'opacity-100');
+  modalBox.classList.add('scale-95', 'opacity-0');
+  setTimeout(() => {
+    modalBackdrop.classList.add('hidden');
+  }, 200);
+}
+
+// Save dynamic entity form
+function saveEntity(e, collection, id) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const dataObj = {};
+  formData.forEach((value, key) => { dataObj[key] = value; });
+
+  if (id) {
+    const index = db[collection].findIndex(x => x.id == id);
+    if (index !== -1) {
+      db[collection][index] = { ...db[collection][index], ...dataObj };
+    }
+  } else {
+    dataObj.id = Date.now();
+    db[collection].push(dataObj);
+  }
+
+  saveData();
+  closeModal();
+  showToast("Operazione completata con successo!");
+  render();
+}
+
+// Generic delete confirmation
+function deleteEntity(collection, id) {
+  if (confirm("Sei sicuro di voler eliminare questo elemento?")) {
+    db[collection] = db[collection].filter(x => x.id != id);
+    saveData();
+    showToast("Elemento eliminato");
+    render();
+  }
+}
+
+// Toast Helper
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-msg');
+  toastMsg.innerText = msg;
+  toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('translate-y-[-100px]', 'opacity-0');
+  }, 3000);
+}
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+
+// Init Render
+render();
+</script>
+</body>
+</html>
