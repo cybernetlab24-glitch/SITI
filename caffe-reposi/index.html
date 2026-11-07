@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caffè Reposi | Storica Caffetteria in Via Paleocapa a Savona</title>
+  <meta name="description" content="Caffè Reposi: storica caffetteria sotto i portici di Via Paleocapa a Savona. Miscele di caffè selezionate, colazioni artigianali, aperitivi ricercati e sapori liguri.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.caffereposi.it">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Caffè Reposi | Storica Caffetteria a Savona">
+  <meta property="og:description" content="Eleganza sabauda, accoglienza ligure e passione per il buon caffè nel cuore di Savona in Via Paleocapa.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:image" content="img/hero-1.jpg">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231f1815'/><path d='M30 42c0 14 10 24 22 24s22-10 22-24H30zm44 4h6a8 8 0 0 0 0-16h-6v16zm-48 24h52v4H26z' fill='%23c5a059'/></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN con configurazione brand -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              espresso: '#17120F',
+              cacao: '#2A211B',
+              tostato: '#44352D',
+              gold: '#C5A059',
+              goldHover: '#B08B44',
+              goldLight: '#EAD7B0',
+              crema: '#FBF8F3',
+              pergamena: '#F3ECE0',
+              moka: '#846D5E'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .text-balance {
+      text-wrap: balance;
+    }
+  </style>
+</head>
+<body class="bg-brand-crema text-brand-espresso font-sans antialiased selection:bg-brand-gold selection:text-white">
+
+  <!-- HEADER FISSO -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-brand-espresso/95 backdrop-blur-md border-b border-brand-gold/20 transition-all duration-300" id="main-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo Testuale -->
+        <a href="#inizio" class="flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded py-1" aria-label="Caffè Reposi - Torna all'inizio">
+          <span class="font-serif text-2xl sm:text-3xl tracking-widest text-brand-crema font-bold uppercase transition-colors group-hover:text-brand-gold">
+            Caffè Reposi
+          </span>
+          <span class="text-[10px] tracking-[0.25em] text-brand-gold uppercase -mt-1 font-medium">
+            Via Paleocapa • Savona
+          </span>
+        </a>
+
+        <!-- Menu Desktop -->
+        <nav class="hidden md:flex items-center space-x-8" aria-label="Navigazione principale">
+          <a href="#chi-siamo" class="text-sm font-medium tracking-wide text-brand-crema/85 hover:text-brand-gold transition-colors py-1">Chi Siamo</a>
+          <a href="#menu-caffetteria" class="text-sm font-medium tracking-wide text-brand-crema/85 hover:text-brand-gold transition-colors py-1">Caffetteria & Dolci</a>
+          <a href="#aperitivi" class="text-sm font-medium tracking-wide text-brand-crema/85 hover:text-brand-gold transition-colors py-1">Aperitivi & Liguria</a>
+          <a href="#orari-luogo" class="text-sm font-medium tracking-wide text-brand-crema/85 hover:text-brand-gold transition-colors py-1">Orari & Posizione</a>
+          <a href="#contatti" class="inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-brand-gold text-xs font-semibold tracking-wider uppercase text-brand-gold hover:bg-brand-gold hover:text-brand-espresso transition-all duration-200">
+            Contattaci
+          </a>
+        </nav>
+
+        <!-- Pulsante Mobile -->
+        <div class="flex md:hidden">
+          <button id="mobile-toggle" type="button" class="p-2 text-brand-crema hover:text-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold rounded" aria-expanded="false" aria-controls="mobile-menu" aria-label="Apri menu principale">
+            <svg id="hamburger-icon" class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="close-icon" class="w-6 h-6 stroke-current hidden" fill="none" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-cacao border-b border-brand-gold/20 px-4 pt-3 pb-6 space-y-3">
+      <a href="#chi-siamo" class="mobile-nav-link block py-2 text-base font-medium text-brand-crema hover:text-brand-gold border-b border-white/5">Chi Siamo</a>
+      <a href="#menu-caffetteria" class="mobile-nav-link block py-2 text-base font-medium text-brand-crema hover:text-brand-gold border-b border-white/5">Caffetteria & Dolci</a>
+      <a href="#aperitivi" class="mobile-nav-link block py-2 text-base font-medium text-brand-crema hover:text-brand-gold border-b border-white/5">Aperitivi & Liguria</a>
+      <a href="#orari-luogo" class="mobile-nav-link block py-2 text-base font-medium text-brand-crema hover:text-brand-gold border-b border-white/5">Orari & Posizione</a>
+      <a href="#contatti" class="mobile-nav-link block py-2 text-base font-semibold text-brand-gold">Contatti & Prenotazioni</a>
+    </div>
+  </header>
+
+  <main id="inizio" class="pt-20">
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-[85vh] flex items-center justify-center bg-brand-espresso text-brand-crema overflow-hidden">
+      <!-- Immagine di Sfondo (hero-1.jpg) -->
+      <div class="absolute inset-0 z-0">
+        <img src="img/hero-1.jpg" alt="Atmosfera accogliente ed elegante del Caffè Reposi in Via Paleocapa a Savona" class="w-full h-full object-cover object-center opacity-40 filter brightness-90">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-espresso via-brand-espresso/80 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-espresso via-transparent to-transparent"></div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div class="max-w-2xl reveal">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/20 border border-brand-gold/30 text-brand-goldLight text-xs tracking-wider uppercase mb-6 font-medium">
+            <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+            Il salotto di Savona dal mattino alla sera
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white font-semibold leading-[1.15] tracking-tight mb-6 text-balance">
+            Il rito autentico del caffè sotto i portici di Via Paleocapa.
+          </h1>
+          <p class="text-base sm:text-lg text-brand-crema/85 font-light leading-relaxed mb-8 max-w-xl">
+            Un punto d'incontro storico dove l'eleganza classica incontra l'arte della colazione artigianale, miscele pregiate e l'autentico aperitivo della tradizione ligure.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+            <a href="#contatti" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-brand-gold text-brand-espresso font-semibold text-sm tracking-wider uppercase hover:bg-brand-goldHover hover:text-white transition-all duration-300 shadow-lg shadow-brand-gold/10">
+              Vieni a Trovarci
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+            <a href="#menu-caffetteria" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full border border-brand-crema/30 text-brand-crema font-medium text-sm tracking-wider uppercase hover:border-brand-gold hover:text-brand-gold transition-all duration-300 backdrop-blur-sm">
+              Esplora le Proposte
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="chi-siamo" class="py-20 lg:py-28 bg-brand-crema">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div class="lg:col-span-6 reveal">
+            <div class="relative">
+              <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-brand-pergamena border border-brand-gold/20">
+                <img src="img/servizi-2.jpg" alt="Dettagli raffinati e servizio di caffetteria al Caffè Reposi" class="w-full h-full object-cover">
+              </div>
+              <div class="absolute -bottom-6 -right-6 hidden sm:block bg-brand-cacao text-brand-gold p-6 rounded-xl border border-brand-gold/30 shadow-xl max-w-xs">
+                <p class="font-serif italic text-xl leading-snug">"Un buon caffè è un momento sospeso nel cuore della città."</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 reveal">
+            <span class="text-brand-gold font-semibold uppercase tracking-widest text-xs">Tradizione & Stile</span>
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-brand-espresso font-bold mt-2 mb-6 leading-tight">
+              Un'atmosfera senza tempo nel centro storico di Savona.
+            </h2>
+            <div class="space-y-4 text-brand-tostato leading-relaxed text-sm sm:text-base">
+              <p>
+                Situato lungo la storica e monumentale <strong>Via Paleocapa</strong>, il Caffè Reposi rappresenta da generazioni un saldo punto di riferimento per savonesi, professionisti e viaggiatori in cerca di calma e qualità.
+              </p>
+              <p>
+                Varcare la nostra soglia significa immergersi in un clima accogliente ed elegante: il tintinnio delle tazzine in porcellana, il profumo inebriante del caffè tostato a regola d'arte e la cortesia cordiale che contraddistingue il vero servizio al banco e al tavolo.
+              </p>
+              <p>
+                Dalla fragranza della focaccia ligure calda e delle brioche mattutine fino alla quiete serale con un calice selezionato, custodiamo con cura il valore della lentezza e delle cose ben fatte.
+              </p>
+            </div>
+
+            <div class="mt-8 grid grid-cols-2 gap-6 pt-6 border-t border-brand-pergamena">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-espresso">Via Paleocapa</h4>
+                <p class="text-xs text-brand-moka mt-1">Sotto i portici storici, al riparo dal sole estivo e dalla pioggia d'inverno.</p>
+              </div>
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-espresso">Spirito Ligure</h4>
+                <p class="text-xs text-brand-moka mt-1">Attenzione rigorosa alla qualità dei prodotti e alle specialità della nostra terra.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU SEZIONE 1: CAFFETTERIA & COLAZIONI -->
+    <section id="menu-caffetteria" class="py-20 bg-brand-pergamena/60 border-y border-brand-pergamena">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+          <span class="text-brand-gold font-semibold uppercase tracking-widest text-xs">Il Risveglio Artigianale</span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-brand-espresso font-bold mt-2">La Caffetteria & La Pasticceria</h2>
+          <div class="w-16 h-0.5 bg-brand-gold mx-auto my-4"></div>
+          <p class="text-brand-tostato text-sm sm:text-base">Miscele bilanciate con maestria dai nostri baristi, latte fresco montato a velluto e una selezione quotidiana di delizie da forno.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border border-brand-pergamena flex flex-col justify-between reveal">
+            <div>
+              <div class="flex items-center justify-between border-b border-brand-pergamena pb-3 mb-4">
+                <h3 class="font-serif text-xl font-bold text-brand-espresso">Espresso Reposi Selezione</h3>
+                <span class="text-brand-gold font-serif text-lg font-semibold">100% Arabica & Robusta Fine</span>
+              </div>
+              <p class="text-sm text-brand-moka leading-relaxed">
+                Miscela creata appositamente per offrire corpo rotondo, note persistenti di cioccolato fondente e crema dorata e consistente.
+              </p>
+            </div>
+            <span class="mt-6 text-xs text-brand-gold uppercase tracking-wider font-semibold">Servito con bicchierino d'acqua</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border border-brand-pergamena flex flex-col justify-between reveal">
+            <div>
+              <div class="flex items-center justify-between border-b border-brand-pergamena pb-3 mb-4">
+                <h3 class="font-serif text-xl font-bold text-brand-espresso">Cappuccino & Flat White</h3>
+                <span class="text-brand-gold font-serif text-lg font-semibold">Micro-schiuma setosa</span>
+              </div>
+              <p class="text-sm text-brand-moka leading-relaxed">
+                Latte intero di filiera selezionata lavorato a regola d'arte per una tessitura fine e lucida. Disponibile anche con bevande vegetali pregiate.
+              </p>
+            </div>
+            <span class="mt-6 text-xs text-brand-gold uppercase tracking-wider font-semibold">Temperatura di servizio perfetta</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border border-brand-pergamena flex flex-col justify-between reveal">
+            <div>
+              <div class="flex items-center justify-between border-b border-brand-pergamena pb-3 mb-4">
+                <h3 class="font-serif text-xl font-bold text-brand-espresso">Colazione Ligure & Brioche</h3>
+                <span class="text-brand-gold font-serif text-lg font-semibold">Sfornati freschi</span>
+              </div>
+              <p class="text-sm text-brand-moka leading-relaxed">
+                La tradizionale focaccia savonese all'olio extravergine per l'intramontabile colazione salata, affiancata da croissant a lievitazione naturale e sfoglie artigianali.
+              </p>
+            </div>
+            <span class="mt-6 text-xs text-brand-gold uppercase tracking-wider font-semibold">Focaccia fresca ogni mattina</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIZI / APERITIVI E PRODOTTI TIPICI -->
+    <section id="aperitivi" class="py-20 lg:py-28 bg-brand-crema">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div class="lg:col-span-6 order-2 lg:order-1 reveal">
+            <span class="text-brand-gold font-semibold uppercase tracking-widest text-xs">Il Momento dell'Aperitivo</span>
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-brand-espresso font-bold mt-2 mb-6">
+              Sapori della Riviera e convivialità sotto i portici.
+            </h2>
+            <p class="text-brand-tostato mb-6 leading-relaxed">
+              Al calare della sera, il Caffè Reposi si trasforma nello scenario ideale per un aperitivo rilassato. I grandi classici della miscelazione italiana – come il Negroni e l'Americano – si affiancano a una curata carta dei vini che valorizza i vitigni della Liguria (Pigato, Vermentino, Rossese) e le bollicine nazionali.
+            </p>
+
+            <div class="space-y-4 mb-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-brand-espresso text-base">Taglieri e sfiziosità liguri</h3>
+                  <p class="text-xs sm:text-sm text-brand-moka">Focaccia classica e alle olive, crostini con pesto ligure artigianale, salumi e formaggi del territorio.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-brand-espresso text-base">Cocktail classici & signature</h3>
+                  <p class="text-xs sm:text-sm text-brand-moka">Preparati con distillati di livello superiore, bitter aromatici e agrumi di prima scelta.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-brand-espresso text-base">Cantina e bollicine</h3>
+                  <p class="text-xs sm:text-sm text-brand-moka">Calici attentamente consigliati per accompagnare il tuo momento di pausa a fine giornata.</p>
+                </div>
+              </div>
+            </div>
+
+            <a href="#contatti" class="inline-flex items-center text-xs tracking-widest font-semibold uppercase text-brand-gold hover:text-brand-goldHover transition-colors">
+              Prenota il tuo tavolo per l'aperitivo &rarr;
+            </a>
+          </div>
+
+          <div class="lg:col-span-6 order-1 lg:order-2 reveal">
+            <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-brand-pergamena border border-brand-gold/20">
+              <img src="img/servizi-3.jpg" alt="Aperitivi e prodotti tipici liguri al Caffè Reposi Savona" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORARI E DOVE SIAMO -->
+    <section id="orari-luogo" class="py-20 bg-brand-cacao text-brand-crema">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          
+          <!-- Orari -->
+          <div class="bg-brand-espresso/60 p-8 sm:p-10 rounded-2xl border border-brand-gold/20 reveal flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">Orari di Apertura</h3>
+              </div>
+              <p class="text-brand-crema/75 text-sm mb-6">
+                Siamo aperti per accompagnare la tua giornata: dalla prima colazione all'aperitivo serale.
+              </p>
+
+              <ul class="space-y-3 text-sm">
+                <li class="flex justify-between py-2 border-b border-brand-tostato/50">
+                  <span class="text-brand-crema/90">Lunedì – Venerdì</span>
+                  <span class="font-medium text-brand-goldLight">07:00 – 20:30</span>
+                </li>
+                <li class="flex justify-between py-2 border-b border-brand-tostato/50">
+                  <span class="text-brand-crema/90">Sabato</span>
+                  <span class="font-medium text-brand-goldLight">07:30 – 21:00</span>
+                </li>
+                <li class="flex justify-between py-2 border-b border-brand-tostato/50">
+                  <span class="text-brand-crema/90">Domenica</span>
+                  <span class="font-medium text-brand-goldLight">08:00 – 13:30 / 16:30 – 21:00</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-brand-tostato/50 flex items-center gap-2 text-xs text-brand-gold">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+              Locale climatizzato all'interno • Tavoli sotto i portici
+            </div>
+          </div>
+
+          <!-- Dove Siamo -->
+          <div class="bg-brand-espresso/60 p-8 sm:p-10 rounded-2xl border border-brand-gold/20 reveal flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">Posizione Centrale</h3>
+              </div>
+              <p class="text-brand-crema/75 text-sm mb-6">
+                Ci trovi nella suggestiva cornice di Via Paleocapa, la via porticata cardine del centro di Savona, comodamente raggiungibile sia dalla stazione che dalla Darsena e dal porto crociere.
+              </p>
+              <address class="not-italic text-sm text-brand-crema/90 space-y-1 mb-8">
+                <p class="font-semibold text-white">Caffè Reposi</p>
+                <p>Via Paleocapa, [NUMERO CIVICO]</p>
+                <p>17100 Savona (SV) – Liguria, Italia</p>
+              </address>
+            </div>
+
+            <div>
+              <a href="https://maps.google.com/?q=Via+Paleocapa+Savona" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-full px-6 py-3 rounded-xl bg-brand-gold text-brand-espresso font-semibold text-xs tracking-widest uppercase hover:bg-brand-goldHover hover:text-white transition-colors duration-200">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                Apri su Google Maps
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATTI & PRENOTAZIONI -->
+    <section id="contatti" class="py-20 lg:py-28 bg-brand-crema">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+          <span class="text-brand-gold font-semibold uppercase tracking-widest text-xs">Mettiti in Contatto</span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-brand-espresso font-bold mt-2">Saremo Lieti di Accoglierti</h2>
+          <div class="w-16 h-0.5 bg-brand-gold mx-auto my-4"></div>
+          <p class="text-brand-tostato text-sm sm:text-base">Per prenotare un tavolo durante gli aperitivi, concordare rinfreschi di lavoro o richiedere informazioni sulle nostre proposte.</p>
+        </div>
+
+        <!-- Azioni Rapide Contatto -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16 reveal">
+          <a href="tel:[TELEFONO]" class="flex items-center justify-center gap-3 p-4 rounded-xl bg-white border border-brand-pergamena text-brand-espresso hover:border-brand-gold hover:shadow-md transition-all">
+            <svg class="w-5 h-5 text-brand-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            <div class="text-left">
+              <span class="text-[10px] uppercase tracking-wider text-brand-moka block">Telefono</span>
+              <span class="text-sm font-semibold">[TELEFONO]</span>
+            </div>
+          </a>
+
+          <a href="https://wa.me/[NUMERO_WHATSAPP]" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 p-4 rounded-xl bg-white border border-brand-pergamena text-brand-espresso hover:border-brand-gold hover:shadow-md transition-all">
+            <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.077-2.072-.493-1.637-.678-2.697-2.348-2.778-2.457-.081-.11-1.393-1.854-1.393-3.535 0-1.682.883-2.509 1.198-2.855.315-.347.69-.434.92-.434.23 0 .46.002.663.012.215.01.502-.082.785.6.288.694.981 2.392 1.066 2.566.086.173.144.376.029.606-.115.23-.173.374-.345.576-.173.203-.364.453-.52.607-.174.173-.355.361-.153.708.203.348.902 1.488 1.936 2.409 1.332 1.186 2.454 1.554 2.802 1.727.348.173.551.144.753-.087.202-.231.866-1.011 1.097-1.358.231-.347.462-.289.779-.173.318.116 2.02 1.01 2.366 1.184.346.173.577.26.663.404.086.145.086.839-.058 1.244z"/></svg>
+            <div class="text-left">
+              <span class="text-[10px] uppercase tracking-wider text-brand-moka block">WhatsApp</span>
+              <span class="text-sm font-semibold">Messaggio Rapido</span>
+            </div>
+          </a>
+
+          <a href="mailto:[EMAIL]" class="flex items-center justify-center gap-3 p-4 rounded-xl bg-white border border-brand-pergamena text-brand-espresso hover:border-brand-gold hover:shadow-md transition-all">
+            <svg class="w-5 h-5 text-brand-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <div class="text-left">
+              <span class="text-[10px] uppercase tracking-wider text-brand-moka block">Email</span>
+              <span class="text-sm font-semibold">[EMAIL]</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Modulo Contatto (mailto) -->
+        <div class="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-brand-pergamena reveal">
+          <h3 class="font-serif text-2xl font-bold text-brand-espresso mb-2">Inviaci un Messaggio</h3>
+          <p class="text-xs sm:text-sm text-brand-moka mb-6">Compila i campi sottostanti per generare la richiesta direttamente nel tuo client di posta.</p>
+
+          <form action="mailto:[EMAIL]" method="get" enctype="text/plain" class="space-y-5">
+            <div>
+              <label for="nome" class="block text-xs font-semibold uppercase tracking-wider text-brand-espresso mb-1">Nome e Cognome</label>
+              <input type="text" id="nome" name="subject" required placeholder="Mario Rossi" class="w-full px-4 py-3 rounded-lg border border-brand-pergamena bg-brand-crema/30 text-brand-espresso text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent">
+            </div>
+
+            <div>
+              <label for="messaggio" class="block text-xs font-semibold uppercase tracking-wider text-brand-espresso mb-1">Messaggio o Richiesta di Prenotazione</label>
+              <textarea id="messaggio" name="body" rows="4" required placeholder="Vorrei prenotare un tavolo per 4 persone per l'aperitivo di venerdì..." class="w-full px-4 py-3 rounded-lg border border-brand-pergamena bg-brand-crema/30 text-brand-espresso text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 px-6 rounded-lg bg-brand-espresso text-brand-crema font-semibold text-xs tracking-widest uppercase hover:bg-brand-gold hover:text-brand-espresso transition-colors duration-200 shadow-md">
+              Invia Tramite Email
+            </button>
+            <p class="text-[11px] text-center text-brand-moka">
+              I dati forniti verranno utilizzati esclusivamente per dare risposta alla tua richiesta nel rispetto della privacy.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand-espresso text-brand-crema/80 border-t border-brand-gold/20 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-brand-tostato/50">
+        
+        <!-- Info Aziendali -->
+        <div class="md:col-span-5">
+          <span class="font-serif text-2xl tracking-widest text-brand-crema font-bold uppercase block mb-1">
+            Caffè Reposi
+          </span>
+          <span class="text-[11px] tracking-[0.25em] text-brand-gold uppercase font-medium block mb-4">
+            Savona • Via Paleocapa
+          </span>
+          <p class="text-xs sm:text-sm text-brand-crema/70 leading-relaxed max-w-sm">
+            Un'oasi di gusto e garbo nel cuore pulsante della città ligure. Selezione scrupolosa, calore umano e fedeltà all'arte della caffetteria italiana.
+          </p>
+        </div>
+
+        <!-- Link Rapidi -->
+        <div class="md:col-span-3">
+          <h4 class="text-xs font-semibold tracking-widest uppercase text-brand-gold mb-4">Navigazione</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#chi-siamo" class="hover:text-brand-gold transition-colors">La Nostra Storia</a></li>
+            <li><a href="#menu-caffetteria" class="hover:text-brand-gold transition-colors">Caffetteria & Dolci</a></li>
+            <li><a href="#aperitivi" class="hover:text-brand-gold transition-colors">Aperitivi Tipici</a></li>
+            <li><a href="#orari-luogo" class="hover:text-brand-gold transition-colors">Orari & Come Raggiungerci</a></li>
+            <li><a href="#contatti" class="hover:text-brand-gold transition-colors">Contatti e Prenotazioni</a></li>
+          </ul>
+        </div>
+
+        <!-- Dati Legali / Fiscali -->
+        <div class="md:col-span-4 text-xs space-y-2">
+          <h4 class="text-xs font-semibold tracking-widest uppercase text-brand-gold mb-4">Dati dell'Attività</h4>
+          <p><strong>Ragione Sociale:</strong> Caffè Reposi</p>
+          <p><strong>Indirizzo:</strong> Via Paleocapa, [NUMERO CIVICO] - 17100 Savona (SV)</p>
+          <p><strong>P.IVA:</strong> [P.IVA]</p>
+          <p><strong>Codice Fiscale:</strong> [CODICE FISCALE]</p>
+        </div>
+      </div>
+
+      <!-- Copyright e Note Legali -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-crema/50 gap-4">
+        <p>&copy; <span id="current-year"></span> Caffè Reposi. Tutti i diritti riservati.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-brand-gold transition-colors">Informativa Privacy</a>
+          <a href="#" class="hover:text-brand-gold transition-colors">Cookie Policy</a>
+          <a href="#" class="hover:text-brand-gold transition-colors">Note Legali</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT INTERATTIVO E ANIMAZIONI -->
+  <script>
+    // Anno Dinamico Footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Gestione Menu Mobile
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function toggleMenu() {
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', !isExpanded);
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
+
+    mobileToggle.addEventListener('click', toggleMenu);
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('hidden')) {
+          toggleMenu();
+        }
+      });
+    });
+
+    // Intersection Observer per animazioni fluide (Reveal)
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.12
+    };
+
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealElements.forEach(el => revealOnScroll.observe(el));
+  </script>
+</body>
+</html>
