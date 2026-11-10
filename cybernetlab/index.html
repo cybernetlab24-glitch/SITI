@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b16">
+  <title>CybernetLab | Software, siti web e connettività a Savona</title>
+  <meta name="description" content="CybernetLab a Savona: sviluppo software, siti web, app su misura e soluzioni Fastweb per linee e impianti. Diamo forma digitale alle tue idee.">
+  <meta property="og:title" content="CybernetLab — Il tuo prossimo passo, digitale.">
+  <meta property="og:description" content="Software, siti web, app su misura e connettività Fastweb a Savona. Un interlocutore, soluzioni connesse.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:image" content="img/hero-1.jpg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23070b16'/%3E%3Cpath d='M45 17 32 10 13 21v22l19 11 13-8v-9l-13 8-11-6V25l11-6 13 8' fill='none' stroke='%2326dcf4' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#070b16',
+            panel: '#0c1424',
+            cyan: '#26dcf4',
+            violet: '#ad66ff',
+            muted: '#a8b5c9'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root{color-scheme:dark}
+    html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{background:#070b16;color:#f2f6ff}
+    ::selection{background:#26dcf4;color:#070b16}
+    :focus-visible{outline:2px solid #26dcf4;outline-offset:5px}
+    .wrap{max-width:1200px;margin-inline:auto;padding-inline:24px}
+    .grid-texture{background-image:linear-gradient(#26dcf408 1px,transparent 1px),linear-gradient(90deg,#26dcf408 1px,transparent 1px);background-size:56px 56px}
+    .neon-frame{border:1px solid #26dcf45c;box-shadow:0 0 24px #26dcf40b,inset 0 0 20px #26dcf405}
+    .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:#26dcf4;font-weight:600}
+    .button-primary,.button-secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:14px 23px;border-radius:6px;font-size:14px;font-weight:600;transition:transform .2s,background .2s,box-shadow .2s}
+    .button-primary{background:#26dcf4;color:#070b16;border:1px solid #26dcf4}
+    .button-primary:hover{background:#79eafa;box-shadow:0 0 25px #26dcf42b;transform:translateY(-2px)}
+    .button-secondary{border:1px solid #ffffff26;background:#ffffff03;color:#f2f6ff}
+    .button-secondary:hover{border-color:#26dcf480;background:#26dcf408}
+    .service-card{background:linear-gradient(140deg,#101c2d,#0a101d);border:1px solid #ffffff13;transition:border-color .25s,transform .25s}
+    .service-card:hover{border-color:#26dcf470;transform:translateY(-5px)}
+    .reveal{opacity:1;transform:none}
+    .js .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+    .js .reveal.visible{opacity:1;transform:none}
+    .nav-link{color:#b9c4d5;transition:color .2s}
+    .nav-link:hover,.nav-link[aria-current="location"]{color:#26dcf4}
+    input,textarea,select{width:100%;background:#080e1a;border:1px solid #ffffff24;border-radius:5px;padding:12px 14px;color:#f2f6ff;font:inherit;font-size:14px}
+    input:focus,textarea:focus,select:focus{outline:2px solid #26dcf4;outline-offset:2px}
+    dialog{color:#e6edf8;background:#0c1424;border:1px solid #26dcf450;border-radius:12px;max-width:650px;width:calc(100% - 32px);padding:28px}
+    dialog::backdrop{background:#020610d9;backdrop-filter:blur(6px)}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.js .reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <script>document.documentElement.classList.add('js');</script>
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-14-2 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18M7 6.5h.1m3 0h.1M8 22h8m-4-3v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="m8 3 3 5-3 3a15 15 0 0 0 5 5l3-3 5 3c-1 5-4 6-8 4A23 23 0 0 1 4 11C2 7 3 4 8 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-app" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 5h4m-3 14h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-signal" viewBox="0 0 24 24"><path d="M3 8a14 14 0 0 1 18 0M6 12a9 9 0 0 1 12 0m-9 4a4 4 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="20" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m3 6 9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <a href="#contenuto" class="fixed -top-20 left-4 z-[100] rounded bg-cyan px-5 py-3 text-ink focus:top-4">Vai al contenuto</a>
+
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/95 backdrop-blur-xl">
+    <div class="wrap flex h-20 items-center justify-between gap-5">
+      <a href="#home" aria-label="CybernetLab — Homepage" class="flex items-center gap-3">
+        <svg width="39" height="43" viewBox="0 0 44 48" fill="none" aria-hidden="true" class="text-cyan drop-shadow-[0_0_9px_#26dcf44d]"><path d="M33 13 22 7 7 16v17l15 9 11-7v-8l-11 7-7-4V20l7-4 11 6M38 10 22 1 1 13v24l21 12" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <span><span class="block font-display text-[24px] font-bold leading-none tracking-tight">CybernetLab<span class="text-cyan">.</span></span><span class="mt-1.5 block text-[8px] font-semibold uppercase tracking-[.25em] text-muted">Software · Web · Connessioni</span></span>
+      </a>
+      <nav class="hidden items-center gap-8 text-sm lg:flex" aria-label="Menu principale">
+        <a class="nav-link" href="#servizi">Servizi</a>
+        <a class="nav-link" href="#chi-siamo">Chi siamo</a>
+        <a class="nav-link" href="#dove-siamo">Dove siamo</a>
+        <a class="nav-link" href="#contatti">Contatti</a>
+        <a href="#area-clienti" class="button-secondary !px-4 !py-2.5"><svg class="h-4 w-4 text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Area clienti</a>
+      </nav>
+      <button id="menu-toggle" class="rounded border border-white/20 p-2.5 lg:hidden" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path id="menu-icon" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <nav id="mobile-menu" class="hidden border-t border-white/10 bg-panel px-6 py-6 lg:hidden" aria-label="Menu mobile">
+      <div class="flex flex-col gap-5 text-base">
+        <a href="#servizi">Servizi</a><a href="#chi-siamo">Chi siamo</a><a href="#dove-siamo">Dove siamo</a><a href="#contatti">Contatti</a><a href="#area-clienti" class="text-cyan">Area clienti ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenuto">
+    <section id="home" class="relative overflow-hidden pb-16 pt-36 lg:pb-24 lg:pt-44">
+      <div class="pointer-events-none absolute inset-0 grid-texture opacity-60"></div>
+      <div class="pointer-events-none absolute -right-40 top-10 h-[600px] w-[600px] rounded-full bg-violet/10 blur-[120px]"></div>
+      <div class="wrap relative">
+        <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+          <div class="reveal">
+            <p class="eyebrow mb-7 flex items-center gap-3"><span class="h-1.5 w-1.5 rounded-full bg-cyan shadow-[0_0_12px_#26dcf4]"></span>Software house & telecomunicazioni</p>
+            <h1 class="font-display text-[clamp(2.8rem,5.3vw,4.6rem)] font-semibold leading-[1.07] tracking-[-.055em]">Il tuo prossimo<br>passo, <span class="text-cyan">digitale.</span></h1>
+            <p class="mt-7 max-w-lg text-base leading-relaxed text-muted md:text-lg">Dalle idee al codice. Dal web alla connessione.<br class="hidden sm:block"> Progettiamo software, siti e app su misura e portiamo la connettività Fastweb nella tua attività.</p>
+            <div class="mt-9 flex flex-wrap gap-4">
+              <a href="#contatti" class="button-primary">Parliamo del tuo progetto <svg class="h-5 w-5" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="#servizi" class="button-secondary">Esplora i servizi</a>
+            </div>
+            <div class="mt-9 flex items-center gap-2.5 text-xs text-muted"><svg class="h-4 w-4 text-cyan" aria-hidden="true"><use href="#i-pin"/></svg>A Savona. Connessi alle tue idee.</div>
+          </div>
+          <div class="reveal relative lg:ml-3">
+            <div class="absolute -inset-3 rounded-2xl bg-gradient-to-br from-cyan/15 via-transparent to-violet/20 blur-xl"></div>
+            <div class="neon-frame relative overflow-hidden rounded-xl bg-panel">
+              <div class="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
+                <div class="flex gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-cyan"></span><span class="h-1.5 w-1.5 rounded-full bg-white/25"></span><span class="h-1.5 w-1.5 rounded-full bg-white/25"></span></div>
+                <span class="font-display text-[10px] uppercase tracking-[.18em] text-muted">CybernetLab / Digital workspace</span>
+              </div>
+              <div class="relative h-[330px] sm:h-[410px]">
+                <img src="img/hero-1.jpg" alt="Tecnologia e sviluppo digitale nel mondo CybernetLab" class="h-full w-full object-cover" fetchpriority="high">
+                <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                  <p class="mb-3 font-display text-xs uppercase tracking-[.2em] text-cyan">Idee. Codice. Connessioni.</p>
+                  <p class="font-display text-2xl font-medium">Tutto parte da una buona idea.</p>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -bottom-5 right-4 flex items-center gap-3 rounded-lg border border-violet/40 bg-panel px-5 py-3 shadow-lg sm:right-7">
+              <span class="flex h-8 w-8 items-center justify-center rounded bg-violet/10 text-violet"><svg class="h-5 w-5" aria-hidden="true"><use href="#i-code"/></svg></span>
+              <span class="font-display text-xs"><span class="block text-muted">Il nostro approccio</span><span class="mt-0.5 block font-medium">Su misura. Non in serie.</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-20 grid grid-cols-2 gap-x-5 gap-y-6 border-y border-white/10 py-6 font-display text-xs text-muted sm:grid-cols-4 sm:text-sm">
+          <span class="flex items-center gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-code"/></svg>Software personalizzati</span>
+          <span class="flex items-center gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-web"/></svg>Esperienze web</span>
+          <span class="flex items-center gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-app"/></svg>App su misura</span>
+          <span class="flex items-center gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-signal"/></svg>Soluzioni Fastweb</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="servizi" class="pb-24 pt-8 lg:pb-32">
+      <div class="wrap">
+        <div class="reveal mb-11 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div><p class="eyebrow mb-4">01 / Cosa facciamo</p><h2 class="font-display text-3xl font-semibold tracking-tight md:text-4xl">La tecnologia giusta.<br>Per quello che vuoi fare.</h2></div>
+          <p class="max-w-sm text-sm leading-7 text-muted">Non partiamo da un prodotto da vendere, ma da un'esigenza da capire. E costruiamo la soluzione intorno a te.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <article class="service-card reveal flex flex-col rounded-xl p-6">
+            <div class="mb-8 flex items-center justify-between"><svg class="h-8 w-8 text-cyan" aria-hidden="true"><use href="#i-code"/></svg><span class="font-display text-xs text-white/25">01</span></div>
+            <h3 class="font-display text-xl font-semibold">Software su misura</h3>
+            <p class="mb-7 mt-4 text-sm leading-6 text-muted">Strumenti che seguono il tuo modo di lavorare. Gestionali, integrazioni e automazioni per semplificare i processi quotidiani.</p>
+            <a href="#contatti" data-service="Software su misura" class="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-xs font-semibold text-cyan">Diamo forma alla tua idea <svg class="h-4 w-4" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+          <article class="service-card reveal flex flex-col rounded-xl p-6">
+            <div class="mb-8 flex items-center justify-between"><svg class="h-8 w-8 text-cyan" aria-hidden="true"><use href="#i-web"/></svg><span class="font-display text-xs text-white/25">02</span></div>
+            <h3 class="font-display text-xl font-semibold">Siti web</h3>
+            <p class="mb-7 mt-4 text-sm leading-6 text-muted">La tua identità, online. Siti aziendali, e-commerce e portali curati nel design, veloci e semplici da usare, su ogni schermo.</p>
+            <a href="#contatti" data-service="Siti web" class="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-xs font-semibold text-cyan">Costruiamo la tua presenza <svg class="h-4 w-4" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+          <article class="service-card reveal flex flex-col rounded-xl p-6">
+            <div class="mb-8 flex items-center justify-between"><svg class="h-8 w-8 text-violet" aria-hidden="true"><use href="#i-app"/></svg><span class="font-display text-xs text-white/25">03</span></div>
+            <h3 class="font-display text-xl font-semibold">App personalizzate</h3>
+            <p class="mb-7 mt-4 text-sm leading-6 text-muted">Le tue idee, a portata di mano. Applicazioni web e mobile progettate attorno alle persone che le useranno davvero.</p>
+            <a href="#contatti" data-service="App personalizzate" class="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-xs font-semibold text-violet">Parliamo della tua app <svg class="h-4 w-4" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+          <article class="service-card reveal flex flex-col rounded-xl p-6">
+            <div class="mb-8 flex items-center justify-between"><svg class="h-8 w-8 text-violet" aria-hidden="true"><use href="#i-signal"/></svg><span class="font-display text-xs text-white/25">04</span></div>
+            <h3 class="font-display text-xl font-semibold">Linee e impianti</h3>
+            <p class="mb-7 mt-4 text-sm leading-6 text-muted">Una buona connessione è il punto di partenza. Soluzioni Fastweb, verifica della copertura e supporto per le esigenze della tua sede.</p>
+            <a href="#contatti" data-service="Linee e impianti Fastweb" class="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-xs font-semibold text-violet">Trova la tua connessione <svg class="h-4 w-4" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+        </div>
+        <p class="mt-5 text-xs leading-relaxed text-muted">Le soluzioni Fastweb sono soggette a verifica di copertura, fattibilità tecnica e condizioni dell'offerta disponibile.</p>
+      </div>
+    </section>
+
+    <section id="chi-siamo" class="relative border-y border-white/10 bg-panel/50 py-20 lg:py-24">
+      <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div class="reveal relative">
+          <div class="absolute -left-3 top-6 bottom-6 w-px bg-gradient-to-b from-transparent via-cyan to-transparent"></div>
+          <img src="img/chi-siamo-2.jpg" alt="Uno sguardo al lavoro di CybernetLab tra sviluppo e tecnologia" class="h-[360px] w-full rounded-lg object-cover md:h-[450px]" loading="lazy">
+          <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-md border border-white/15 bg-ink/90 px-5 py-4 backdrop-blur-md">
+            <div><p class="font-display text-lg font-medium">Mentalità tech. Approccio umano.</p><p class="mt-1 text-xs text-muted">Da Savona, al fianco della tua attività.</p></div>
+            <svg class="ml-3 h-7 w-7 shrink-0 text-cyan" aria-hidden="true"><use href="#i-code"/></svg>
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="eyebrow mb-4">02 / Dentro CybernetLab</p>
+          <h2 class="font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">Persone, prima.<br>Tecnologia, al tuo servizio.</h2>
+          <p class="mt-6 text-base leading-7 text-muted">Siamo una software house a Savona. Mettiamo insieme sviluppo digitale e telecomunicazioni perché un buon progetto ha bisogno sia degli strumenti giusti, sia di una connessione su cui contare.</p>
+          <p class="mt-4 text-sm leading-7 text-muted">Ci piace tradurre le esigenze in soluzioni concrete: ascoltare come lavori, scegliere cosa serve davvero e rendere la tecnologia più semplice da usare.</p>
+          <ul class="mt-7 space-y-4 text-sm">
+            <li class="flex gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-check"/></svg>Dialogo diretto, senza tecnicismi inutili.</li>
+            <li class="flex gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-check"/></svg>Progetti costruiti sulle tue esigenze reali.</li>
+            <li class="flex gap-3"><svg class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"><use href="#i-check"/></svg>Una visione d'insieme, dal software alla rete.</li>
+          </ul>
+          <a href="#contatti" class="mt-8 inline-flex items-center gap-3 text-sm font-medium text-cyan">Conosciamoci <svg class="h-5 w-5" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 lg:py-24" aria-labelledby="metodo-title">
+      <div class="wrap">
+        <div class="reveal mb-10"><p class="eyebrow mb-4">Dall'idea alla soluzione</p><h2 id="metodo-title" class="font-display text-3xl font-semibold tracking-tight">Un percorso chiaro. Fin dall'inizio.</h2></div>
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="reveal border-t border-cyan/30 pt-6"><span class="font-display text-sm text-cyan">01 — ASCOLTO</span><h3 class="mt-4 font-display text-xl font-medium">Partiamo da te</h3><p class="mt-3 text-sm leading-6 text-muted">Ci racconti la tua attività, gli obiettivi e ciò che vorresti migliorare. Prima le domande, poi le risposte.</p></div>
+          <div class="reveal border-t border-cyan/30 pt-6"><span class="font-display text-sm text-cyan">02 — PROGETTO</span><h3 class="mt-4 font-display text-xl font-medium">Definiamo la strada</h3><p class="mt-3 text-sm leading-6 text-muted">Mettiamo a fuoco funzionalità, priorità e fattibilità. Condividiamo una proposta con attività, tempi e costi.</p></div>
+          <div class="reveal border-t border-violet/40 pt-6"><span class="font-display text-sm text-violet">03 — SVILUPPO</span><h3 class="mt-4 font-display text-xl font-medium">Diamo vita al progetto</h3><p class="mt-3 text-sm leading-6 text-muted">Realizziamo, verifichiamo e ti accompagniamo nella messa in uso. Valutiamo insieme come far evolvere la soluzione.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="area-clienti" class="pb-20">
+      <div class="wrap">
+        <div class="reveal relative overflow-hidden rounded-xl border border-violet/35 bg-gradient-to-r from-panel to-violet/10 p-7 md:p-10">
+          <div class="pointer-events-none absolute -right-16 -top-32 h-64 w-64 rounded-full bg-violet/10 blur-3xl"></div>
+          <div class="relative flex flex-col justify-between gap-7 md:flex-row md:items-center">
+            <div class="flex items-start gap-5">
+              <span class="hidden rounded-lg border border-violet/25 bg-violet/10 p-4 text-violet sm:block"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"/></svg></span>
+              <div><p class="eyebrow !text-violet">Spazio riservato</p><h2 class="mt-2 font-display text-2xl font-semibold">Sei già dei nostri?</h2><p class="mt-2 max-w-lg text-sm leading-6 text-muted">Per l'accesso all'area clienti e le richieste sui servizi attivi, contatta CybernetLab. Ti indicheremo il canale dedicato.</p></div>
+            </div>
+            <a href="#contatti" class="button-secondary shrink-0 !border-violet/50">Richiedi accesso o assistenza <svg class="h-4 w-4 text-violet" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dove-siamo" class="border-y border-white/10 bg-panel/40 py-20">
+      <div class="wrap grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+        <div class="reveal">
+          <p class="eyebrow mb-4">03 / Vicini, anche di persona</p>
+          <h2 class="font-display text-3xl font-semibold tracking-tight md:text-4xl">Il nostro punto di partenza?<br>Savona.</h2>
+          <p class="mt-5 max-w-md text-sm leading-7 text-muted">Hai un'idea da raccontarci o vuoi capire quale soluzione fa per te? Contattaci per organizzare un incontro e parlarne insieme.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Savona%2C%20Italia" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-3 text-sm font-semibold text-cyan">Esplora Savona su Google Maps <svg class="h-4 w-4 -rotate-45" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+        <div class="reveal grid gap-5 sm:grid-cols-2">
+          <div class="rounded-lg border border-white/10 bg-panel p-6">
+            <svg class="mb-5 h-7 w-7 text-cyan" aria-hidden="true"><use href="#i-pin"/></svg>
+            <h3 class="font-display text-lg font-medium">Dove siamo</h3>
+            <address class="mt-3 text-sm not-italic leading-7 text-muted">[INDIRIZZO]<br>[CAP] Savona (SV)</address>
+            <p class="mt-4 text-xs leading-5 text-muted">Indirizzo della sede da completare.</p>
+          </div>
+          <div class="rounded-lg border border-white/10 bg-panel p-6">
+            <svg class="mb-5 h-7 w-7 text-violet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+            <h3 class="font-display text-lg font-medium">Orari e appuntamenti</h3>
+            <p class="mt-3 text-sm leading-7 text-muted">[GIORNI E ORARI]</p>
+            <p class="mt-4 text-xs leading-5 text-muted">Orari da confermare. Prima di raggiungerci, concorda un appuntamento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contatti" class="relative overflow-hidden py-24 lg:py-28">
+      <div class="pointer-events-none absolute -left-56 bottom-0 h-[450px] w-[450px] rounded-full bg-cyan/5 blur-[100px]"></div>
+      <div class="wrap relative grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+        <div class="reveal">
+          <p class="eyebrow mb-4">04 / Mettiamo in moto le idee</p>
+          <h2 class="font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">Hai un progetto?<br><span class="text-cyan">Parliamone.</span></h2>
+          <p class="mt-6 max-w-md text-sm leading-7 text-muted">Un nuovo sito, un'app, un processo da semplificare o una linea da attivare. Raccontaci da dove vuoi partire: troviamo insieme il prossimo passo.</p>
+          <div class="mt-8 space-y-3">
+            <a href="tel:[TELEFONO]" data-contact="phone" class="flex items-center gap-4 rounded-lg border border-white/10 p-4 transition hover:border-cyan/50">
+              <svg class="h-5 w-5 text-cyan" aria-hidden="true"><use href="#i-phone"/></svg><span class="flex-1"><span class="block text-sm font-medium">Chiama</span><span class="mt-1 block text-xs text-muted">[TELEFONO]</span></span><svg class="h-4 w-4 text-muted" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+            <a href="#contatti" data-contact="whatsapp" class="flex items-center gap-4 rounded-lg border border-white/10 p-4 transition hover:border-cyan/50">
+              <svg class="h-5 w-5 text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 11.5A9 9 0 0 1 7 19L2 21l1.5-5A9 9 0 1 1 21 11.5Z"/><path d="M8 7c-2 3 2 7 5 8l2-2-3-2-1 1-2-2 1-1-2-2Z" stroke-linejoin="round"/></svg><span class="flex-1"><span class="block text-sm font-medium">Scrivici su WhatsApp</span><span class="mt-1 block text-xs text-muted">[NUMERO WHATSAPP]</span></span><svg class="h-4 w-4 text-muted" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+            <a href="mailto:[EMAIL]" data-contact="email" class="flex items-center gap-4 rounded-lg border border-white/10 p-4 transition hover:border-cyan/50">
+              <svg class="h-5 w-5 text-cyan" aria-hidden="true"><use href="#i-mail"/></svg><span class="flex-1"><span class="block text-sm font-medium">Invia un'email</span><span class="mt-1 block text-xs text-muted">[EMAIL]</span></span><svg class="h-4 w-4 text-muted" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+          <p id="contact-status" role="status" class="mt-4 text-sm leading-6 text-violet"></p>
+        </div>
+        <form id="contact-form" action="mailto:[EMAIL]" method="get" enctype="text/plain" class="reveal rounded-xl border border-white/10 bg-panel p-6 md:p-8">
+          <h3 class="font-display text-xl font-medium">Raccontaci la tua idea</h3>
+          <p class="mb-7 mt-2 text-xs leading-5 text-muted">I campi con * sono obbligatori. Il modulo prepara un'email nel tuo programma di posta: nessun invio automatico.</p>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div><label for="name" class="mb-2 block text-xs font-medium">Nome e cognome *</label><input id="name" name="name" autocomplete="name" placeholder="Come ti chiami?" required maxlength="120"></div>
+            <div><label for="email" class="mb-2 block text-xs font-medium">Email *</label><input id="email" type="email" name="email" autocomplete="email" placeholder="La tua email" required maxlength="200"></div>
+          </div>
+          <div class="mt-5"><label for="service" class="mb-2 block text-xs font-medium">Di cosa hai bisogno?</label><select id="service" name="service"><option value="">Seleziona un servizio</option>Software su misura</option><option>Siti web</option><option>App personalizzate</option><option>Linee e impianti Fastweb</option><option>Area clienti e assistenza</option><option>Altro / Ne parliamo insieme</option></select></div>
+          <div class="mt-5"><label for="message" class="mb-2 block text-xs font-medium">Il tuo progetto *</label><textarea id="message" name="message" rows="4" placeholder="Qual è la tua idea? Cosa vorresti migliorare?" required maxlength="5000"></textarea></div>
+          <label class="mt-5 flex items-start gap-3 text-xs leading-5 text-muted"><input type="checkbox" required class="mt-1 !h-4 !w-4 shrink-0 accent-cyan"><span>Ho letto l'<button type="button" data-privacy class="text-cyan underline underline-offset-4">informativa privacy</button> e comprendo che i dati inseriti saranno utilizzati per rispondere alla mia richiesta. *</span></label>
+          <button type="submit" class="button-primary mt-6 w-full">Prepara l'email <svg class="h-5 w-5" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <p id="form-status" role="status" class="mt-4 text-xs leading-6 text-muted">Potrai controllare e inviare il messaggio dal tuo programma di posta.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-[#050913] py-10">
+    <div class="wrap">
+      <div class="flex flex-col justify-between gap-7 md:flex-row">
+        <div><a href="#home" class="font-display text-2xl font-bold tracking-tight">CybernetLab<span class="text-cyan">.</span></a><p class="mt-2 text-xs text-muted">Idee che diventano soluzioni.</p></div>
+        <nav aria-label="Menu footer" class="flex flex-wrap gap-x-7 gap-y-3 text-xs text-muted"><a href="#servizi" class="hover:text-cyan">Servizi</a><a href="#chi-siamo" class="hover:text-cyan">Chi siamo</a><a href="#contatti" class="hover:text-cyan">Contatti</a><a href="#area-clienti" class="hover:text-cyan">Area clienti</a></nav>
+      </div>
+      <div class="mt-8 flex flex-col justify-between gap-4 border-t border-white/10 pt-6 text-[11px] leading-6 text-muted md:flex-row">
+        <p>© <span id="year">2026</span> CybernetLab · [RAGIONE SOCIALE]<br>P. IVA [PARTITA IVA] · [INDIRIZZO], [CAP] Savona (SV)</p>
+        <div class="flex items-start gap-6"><button type="button" data-privacy class="hover:text-cyan">Privacy</button><a href="#home" class="hover:text-cyan">Torna su ↑</a></div>
+      </div>
+      <p class="mt-4 text-[10px] text-muted">Fastweb è un marchio dei rispettivi titolari.</p>
+    </div>
+  </footer>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+    <div class="flex items-start justify-between gap-5"><h2 id="privacy-title" class="font-display text-2xl font-semibold">Informativa privacy</h2><button type="button" id="close-privacy" aria-label="Chiudi informativa privacy" class="rounded border border-white/20 px-3 py-1 text-xl">×</button></div>
+    <div class="mt-5 max-h-[65vh] space-y-4 overflow-y-auto pr-2 text-sm leading-7 text-muted">
+      <p class="rounded border border-violet/30 p-3 text-violet">Informativa da completare e verificare con i dati del titolare prima della pubblicazione del sito.</p>
+      <p><strong class="text-white">Titolare del trattamento:</strong> [RAGIONE SOCIALE], [INDIRIZZO], [EMAIL].</p>
+      <p><strong class="text-white">Dati e finalità:</strong> nome, email e contenuto della richiesta sono utilizzati per rispondere e gestire eventuali attività precontrattuali richieste dall'interessato, ai sensi dell'art. 6, par. 1, lett. b) del GDPR.</p>
+      <p><strong class="text-white">Funzionamento del modulo:</strong> i dati vengono elaborati nel browser per preparare un messaggio nel programma di posta dell'utente. Il sito non invia né archivia il modulo su un proprio server. Il messaggio viene ricevuto solo quando l'utente lo invia dal proprio account.</p>
+      <p><strong class="text-white">Conservazione e destinatari:</strong> [INDICARE TEMPI DI CONSERVAZIONE, FORNITORI COINVOLTI ED EVENTUALI TRASFERIMENTI DI DATI]. Il conferimento dei campi obbligatori è necessario per gestire la richiesta. Non vengono richiesti dati per finalità di marketing.</p>
+      <p><strong class="text-white">Diritti:</strong> è possibile richiedere accesso, rettifica, cancellazione, limitazione e, ove applicabili, portabilità e opposizione, scrivendo a [EMAIL]. È possibile presentare reclamo al Garante per la protezione dei dati personali.</p>
+      <p><strong class="text-white">Risorse esterne:</strong> il sito carica font da Google Fonts e Tailwind CSS da un CDN. I fornitori possono ricevere dati tecnici, incluso l'indirizzo IP. I collegamenti a servizi esterni si aprono solo su richiesta dell'utente. Questo file non imposta cookie di profilazione né include strumenti di analisi.</p>
+    </div>
+  </dialog>
+
+  <script>
+    const menuButton = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    function closeMenu() {
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Apri menu');
+      document.getElementById('menu-icon').setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+    }
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') !== 'true';
+      mobileMenu.classList.toggle('hidden', !open);
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      document.getElementById('menu-icon').setAttribute('d', open ? 'm6 6 12 12M6 18 18 6' : 'M4 6h16M4 12h16M4 18h16');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    } else {
+      document.querySelectorAll('.reveal').forEach(element => element.classList.add('visible'));
+    }
+
+    document.querySelectorAll('[data-service]').forEach(link => {
+      link.addEventListener('click', () => { document.getElementById('service').value = link.dataset.service; });
+    });
+    document.querySelector('#area-clienti a').addEventListener('click', () => {
+      document.getElementById('service').value = 'Area clienti e assistenza';
+    });
+
+    // Inserire qui i recapiti verificati prima della pubblicazione.
+    const company = { phone: '[TELEFONO]', whatsapp: '[NUMERO WHATSAPP]', email: '[EMAIL]' };
+    const configured = value => Boolean(value && !value.includes('['));
+    document.querySelectorAll('[data-contact]').forEach(link => {
+      const kind = link.dataset.contact;
+      const value = company[kind];
+      if (configured(value)) {
+        link.href = kind === 'phone' ? 'tel:' + value.replace(/[^\d+]/g, '') :
+          kind === 'whatsapp' ? 'https://wa.me/' + value.replace(/\D/g, '') : 'mailto:' + value;
+      }
+      link.addEventListener('click', event => {
+        if (!configured(value)) {
+          event.preventDefault();
+          document.getElementById('contact-status').textContent = 'Recapito non ancora disponibile: ' + value + '. I dati di contatto devono essere completati prima della pubblicazione.';
+        }
+      });
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const service = document.getElementById('service').value || 'Informazioni';
+      const message = document.getElementById('message').value.trim();
+      const status = document.getElementById('form-status');
+      if (!configured(company.email)) {
+        status.textContent = 'Invio non disponibile: il recapito [EMAIL] deve essere configurato. Il messaggio non è stato inviato e i dati non sono stati salvati.';
+        return;
+      }
+      const subject = 'Richiesta CybernetLab — ' + service;
+      const body = 'Nome: ' + name + '\nEmail: ' + email + '\nServizio: ' + service + '\n\n' + message;
+      window.location.href = 'mailto:' + company.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      status.textContent = 'Richiesta di apertura del programma di posta effettuata. Controlla il messaggio e premi Invia nel tuo programma. Se non si apre, scrivi direttamente a ' + company.email + '.';
+    });
+
+    const privacyDialog = document.getElementById('privacy-dialog');
+    document.querySelectorAll('[data-privacy]').forEach(button => button.addEventListener('click', () => privacyDialog.showModal()));
+    document.getElementById('close-privacy').addEventListener('click', () => privacyDialog.close());
+    privacyDialog.addEventListener('click', event => {
+      const rect = privacyDialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) privacyDialog.close();
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
