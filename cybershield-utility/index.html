@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CyberShield Utility</title>
+  <meta name="theme-color" content="#1E293B">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#1E293B', accent: '#3B82F6' },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; user-select: none; }
+    .hide-scroll::-webkit-scrollbar { display: none; }
+    .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased overflow-hidden selection:bg-blue-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="bg-slate-800 border-b border-slate-700/80 px-4 py-3 flex items-center justify-between shrink-0 z-20">
+    <div class="flex items-center space-x-2.5">
+      <div class="bg-blue-600 p-1.5 rounded-lg text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <div>
+        <h1 class="font-bold text-base leading-none text-white tracking-wide">CyberShield</h1>
+        <span class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Utility B2C</span>
+      </div>
+    </div>
+    <span id="header-status" class="text-xs bg-slate-700/60 text-slate-300 px-2.5 py-1 rounded-full border border-slate-600/50">Locale</span>
+  </header>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 opacity-0 pointer-events-none w-[90%] max-w-md">
+    <div id="toast-body" class="bg-blue-600 text-white text-sm font-medium px-4 py-3 rounded-xl shadow-xl flex items-center justify-between">
+      <span id="toast-msg">Operazione completata</span>
+      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="flex-1 flex overflow-hidden relative">
+    
+    <!-- Sidebar Desktop -->
+    <aside class="hidden md:flex flex-col w-64 bg-slate-800/50 border-r border-slate-700/80 p-4 space-y-2 shrink-0">
+      <button onclick="nav('dashboard')" class="nav-btn-desk w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-colors text-slate-400 hover:bg-slate-700/50" data-target="dashboard">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span>Dashboard Pulizia</span>
+      </button>
+      <button onclick="nav('apps')" class="nav-btn-desk w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-colors text-slate-400 hover:bg-slate-700/50" data-target="apps">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span>Gestione App</span>
+      </button>
+      <button onclick="nav('storage')" class="nav-btn-desk w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-colors text-slate-400 hover:bg-slate-700/50" data-target="storage">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+        <span>Analisi Archiviazione</span>
+      </button>
+      <button onclick="nav('settings')" class="nav-btn-desk w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-colors text-slate-400 hover:bg-slate-700/50" data-target="settings">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>Impostazioni e Backup</span>
+      </button>
+    </aside>
+
+    <!-- Main Views Scrollable Container -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 hide-scroll pb-24 md:pb-6">
+      
+      <!-- SCHERMATA 1: DASHBOARD -->
+      <section id="view-dashboard" class="space-y-6 max-w-4xl mx-auto">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-800/80 p-6 rounded-2xl border border-slate-700/80 shadow-lg text-center relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-4 opacity-10">
+            <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Stato Archiviazione Locale</h2>
+          
+          <div class="relative w-44 h-44 mx-my-4 mx-auto flex items-center justify-center my-4">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+              <path class="text-slate-700" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path id="dash-gauge" class="text-blue-500 transition-all duration-1000 ease-out" stroke-dasharray="70, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <div class="absolute flex flex-col items-center">
+              <span id="dash-used-percent" class="text-3xl font-extrabold text-white">0%</span>
+              <span class="text-[11px] text-slate-400">Spazio Usato</span>
+            </div>
+          </div>
+
+          <p id="dash-storage-info" class="text-sm text-slate-300 font-medium mb-6">Calcolo in corso...</p>
+
+          <button id="btn-scan" onclick="runScan()" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 mx-auto">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Avvia Scansione Rapida</span>
+          </button>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold text-white mb-3">Cronologia Scansioni</h3>
+          <div id="scan-history" class="space-y-2"></div>
+        </div>
+      </section>
+
+      <!-- SCHERMATA 2: GESTIONE APP -->
+      <section id="view-apps" class="space-y-4 max-w-4xl mx-auto hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h2 class="text-xl font-bold text-white">Applicazioni Installate</h2>
+          <div class="flex w-full sm:w-auto gap-2">
+            <input type="text" id="app-search" oninput="renderApps()" placeholder="Cerca app..." class="bg-slate-800 border border-slate-700 text-sm rounded-xl px-3 py-2 text-white w-full sm:w-48 focus:outline-none focus:border-blue-500">
+            <button onclick="openModal('modal-app')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl hover:bg-blue-500 shrink-0">+ Aggiungi</button>
+          </div>
+        </div>
+        <div id="apps-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- SCHERMATA 3: ANALISI ARCHIVIAZIONE -->
+      <section id="view-storage" class="space-y-4 max-w-4xl mx-auto hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h2 class="text-xl font-bold text-white">File di Grandi Dimensioni e Duplicati</h2>
+          <div class="flex w-full sm:w-auto gap-2">
+            <select id="storage-filter" onchange="renderStorage()" class="bg-slate-800 border border-slate-700 text-xs rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <option value="ALL">Tutte le Categorie</option>
+              <option value="Media">Media e Video</option>
+              <option value="Documenti">Documenti</option>
+              <option value="Duplicati">Duplicati</option>
+              <option value="Cache">Cache / Temp</option>
+            </select>
+            <button onclick="openModal('modal-file')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl hover:bg-blue-500 shrink-0">+ File</button>
+          </div>
+        </div>
+        <div id="storage-list" class="space-y-2"></div>
+      </section>
+
+      <!-- SCHERMATA 4: IMPOSTAZIONI E BACKUP -->
+      <section id="view-settings" class="space-y-6 max-w-4xl mx-auto hidden">
+        <h2 class="text-xl font-bold text-white mb-4">Impostazioni e Backup</h2>
+        
+        <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/80 space-y-4">
+          <h3 class="text-sm font-semibold text-blue-400 uppercase tracking-wider">Preferenze App</h3>
+          
+          <div class="flex items-center justify-between py-1">
+            <div>
+              <p class="font-medium text-white text-sm">Tema Scuro</p>
+              <p class="text-xs text-slate-400">Ottimizzato per schermi OLED</p>
+            </div>
+            <input type="checkbox" id="pref-tema" onchange="updatePref()" class="w-5 h-5 accent-blue-600 rounded">
+          </div>
+
+          <div class="flex items-center justify-between py-1 border-t border-slate-700/50 pt-3">
+            <div>
+              <p class="font-medium text-white text-sm">Notifiche Promemoria</p>
+              <p class="text-xs text-slate-400">Avviso automatico per pulizia periodica</p>
+            </div>
+            <input type="checkbox" id="pref-notifiche" onchange="updatePref()" class="w-5 h-5 accent-blue-600 rounded">
+          </div>
+
+          <div class="flex items-center justify-between py-1 border-t border-slate-700/50 pt-3">
+            <div>
+              <p class="font-medium text-white text-sm">Profilo Demo</p>
+              <p class="text-xs text-slate-400">Modalità simulazione utente</p>
+            </div>
+            <select id="pref-ruolo" onchange="updatePref()" class="bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg border border-slate-600 focus:outline-none">
+              <option value="Utente Standard">Utente Standard</option>
+              <option value="Power User">Power User</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/80 space-y-3">
+          <h3 class="text-sm font-semibold text-blue-400 uppercase tracking-wider">Gestione Dati Locali</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button onclick="exportCSV()" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold py-2.5 px-3 rounded-xl border border-slate-600 transition flex items-center justify-center space-x-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Esporta in CSV</span>
+            </button>
+
+            <button onclick="resetData()" class="w-full bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 text-xs font-semibold py-2.5 px-3 rounded-xl transition flex items-center justify-center space-x-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Ripristina Demo</span>
+            </button>
+
+            <button onclick="clearData()" class="w-full bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 text-xs font-semibold py-2.5 px-3 rounded-xl transition flex items-center justify-center space-x-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              <span>Cancella Tutto</span>
+            </button>
+          </div>
+          <p id="backup-status" class="text-xs text-slate-400 mt-2">Ultimo backup: Mai</p>
+        </div>
+
+        <div class="text-center pt-4 text-xs text-slate-500 font-medium">
+          <p class="text-slate-400">Prototipo realizzato da <span class="text-slate-200 font-semibold">CybernetLab</span></p>
+          <p class="mt-1">Versione 1.0.0 — Acquisto unico B2C senza abbonamento</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur-md border-t border-slate-700/80 px-2 py-2 flex justify-around items-center z-30">
+      <button onclick="nav('dashboard')" class="nav-btn-mob flex flex-col items-center justify-center w-16 py-1 text-blue-500" data-target="dashboard">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span class="text-[10px] font-medium mt-1">Pulizia</span>
+      </button>
+      <button onclick="nav('apps')" class="nav-btn-mob flex flex-col items-center justify-center w-16 py-1 text-slate-400" data-target="apps">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span class="text-[10px] font-medium mt-1">App</span>
+      </button>
+      <button onclick="nav('storage')" class="nav-btn-mob flex flex-col items-center justify-center w-16 py-1 text-slate-400" data-target="storage">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+        <span class="text-[10px] font-medium mt-1">Archivio</span>
+      </button>
+      <button onclick="nav('settings')" class="nav-btn-mob flex flex-col items-center justify-center w-16 py-1 text-slate-400" data-target="settings">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="text-[10px] font-medium mt-1">Opzioni</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- MODAL: AGGIUNGI APP -->
+  <div id="modal-app" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 shadow-2xl space-y-4">
+      <h3 class="text-lg font-bold text-white">Aggiungi App Registrata</h3>
+      <form id="form-app" onsubmit="saveApp(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Nome Applicazione</label>
+          <input type="text" id="app-name" required class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Dimensione (MB)</label>
+          <input type="number" id="app-size" required min="1" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div class="flex justify-end space-x-2 pt-2">
+          <button type="button" onclick="closeModal('modal-app')" class="px-4 py-2 bg-slate-700 text-xs font-semibold text-slate-300 rounded-xl hover:bg-slate-600">Annulla</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-xs font-semibold text-white rounded-xl hover:bg-blue-500">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AGGIUNGI FILE LOG -->
+  <div id="modal-file" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 shadow-2xl space-y-4">
+      <h3 class="text-lg font-bold text-white">Aggiungi File Locale</h3>
+      <form id="form-file" onsubmit="saveFile(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Nome File</label>
+          <input type="text" id="file-name" required class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Percorso Locale</label>
+          <input type="text" id="file-path" required placeholder="/storage/emulated/0/..." class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Dimensione (MB)</label>
+          <input type="number" id="file-size" required min="0.1" step="0.1" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Categoria</label>
+          <select id="file-cat" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+            <option value="Media">Media</option>
+            <option value="Documenti">Documenti</option>
+            <option value="Duplicati">Duplicati</option>
+            <option value="Cache">Cache</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-2 pt-2">
+          <button type="button" onclick="closeModal('modal-file')" class="px-4 py-2 bg-slate-700 text-xs font-semibold text-slate-300 rounded-xl hover:bg-slate-600">Annulla</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-xs font-semibold text-white rounded-xl hover:bg-blue-500">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'cybershield-utility_dati';
+
+    const defaultData = {
+      scansioni: [
+        { id: 1, data_ora: new Date(Date.now() - 86400000 * 2).toISOString(), spazio_liberato_mb: 450, file_eliminati_count: 12 },
+        { id: 2, data_ora: new Date(Date.now() - 86400000 * 5).toISOString(), spazio_liberato_mb: 1200, file_eliminati_count: 34 }
+      ],
+      fileLog: [
+        { id: 1, nome_file: 'video_vacanze_2023.mp4', percorso_locale: '/storage/DCIM/Camera/video_vacanze_2023.mp4', dimensione_bytes: 1468006400, categoria: 'Media' },
+        { id: 2, nome_file: 'backup_chat_old.db', percorso_locale: '/storage/Download/backup_chat_old.db', dimensione_bytes: 524288000, categoria: 'Duplicati' },
+        { id: 3, nome_file: 'documento_scansionato.pdf', percorso_locale: '/storage/Documents/documento_scansionato.pdf', dimensione_bytes: 47185920, categoria: 'Documenti' },
+        { id: 4, nome_file: 'app_temp_cache.tmp', percorso_locale: '/storage/Android/data/cache.tmp', dimensione_bytes: 262144000, categoria: 'Cache' }
+      ],
+      apps: [
+        { id: 1, nome: 'Social Net App', dimensione_mb: 850 },
+        { id: 2, nome: 'Mobile Racing 3D', dimensione_mb: 2400 },
+        { id: 3, nome: 'Photo Editor Pro', dimensione_mb: 420 },
+        { id: 4, nome: 'Streaming Music', dimensione_mb: 310 }
+      ],
+      preferenze: {
+        tema_scuro: true,
+        notifiche_promemoria: true,
+        ruolo: 'Power User',
+        ultimo_backup: new Date().toISOString()
+      }
+    };
+
+    let db = {};
+
+    function loadDB() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        db = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(defaultData));
+      } catch (e) {
+        db = JSON.parse(JSON.stringify(defaultData));
+      }
+      if(!db.apps) db.apps = defaultData.apps;
+      saveDB();
+    }
+
+    function saveDB() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      updateUI();
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      t.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => t.classList.add('opacity-0', 'pointer-events-none'), 3000);
+    }
+
+    function nav(target) {
+      document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`view-${target}`).classList.remove('hidden');
+      
+      document.querySelectorAll('.nav-btn-desk, .nav-btn-mob').forEach(btn => {
+        const active = btn.getAttribute('data-target') === target;
+        if (btn.classList.contains('nav-btn-desk')) {
+          btn.classList.toggle('bg-blue-600', active);
+          btn.classList.toggle('text-white', active);
+          btn.classList.toggle('text-slate-400', !active);
+        } else {
+          btn.classList.toggle('text-blue-500', active);
+          btn.classList.toggle('text-slate-400', !active);
+        }
+      });
+    }
+
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 MB';
+      const mb = bytes / (1024 * 1024);
+      return mb >= 1024 ? (mb / 1024).toFixed(2) + ' GB' : mb.toFixed(1) + ' MB';
+    }
+
+    function updateUI() {
+      renderDashboard();
+      renderApps();
+      renderStorage();
+      renderSettings();
+    }
+
+    /* DASHBOARD */
+    function renderDashboard() {
+      const totalCapacityBytes = 64 * 1024 * 1024 * 1024; // 64 GB
+      const filesBytes = db.fileLog.reduce((acc, f) => acc + f.dimensione_bytes, 0);
+      const appsBytes = db.apps.reduce((acc, a) => acc + (a.dimensione_mb * 1024 * 1024), 0);
+      const usedBytes = filesBytes + appsBytes + (12 * 1024 * 1024 * 1024); // OS system reserved
+      
+      const percent = Math.min(100, Math.round((usedBytes / totalCapacityBytes) * 100));
+      
+      document.getElementById('dash-used-percent').innerText = `${percent}%`;
+      document.getElementById('dash-gauge').setAttribute('stroke-dasharray', `${percent}, 100`);
+      document.getElementById('dash-storage-info').innerText = `${formatBytes(usedBytes)} usati su 64.0 GB`;
+
+      const histContainer = document.getElementById('scan-history');
+      if (db.scansioni.length === 0) {
+        histContainer.innerHTML = `<div class="p-4 text-center text-xs text-slate-500 bg-slate-800/40 rounded-xl">Nessuna scansione eseguita.</div>`;
+        return;
+      }
+
+      histContainer.innerHTML = db.scansioni.slice().reverse().map(s => `
+        <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-white">${new Date(s.data_ora).toLocaleString('it-IT')}</p>
+              <p class="text-[11px] text-slate-400">${s.file_eliminati_count} elementi puliti</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-400">+${s.spazio_liberato_mb} MB</span>
+        </div>
+      `).join('');
+    }
+
+    function runScan() {
+      const btn = document.getElementById('btn-scan');
+      btn.disabled = true;
+      btn.classList.add('opacity-50');
+      toast('Scansione in corso...');
+
+      setTimeout(() => {
+        const freed = Math.floor(Math.random() * 300) + 50;
+        const count = Math.floor(Math.random() * 15) + 2;
+        db.scansioni.push({
+          id: Date.now(),
+          data_ora: new Date().toISOString(),
+          spazio_liberato_mb: freed,
+          file_eliminati_count: count
+        });
+        saveDB();
+        btn.disabled = false;
+        btn.classList.remove('opacity-50');
+        toast(`Pulizia completata! Liberati ${freed} MB`);
+      }, 1200);
+    }
+
+    /* APPS */
+    function renderApps() {
+      const q = document.getElementById('app-search').value.toLowerCase();
+      const list = document.getElementById('apps-list');
+      const filtered = db.apps.filter(a => a.nome.toLowerCase().includes(q));
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="col-span-full p-8 text-center text-xs text-slate-500 bg-slate-800/40 rounded-xl">Nessuna applicazione trovata.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(a => `
+        <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center text-slate-300 font-bold text-sm">
+              ${a.nome.substring(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-white">${a.nome}</h4>
+              <p class="text-xs text-slate-400">${a.dimensione_mb} MB</p>
+            </div>
+          </div>
+          <button onclick="deleteApp(${a.id})" class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-lg transition">
+            Disinstalla
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function saveApp(e) {
+      e.preventDefault();
+      const nome = document.getElementById('app-name').value;
+      const megs = parseFloat(document.getElementById('app-size').value);
+      db.apps.push({ id: Date.now(), nome, dimensione_mb: megs });
+      saveDB();
+      closeModal('modal-app');
+      toast('Applicazione aggiunta');
+      document.getElementById('form-app').reset();
+    }
+
+    function deleteApp(id) {
+      if (confirm('Confermi la disinstallazione dell\'applicazione?')) {
+        db.apps = db.apps.filter(a => a.id !== id);
+        saveDB();
+        toast('Applicazione rimossa');
+      }
+    }
+
+    /* STORAGE */
+    function renderStorage() {
+      const cat = document.getElementById('storage-filter').value;
+      const list = document.getElementById('storage-list');
+      const filtered = cat === 'ALL' ? db.fileLog : db.fileLog.filter(f => f.categoria === cat);
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="p-8 text-center text-xs text-slate-500 bg-slate-800/40 rounded-xl">Nessun file presente in questa categoria.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(f => `
+        <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60 flex items-center justify-between">
+          <div class="space-y-0.5 truncate pr-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-xs bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-medium">${f.categoria}</span>
+              <h4 class="text-xs font-semibold text-white truncate">${f.nome_file}</h4>
+            </div>
+            <p class="text-[11px] text-slate-400 truncate">${f.percorso_locale}</p>
+          </div>
+          <div class="flex items-center space-x-3 shrink-0">
+            <span class="text-xs font-bold text-slate-200">${formatBytes(f.dimensione_bytes)}</span>
+            <button onclick="deleteFile(${f.id})" class="p-1.5 text-slate-400 hover:text-rose-400 transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveFile(e) {
+      e.preventDefault();
+      const nome = document.getElementById('file-name').value;
+      const path = document.getElementById('file-path').value;
+      const mb = parseFloat(document.getElementById('file-size').value);
+      const cat = document.getElementById('file-cat').value;
+
+      db.fileLog.push({
+        id: Date.now(),
+        nome_file: nome,
+        percorso_locale: path,
+        dimensione_bytes: mb * 1024 * 1024,
+        categoria: cat
+      });
+      saveDB();
+      closeModal('modal-file');
+      toast('File registrato');
+      document.getElementById('form-file').reset();
+    }
+
+    function deleteFile(id) {
+      if (confirm('Eliminare definitivamente questo file dal dispositivo?')) {
+        db.fileLog = db.fileLog.filter(f => f.id !== id);
+        saveDB();
+        toast('File eliminato');
+      }
+    }
+
+    /* SETTINGS & BACKUP */
+    function renderSettings() {
+      document.getElementById('pref-tema').checked = db.preferenze.tema_scuro;
+      document.getElementById('pref-notifiche').checked = db.preferenze.notifiche_promemoria;
+      document.getElementById('pref-ruolo').value = db.preferenze.ruolo || 'Utente Standard';
+      
+      const last = db.preferenze.ultimo_backup;
+      document.getElementById('backup-status').innerText = `Ultimo backup: ${last ? new Date(last).toLocaleString('it-IT') : 'Mai'}`;
+    }
+
+    function updatePref() {
+      db.preferenze.tema_scuro = document.getElementById('pref-tema').checked;
+      db.preferenze.notifiche_promemoria = document.getElementById('pref-notifiche').checked;
+      db.preferenze.ruolo = document.getElementById('pref-ruolo').value;
+      saveDB();
+      toast('Preferenze aggiornate');
+    }
+
+    function exportCSV() {
+      let csv = "Tipo,Info1,Info2,Info3\n";
+      db.apps.forEach(a => csv += `App,"${a.nome}",${a.dimensione_mb} MB,-\n`);
+      db.fileLog.forEach(f => csv += `File,"${f.nome_file}",${f.dimensione_bytes} Bytes,${f.categoria}\n`);
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', `cybershield_backup_${Date.now()}.csv`);
+      a.click();
+      
+      db.preferenze.ultimo_backup = new Date().toISOString();
+      saveDB();
+      toast('Esportazione CSV completata');
+    }
+
+    function resetData() {
+      if (confirm('Ripristinare i dati di esempio predefiniti?')) {
+        db = JSON.parse(JSON.stringify(defaultData));
+        saveDB();
+        toast('Dati di esempio ripristinati');
+      }
+    }
+
+    function clearData() {
+      if (confirm('Sei sicuro di voler cancellare TUTTI i dati salvati in locale?')) {
+        db = { scansioni: [], fileLog: [], apps: [], preferenze: { tema_scuro: true, notifiche_promemoria: false, ruolo: 'Utente Standard', ultimo_backup: null } };
+        saveDB();
+        toast('Tutti i dati sono stati cancellati');
+      }
+    }
+
+    /* MODAL HELPERS */
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // Init App
+    loadDB();
+    
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    }
+  </script>
+</body>
+</html>
