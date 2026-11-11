@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ScontrinAI</title>
+  <meta name="theme-color" content="#1E3A8A">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#1E3A8A', brandlight: '#3B82F6', brandbg: '#F0F4F8' }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 h-full flex flex-col md:flex-row overflow-hidden">
+
+  <!-- Header Mobile -->
+  <header class="bg-brand text-white p-4 flex justify-between items-center shadow-md md:hidden z-10">
+    <div class="flex items-center gap-2">
+      <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <h1 class="text-xl font-bold tracking-tight">ScontrinAI</h1>
+    </div>
+    <span id="userBadge" class="text-xs bg-white/20 px-2.5 py-1 rounded-full font-medium">Freelance</span>
+  </header>
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex flex-col w-64 bg-brand text-white p-6 shadow-xl z-20 justify-between">
+    <div>
+      <div class="flex items-center gap-3 mb-8">
+        <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <h1 class="text-2xl font-bold">ScontrinAI</h1>
+      </div>
+      <nav class="space-y-2" id="deskNav"></nav>
+    </div>
+    <div class="border-t border-white/20 pt-4 text-xs text-blue-200">
+      <p class="font-semibold text-white mb-1">Prototipo Commerciale</p>
+      <p>CybernetLab &copy; 2025</p>
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-4 right-4 left-4 md:left-auto md:w-96 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 transition-all duration-300 opacity-0 pointer-events-none transform translate-y-[-20px] flex items-center justify-between">
+    <span id="toastMsg" class="text-sm font-medium"></span>
+    <button onclick="hideToast()" class="text-gray-400 hover:text-white ml-2">&times;</button>
+  </div>
+
+  <!-- Contenuto Principale -->
+  <main class="flex-1 overflow-y-auto p-4 md:p-8 bg-brandbg hide-scrollbar pb-24 md:pb-8 relative">
+
+    <!-- SCHERMATA 1: SCANNER -->
+    <section id="sec-scan" class="tab-sec max-w-xl mx-auto space-y-6">
+      <div class="text-center md:text-left">
+        <h2 class="text-2xl font-bold text-brand">Scanner AI Smart</h2>
+        <p class="text-gray-600 text-sm">Inquadra lo scontrino per estrarre i dati automaticamente.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 flex flex-col items-center justify-center space-y-4 text-center relative overflow-hidden">
+        <div id="camPlaceholder" class="w-full h-64 bg-gray-900 rounded-2xl flex flex-col items-center justify-center text-white relative overflow-hidden border-2 border-dashed border-gray-600">
+          <svg class="w-16 h-16 text-gray-500 mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h0.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg>
+          <p class="text-xs text-gray-400 px-4">Fotocamera in attesa o carica file</p>
+          <div id="scanOverlay" class="hidden absolute inset-0 bg-brand/80 flex flex-col items-center justify-center text-white p-4">
+            <div class="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <p class="font-semibold text-sm animate-pulse">Analisi OCR & AI in corso...</p>
+            <p class="text-xs text-blue-200 mt-1">Estrazione dati fiscali</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 w-full">
+          <button onclick="simulaScan()" class="bg-brand text-white py-3.5 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-brand/30 active:scale-95 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h0.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg> Scatta Foto
+          </button>
+          <button onclick="simulaScan()" class="bg-gray-100 text-gray-700 py-3.5 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-200 active:scale-95 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Galleria
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-start gap-3 text-xs text-blue-900">
+        <svg class="w-6 h-6 text-brand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span><strong>Nota AI:</strong> L'algoritmo riconosce automaticamente Partita IVA, Commerciante, Totale e Categoria per velocizzare la nota spese.</span>
+      </div>
+    </section>
+
+    <!-- SCHERMATA 2: ARCHIVIO -->
+    <section id="sec-archive" class="tab-sec hidden max-w-3xl mx-auto space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-2xl font-bold text-brand">Archivio Spese</h2>
+          <p class="text-gray-600 text-sm">Tutte le tue ricevute digitalizzate.</p>
+        </div>
+        <button onclick="nuovaSpesaManuale()" class="bg-brand text-white px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shadow self-start">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Aggiungi Manuale
+        </button>
+      </div>
+
+      <!-- Filtri -->
+      <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-wrap gap-2 items-center">
+        <input type="text" id="searchInp" oninput="renderSpese()" placeholder="Cerca commerciante o note..." class="flex-1 min-w-[140px] text-xs p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand">
+        <select id="catFilter" onchange="renderSpese()" class="text-xs p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand">
+          <option value="">Tutte le Categorie</option>
+        </select>
+        <select id="monthFilter" onchange="renderSpese()" class="text-xs p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand">
+          <option value="">Tutti i Mesi</option>
+        </select>
+      </div>
+
+      <!-- Lista Spese -->
+      <div id="speseList" class="space-y-3"></div>
+    </section>
+
+    <!-- SCHERMATA 3: DETTAGLIO / EDIT -->
+    <section id="sec-detail" class="tab-sec hidden max-w-xl mx-auto space-y-4">
+      <div class="flex items-center gap-3">
+        <button onclick="navigaA('archive')" class="p-2 rounded-xl bg-white shadow-sm border border-gray-200 text-gray-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <h2 id="editTitle" class="text-xl font-bold text-brand">Modifica Spesa</h2>
+      </div>
+
+      <form id="editForm" onsubmit="salvaSpesa(event)" class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 space-y-4">
+        <input type="hidden" id="spesaId">
+        
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Commerciante / Fornitore *</label>
+          <input type="text" id="inpComm" required class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Importo (€) *</label>
+            <input type="number" step="0.01" id="inpTot" required class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Data *</label>
+            <input type="date" id="inpData" required class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Categoria *</label>
+          <select id="inpCat" required class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none"></select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Note / Deducibilità</label>
+          <textarea id="inpNote" rows="2" class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none" placeholder="Es. Cena di lavoro con cliente..."></textarea>
+        </div>
+
+        <div class="pt-2 flex gap-3">
+          <button type="submit" class="flex-1 bg-brand text-white py-3 rounded-xl font-medium shadow-md active:scale-95 transition">Salva Dati</button>
+          <button type="button" id="btnDelete" onclick="confermaElimina()" class="bg-red-50 text-red-600 px-4 py-3 rounded-xl font-medium border border-red-100 hover:bg-red-100 transition">Elimina</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- SCHERMATA 4: REPORT & EXPORT -->
+    <section id="sec-report" class="tab-sec hidden max-w-3xl mx-auto space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold text-brand">Report & Export</h2>
+        <p class="text-gray-600 text-sm">Analisi sintetica e invio dati al commercialista.</p>
+      </div>
+
+      <!-- Card KPI -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+          <p class="text-xs text-gray-500 font-medium">Totale Speso</p>
+          <p id="kpiTot" class="text-2xl font-bold text-brand mt-1">€ 0.00</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+          <p class="text-xs text-gray-500 font-medium">Scontrini</p>
+          <p id="kpiNum" class="text-2xl font-bold text-gray-800 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 col-span-2 sm:col-span-1">
+          <p class="text-xs text-gray-500 font-medium">Media per Scontrino</p>
+          <p id="kpiAvg" class="text-2xl font-bold text-brandlight mt-1">€ 0.00</p>
+        </div>
+      </div>
+
+      <!-- Spese per Categoria -->
+      <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-3">
+        <h3 class="font-bold text-sm text-gray-700">Ripartizione Categorie</h3>
+        <div id="catBreakdown" class="space-y-2"></div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-3">
+        <h3 class="font-bold text-sm text-gray-700">Esporta Documenti</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button onclick="esportaCSV()" class="p-3 bg-green-50 text-green-700 border border-green-200 rounded-xl font-medium text-xs flex items-center justify-center gap-2 hover:bg-green-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Excel / CSV
+          </button>
+          <button onclick="showToast('Report PDF generato e salvato nei Download!')" class="p-3 bg-red-50 text-red-700 border border-red-200 rounded-xl font-medium text-xs flex items-center justify-center gap-2 hover:bg-red-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg> Report PDF
+          </button>
+          <button onclick="showToast('Inviato con successo al commercialista!')" class="p-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl font-medium text-xs flex items-center justify-center gap-2 hover:bg-blue-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Invia Email
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHERMATA 5: IMPOSTAZIONI -->
+    <section id="sec-settings" class="tab-sec hidden max-w-xl mx-auto space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold text-brand">Impostazioni</h2>
+        <p class="text-gray-600 text-sm">Configura profilo e gestione dati local storage.</p>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-4">
+        <h3 class="font-bold text-sm text-gray-700">Profilo Utilizzo</h3>
+        <select id="userRole" onchange="cambiaProfilo(this.value)" class="w-full text-sm p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand outline-none">
+          <option value="Freelance / Partita IVA">Freelance / Partita IVA (Deducibilità spese)</option>
+          <option value="Budget Familiare">Budget Familiare (Controllo consumi)</option>
+        </select>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-3">
+        <h3 class="font-bold text-sm text-gray-700">Gestione Dati App</h3>
+        <button onclick="ripristinaDemoData()" class="w-full text-left p-3 text-sm bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-100">
+          🔄 Ripristina Dati di Esempio
+        </button>
+        <button onclick="esportaCSV()" class="w-full text-left p-3 text-sm bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-100">
+          📥 Esporta Tutto in CSV
+        </button>
+        <button onclick="cancellaTutto()" class="w-full text-left p-3 text-sm bg-red-50 border border-red-200 rounded-xl font-medium text-red-600 hover:bg-red-100">
+          ⚠️ Cancella Tutti i Dati
+        </button>
+      </div>
+
+      <div class="text-center pt-4 text-xs text-gray-400 border-t border-gray-200 space-y-1">
+        <p>ScontrinAI v1.0.4 - Licenza Unamantum (No-Subscription)</p>
+        <p class="font-semibold text-gray-600">Prototipo realizzato da CybernetLab</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Navigation Mobile Bottom -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around p-2 z-30 shadow-lg" id="mobNav"></nav>
+
+  <script>
+    const NAV_ITEMS = [
+      { id: 'scan', label: 'Scanner', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h0.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/>' },
+      { id: 'archive', label: 'Archivio', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>' },
+      { id: 'report', label: 'Report', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>' },
+      { id: 'settings', label: 'Impostazioni', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>' }
+    ];
+
+    const DEFAULT_CATEGORIES = [
+      { id: 'cat1', nome: 'Ristorazione', colore: 'bg-orange-100 text-orange-700' },
+      { id: 'cat2', nome: 'Carburante & Viaggi', colore: 'bg-blue-100 text-blue-700' },
+      { id: 'cat3', nome: 'Forniture Ufficio', colore: 'bg-purple-100 text-purple-700' },
+      { id: 'cat4', nome: 'Supermercato', colore: 'bg-green-100 text-green-700' },
+      { id: 'cat5', nome: 'Altro', colore: 'bg-gray-100 text-gray-700' }
+    ];
+
+    const DEMO_SPESE = [
+      { id: 's1', data_acquisto: '2025-05-10', commerciante: 'Trattoria da Mario', totale_valuta: 45.50, categoria: 'cat1', note: 'Pranzo di lavoro cliente Rossi' },
+      { id: 's2', data_acquisto: '2025-05-12', commerciante: 'Eni Station', totale_valuta: 70.00, categoria: 'cat2', note: 'Rifornimento auto aziendale' },
+      { id: 's3', data_acquisto: '2025-05-14', commerciante: 'Buffetti Ufficio', totale_valuta: 23.90, categoria: 'cat3', note: 'Carta e cartucce stampante' },
+      { id: 's4', data_acquisto: '2025-04-28', commerciante: 'Esselunga', totale_valuta: 89.20, categoria: 'cat4', note: 'Spesa settimanale' }
+    ];
+
+    let state = {
+      spese: [],
+      categorie: DEFAULT_CATEGORIES,
+      activeTab: 'scan',
+      ruolo: 'Freelance / Partita IVA'
+    };
+
+    function init() {
+      const saved = localStorage.getItem('scontrin-ai_dati');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          state.spese = parsed.spese || DEMO_SPESE;
+          state.ruolo = parsed.ruolo || 'Freelance / Partita IVA';
+        } catch(e) { state.spese = DEMO_SPESE; }
+      } else {
+        state.spese = DEMO_SPESE;
+        saveState();
+      }
+      renderNav();
+      populateDropdowns();
+      navigaA('scan');
+      document.getElementById('userRole').value = state.ruolo;
+      document.getElementById('userBadge').innerText = state.ruolo.split(' ')[0];
+    }
+
+    function saveState() {
+      localStorage.setItem('scontrin-ai_dati', JSON.stringify({ spese: state.spese, ruolo: state.ruolo }));
+    }
+
+    function renderNav() {
+      const mobNav = document.getElementById('mobNav');
+      const deskNav = document.getElementById('deskNav');
+      
+      mobNav.innerHTML = NAV_ITEMS.map(item => `
+        <button onclick="navigaA('${item.id}')" class="nav-btn flex flex-col items-center py-1 px-3 text-xs font-medium ${state.activeTab === item.id ? 'text-brand' : 'text-gray-400'}" id="mob-btn-${item.id}">
+          <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">${item.icon}</svg>
+          ${item.label}
+        </button>
+      `).join('');
+
+      deskNav.innerHTML = NAV_ITEMS.map(item => `
+        <button onclick="navigaA('${item.id}')" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition ${state.activeTab === item.id ? 'bg-white/10 text-white font-bold' : 'text-blue-100 hover:bg-white/5'}" id="desk-btn-${item.id}">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${item.icon}</svg>
+          ${item.label}
+        </button>
+      `).join('');
+    }
+
+    function navigaA(tabId) {
+      state.activeTab = tabId;
+      document.querySelectorAll('.tab-sec').forEach(el => el.classList.add('hidden'));
+      
+      const targetSec = document.getElementById(`sec-${tabId}`);
+      if(targetSec) targetSec.classList.remove('hidden');
+
+      renderNav();
+
+      if (tabId === 'archive') renderSpese();
+      if (tabId === 'report') renderReport();
+    }
+
+    function populateDropdowns() {
+      const catSelects = [document.getElementById('catFilter'), document.getElementById('inpCat')];
+      catSelects.forEach((select, idx) => {
+        if (!select) return;
+        const opts = state.categorie.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+        select.innerHTML = idx === 0 ? `<option value="">Tutte le Categorie</option>` + opts : opts;
+      });
+
+      const monthSelect = document.getElementById('monthFilter');
+      const mesi = [...new Set(state.spese.map(s => s.data_acquisto.substring(0, 7)))].sort().reverse();
+      monthSelect.innerHTML = `<option value="">Tutti i Mesi</option>` + mesi.map(m => `<option value="${m}">${m}</option>`).join('');
+    }
+
+    function renderSpese() {
+      const search = document.getElementById('searchInp').value.toLowerCase();
+      const cat = document.getElementById('catFilter').value;
+      const month = document.getElementById('monthFilter').value;
+
+      const filtered = state.spese.filter(s => {
+        const matchSearch = s.commerciante.toLowerCase().includes(search) || (s.note && s.note.toLowerCase().includes(search));
+        const matchCat = !cat || s.categoria === cat;
+        const matchMonth = !month || s.data_acquisto.startsWith(month);
+        return matchSearch && matchCat && matchMonth;
+      });
+
+      const container = document.getElementById('speseList');
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-8 rounded-2xl text-center text-gray-400 border border-gray-100">
+            <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+            <p class="text-sm font-medium">Nessuna spesa trovata.</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(s => {
+        const cObj = state.categorie.find(c => c.id === s.categoria) || { nome: 'Generico', colore: 'bg-gray-100 text-gray-700' };
+        return `
+          <div onclick="apriEdit('${s.id}')" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-brand/30 transition">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-gray-900 text-base">${s.commerciante}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold ${cObj.colore}">${cObj.nome}</span>
+              </div>
+              <p class="text-xs text-gray-400">${s.data_acquisto} ${s.note ? '&bull; ' + s.note : ''}</p>
+            </div>
+            <div class="text-right">
+              <span class="font-extrabold text-brand text-lg">€ ${Number(s.totale_valuta).toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function simulaScan() {
+      const overlay = document.getElementById('scanOverlay');
+      overlay.classList.remove('hidden');
+      
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        const comms = ['Ristorante Il Faro', 'Bar Italia', 'Stazione Servizio Q8', 'MediaWorld', 'Supermercato Conad'];
+        const cats = ['cat1', 'cat1', 'cat2', 'cat3', 'cat4'];
+        const randIdx = Math.floor(Math.random() * comms.length);
+        
+        const nuovaSpesa = {
+          id: 's_' + Date.now(),
+          data_acquisto: new Date().toISOString().split('T')[0],
+          commerciante: comms[randIdx],
+          totale_valuta: parseFloat((Math.random() * 60 + 5).toFixed(2)),
+          categoria: cats[randIdx],
+          note: 'Scansionato da fotocamera (IA)'
+        };
+
+        state.spese.unshift(nuovaSpesa);
+        saveState();
+        populateDropdowns();
+        showToast('Scontrino elaborato con successo!');
+        apriEdit(nuovaSpesa.id);
+      }, 1500);
+    }
+
+    function nuovaSpesaManuale() {
+      document.getElementById('spesaId').value = '';
+      document.getElementById('editTitle').innerText = 'Nuova Spesa';
+      document.getElementById('inpComm').value = '';
+      document.getElementById('inpTot').value = '';
+      document.getElementById('inpData').value = new Date().toISOString().split('T')[0];
+      document.getElementById('inpCat').value = state.categorie[0].id;
+      document.getElementById('inpNote').value = '';
+      document.getElementById('btnDelete').classList.add('hidden');
+      navigaA('detail');
+    }
+
+    function apriEdit(id) {
+      const s = state.spese.find(item => item.id === id);
+      if (!s) return;
+      document.getElementById('spesaId').value = s.id;
+      document.getElementById('editTitle').innerText = 'Modifica Spesa';
+      document.getElementById('inpComm').value = s.commerciante;
+      document.getElementById('inpTot').value = s.totale_valuta;
+      document.getElementById('inpData').value = s.data_acquisto;
+      document.getElementById('inpCat').value = s.categoria;
+      document.getElementById('inpNote').value = s.note || '';
+      document.getElementById('btnDelete').classList.remove('hidden');
+      navigaA('detail');
+    }
+
+    function salvaSpesa(e) {
+      e.preventDefault();
+      const id = document.getElementById('spesaId').value;
+      const dataObj = {
+        id: id || 's_' + Date.now(),
+        commerciante: document.getElementById('inpComm').value.trim(),
+        totale_valuta: parseFloat(document.getElementById('inpTot').value),
+        data_acquisto: document.getElementById('inpData').value,
+        categoria: document.getElementById('inpCat').value,
+        note: document.getElementById('inpNote').value.trim()
+      };
+
+      if (id) {
+        const idx = state.spese.findIndex(s => s.id === id);
+        if (idx !== -1) state.spese[idx] = dataObj;
+      } else {
+        state.spese.unshift(dataObj);
+      }
+
+      saveState();
+      populateDropdowns();
+      showToast('Spesa salvata correttamente!');
+      navigaA('archive');
+    }
+
+    function confermaElimina() {
+      const id = document.getElementById('spesaId').value;
+      if (!id) return;
+      if (confirm('Sei sicuro di voler eliminare questa spesa?')) {
+        state.spese = state.spese.filter(s => s.id !== id);
+        saveState();
+        populateDropdowns();
+        showToast('Spesa eliminata.');
+        navigaA('archive');
+      }
+    }
+
+    function renderReport() {
+      const tot = state.spese.reduce((acc, s) => acc + Number(s.totale_valuta), 0);
+      const num = state.spese.length;
+      const avg = num > 0 ? tot / num : 0;
+
+      document.getElementById('kpiTot').innerText = `€ ${tot.toFixed(2)}`;
+      document.getElementById('kpiNum').innerText = num;
+      document.getElementById('kpiAvg').innerText = `€ ${avg.toFixed(2)}`;
+
+      const breakdownObj = {};
+      state.spese.forEach(s => {
+        breakdownObj[s.categoria] = (breakdownObj[s.categoria] || 0) + Number(s.totale_valuta);
+      });
+
+      const container = document.getElementById('catBreakdown');
+      if (num === 0) {
+        container.innerHTML = `<p class="text-xs text-gray-400">Nessun dato presente per i report.</p>`;
+        return;
+      }
+
+      container.innerHTML = state.categorie.map(c => {
+        const catTot = breakdownObj[c.id] || 0;
+        const perc = tot > 0 ? ((catTot / tot) * 100).toFixed(1) : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-gray-700">${c.nome}</span>
+              <span class="text-brand">€ ${catTot.toFixed(2)} (${perc}%)</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+              <div class="bg-brand h-full" style="width: ${perc}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function esportaCSV() {
+      if (state.spese.length === 0) return showToast('Nessun dato da esportare!');
+      let csv = 'ID,Data,Commerciante,Totale,Categoria,Note\n';
+      state.spese.forEach(s => {
+        const cObj = state.categorie.find(c => c.id === s.categoria);
+        csv += `"${s.id}","${s.data_acquisto}","${s.commerciante}",${s.totale_valuta},"${cObj ? cObj.nome : ''}","${s.note || ''}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', `ScontrinAI_Export_${new Date().toISOString().split('T')[0]}.csv`);
+      a.click();
+      showToast('Export CSV completato!');
+    }
+
+    function cambiaProfilo(val) {
+      state.ruolo = val;
+      saveState();
+      document.getElementById('userBadge').innerText = val.split(' ')[0];
+      showToast(`Profilo impostato: ${val}`);
+    }
+
+    function ripristinaDemoData() {
+      if(confirm('Ripristinare i dati di esempio? I dati attuali verranno sovrascritti.')) {
+        state.spese = [...DEMO_SPESE];
+        saveState();
+        populateDropdowns();
+        showToast('Dati demo ripristinati.');
+        navigaA('archive');
+      }
+    }
+
+    function cancellaTutto() {
+      if(confirm('Attenzione! Vuoi davvero eliminare tutti i dati salvati?')) {
+        state.spese = [];
+        saveState();
+        populateDropdowns();
+        showToast('Tutti i dati sono stati cancellati.');
+        navigaA('archive');
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+      setTimeout(hideToast, 3000);
+    }
+
+    function hideToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+    }
+
+    window.onload = init;
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    }
+  </script>
+</body>
+</html>
