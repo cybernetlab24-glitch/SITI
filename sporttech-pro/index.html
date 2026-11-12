@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportTech Pro | Abbigliamento e Attrezzatura Sportiva ad Alte Prestazioni</title>
+    <meta name="description" content="Scopri SportTech Pro: e-commerce specializzato in abbigliamento tecnico, scarpe e accessori sportivi per ogni disciplina. Eleva le tue prestazioni con i migliori brand.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="SportTech Pro | E-commerce Articoli Sportivi">
+    <meta property="og:description" content="Abbigliamento tecnico, calzature e accessori per atleti e appassionati di sport.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/hero-1.jpg">
+
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23CCFF00'><path d='M13.5 2L3 13.5h7.5L9 22l12-11.5h-7.5L15 2z'/></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            neon: '#CCFF00', // Volt / Neon Green
+                            dark: '#0A0B0E', // Carbon Black
+                            card: '#14161C', // Dark Slate
+                            accent: '#FF3366', // Energy Red
+                            muted: '#8A8F9E'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-white font-body antialiased selection:bg-brand-neon selection:text-brand-dark flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <span class="p-2 bg-brand-neon rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <svg class="w-6 h-6 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </span>
+                    <span class="font-display text-3xl font-bold tracking-wider uppercase text-white">SPORTTECH<span class="text-brand-neon">PRO</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center gap-8 font-semibold text-sm tracking-wide uppercase">
+                    <a href="#prodotti" class="hover:text-brand-neon transition-colors duration-200">Prodotti</a>
+                    <a href="#chi-siamo" class="hover:text-brand-neon transition-colors duration-200">Chi Siamo</a>
+                    <a href="#galleria" class="hover:text-brand-neon transition-colors duration-200">Galleria</a>
+                    <a href="#store" class="hover:text-brand-neon transition-colors duration-200">Store Fisico</a>
+                    <a href="#contatti" class="hover:text-brand-neon transition-colors duration-200">Contatti</a>
+                </nav>
+
+                <!-- Actions: Cart & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <!-- Cart Button (Interactive Drawer Trigger) -->
+                    <button id="cart-btn" class="relative p-2.5 bg-brand-card hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-200" aria-label="Visualizza carrello">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-brand-neon text-brand-dark text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="menu-btn" class="md:hidden p-2.5 text-white hover:text-brand-neon focus:outline-none" aria-label="Apri menu">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-white/10 px-4 pt-2 pb-6 space-y-4 font-semibold uppercase text-sm tracking-wide">
+            <a href="#prodotti" class="block py-2 border-b border-white/5 hover:text-brand-neon">Prodotti</a>
+            <a href="#chi-siamo" class="block py-2 border-b border-white/5 hover:text-brand-neon">Chi Siamo</a>
+            <a href="#galleria" class="block py-2 border-b border-white/5 hover:text-brand-neon">Galleria</a>
+            <a href="#store" class="block py-2 border-b border-white/5 hover:text-brand-neon">Store Fisico</a>
+            <a href="#contatti" class="block py-2 hover:text-brand-neon">Contatti</a>
+        </div>
+    </header>
+
+    <!-- CARRELLO SLIDE-OVER (SIDEBAR) -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-md h-full bg-brand-card border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-white/10 flex items-center justify-between">
+            <h2 class="font-display text-2xl font-bold uppercase tracking-wider text-white">Il Tuo Carrello</h2>
+            <button id="close-cart" class="text-brand-muted hover:text-white p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <p id="empty-cart-msg" class="text-brand-muted text-center py-8">Il carrello è vuoto.</p>
+        </div>
+        <div class="p-6 border-t border-white/10 bg-brand-dark/50 space-y-4">
+            <div class="flex justify-between items-center text-lg font-bold">
+                <span>Totale:</span>
+                <span id="cart-total" class="text-brand-neon font-display text-2xl">€0.00</span>
+            </div>
+            <button onclick="alert('Funzionalità di checkout dimostrativa.')" class="w-full bg-brand-neon text-brand-dark py-3 rounded-xl font-bold uppercase tracking-wider hover:bg-white transition-colors duration-200">
+                Procedi all'ordine
+            </button>
+        </div>
+    </div>
+
+    <main class="flex-grow pt-20">
+
+        <!-- HERO SECTION -->
+        <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-20">
+            <div class="absolute inset-0 z-0">
+                <img src="img/hero-1.jpg" alt="Atleta in azione - SportTech Pro" class="w-full h-full object-cover opacity-30">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 fade-in-section">
+                <div class="inline-flex items-center gap-2 bg-brand-card/80 border border-brand-neon/30 px-4 py-2 rounded-full text-brand-neon text-xs font-bold uppercase tracking-widest backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+                    Nuova Collezione Tecnica 2024
+                </div>
+                
+                <h1 class="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight uppercase leading-none">
+                    Spingi Oltre <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon via-white to-brand-neon">Il Tuo Limite</span>
+                </h1>
+                
+                <p class="max-w-2xl mx-auto text-brand-muted text-base sm:text-lg md:text-xl font-normal leading-relaxed">
+                    Equipaggiamento sportivo d'avanguardia progettato per massimizzare le tue prestazioni. Abbigliamento traspirante, calzature ad alta reattività e accessori di livello professionale.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <a href="#prodotti" class="w-full sm:w-auto px-8 py-4 bg-brand-neon text-brand-dark font-bold uppercase tracking-wider rounded-xl hover:bg-white transition-all duration-300 transform hover:-translate-y-1 text-center shadow-lg shadow-brand-neon/10">
+                        Esplora i Prodotti
+                    </a>
+                    <a href="#contatti" class="w-full sm:w-auto px-8 py-4 bg-brand-card border border-white/20 text-white font-bold uppercase tracking-wider rounded-xl hover:bg-white/10 transition-all duration-300 text-center">
+                        Contattaci
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODOTTI / SEZIONI -->
+        <section id="prodotti" class="py-20 bg-brand-dark border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 fade-in-section">
+                    <div>
+                        <span class="text-brand-neon font-display text-2xl uppercase font-bold tracking-wider">Catalogo</span>
+                        <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide">Prodotti in Evidenza</h2>
+                    </div>
+                    <p class="text-brand-muted max-w-md mt-2 md:mt-0">Selezionati dai nostri esperti per garantire massimo comfort, resistenza e performance durante l'allenamento.</p>
+                </div>
+
+                <!-- Grid Prodotti -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Prodotto 1 -->
+                    <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 flex flex-col group hover:border-brand-neon/50 transition-all duration-300 fade-in-section">
+                        <div class="relative h-64 overflow-hidden bg-white/5">
+                            <span class="absolute top-4 left-4 z-10 bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Abbigliamento</span>
+                            <img src="img/servizi-2.jpg" alt="Maglia Tecnica Traspirante" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <h3 class="font-display text-2xl font-bold uppercase tracking-wide">Maglia Tecnica Pro-Fit</h3>
+                                <p class="text-brand-muted text-sm mt-1">Tessuto ad asciugatura rapida con zone di ventilazione strategiche. Ergonomica e ultraleggera.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                <span class="text-2xl font-bold font-display text-brand-neon">€49.99</span>
+                                <button onclick="addToCart('Maglia Tecnica Pro-Fit', 49.99)" class="p-3 bg-white/10 hover:bg-brand-neon hover:text-brand-dark rounded-xl transition-colors duration-200" aria-label="Aggiungi al carrello">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prodotto 2 -->
+                    <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 flex flex-col group hover:border-brand-neon/50 transition-all duration-300 fade-in-section">
+                        <div class="relative h-64 overflow-hidden bg-white/5">
+                            <span class="absolute top-4 left-4 z-10 bg-brand-neon text-brand-dark text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Scarpe</span>
+                            <img src="img/hero-1.jpg" alt="Scarpe Running Nitro Speed" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <h3 class="font-display text-2xl font-bold uppercase tracking-wide">Scarpe Running Nitro Speed</h3>
+                                <p class="text-brand-muted text-sm mt-1">Amortizzazione reattiva all'avanguardia e suola ad alto grip per ogni superficie asfaltata o sterrata.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                <span class="text-2xl font-bold font-display text-brand-neon">€129.99</span>
+                                <button onclick="addToCart('Scarpe Running Nitro Speed', 129.99)" class="p-3 bg-white/10 hover:bg-brand-neon hover:text-brand-dark rounded-xl transition-colors duration-200" aria-label="Aggiungi al carrello">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prodotto 3 -->
+                    <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 flex flex-col group hover:border-brand-neon/50 transition-all duration-300 fade-in-section">
+                        <div class="relative h-64 overflow-hidden bg-white/5">
+                            <span class="absolute top-4 left-4 z-10 bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Accessori</span>
+                            <img src="img/galleria-3.jpg" alt="Smartwatch Fitness Tracker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <h3 class="font-display text-2xl font-bold uppercase tracking-wide">Smartwatch Fitness Ultra</h3>
+                                <p class="text-brand-muted text-sm mt-1">Monitoraggio battito cardiaco, GPS integrato e analisi avanzata delle metriche di allenamento.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                <span class="text-2xl font-bold font-display text-brand-neon">€189.99</span>
+                                <button onclick="addToCart('Smartwatch Fitness Ultra', 189.99)" class="p-3 bg-white/10 hover:bg-brand-neon hover:text-brand-dark rounded-xl transition-colors duration-200" aria-label="Aggiungi al carrello">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CHI SIAMO -->
+        <section id="chi-siamo" class="py-20 bg-brand-card border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 fade-in-section">
+                        <span class="text-brand-neon font-display text-2xl uppercase font-bold tracking-wider">La Nostra Filosofia</span>
+                        <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide leading-tight">Innovazione e Passione per la Performance</h2>
+                        <p class="text-brand-muted leading-relaxed">
+                            SportTech Pro nasce dalla volontà di offrire agli atleti – professionisti e amatori – attrezzature e abbigliamento sportivo con gli standard tecnologici più elevati sul mercato.
+                        </p>
+                        <p class="text-brand-muted leading-relaxed">
+                            Selezioniamo rigorosamente materiali innovativi, tessuti traspiranti e calzature ergonomiche pensate per ridurre l'affaticamento e prevenire infortuni. Che si tratti di running, training, outdoor o sport di squadra, forniamo il supporto necessario per superare ogni traguardo.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="p-4 bg-brand-dark/50 border border-white/5 rounded-xl">
+                                <h4 class="font-display text-xl font-bold text-brand-neon">Tecnologia Avanzata</h4>
+                                <p class="text-xs text-brand-muted mt-1">Materiali testati per garantire massima durata e traspirabilità.</p>
+                            </div>
+                            <div class="p-4 bg-brand-dark/50 border border-white/5 rounded-xl">
+                                <h4 class="font-display text-xl font-bold text-brand-neon">Supporto Tecnico</h4>
+                                <p class="text-xs text-brand-muted mt-1">Consulenza personalizzata per la scelta della tua attrezzatura.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative fade-in-section">
+                        <div class="aspect-square rounded-2xl overflow-hidden border border-white/10">
+                            <img src="img/servizi-2.jpg" alt="Dettaglio abbigliamento sportivo SportTech Pro" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 bg-brand-neon text-brand-dark p-6 rounded-2xl hidden sm:block shadow-2xl">
+                            <p class="font-display text-3xl font-bold uppercase leading-none">Qualità Garantita</p>
+                            <p class="text-xs font-semibold uppercase tracking-wider mt-1">Solo i migliori brand internazionali</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERIA -->
+        <section id="galleria" class="py-20 bg-brand-dark border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 fade-in-section">
+                    <span class="text-brand-neon font-display text-2xl uppercase font-bold tracking-wider">In Azione</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide">SportTech Experience</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-section">
+                    <div class="relative h-80 rounded-2xl overflow-hidden group border border-white/5">
+                        <img src="img/hero-1.jpg" alt="Atleta durante allenamento" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                            <span class="font-display text-2xl font-bold uppercase text-white">Running & Endurance</span>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-2xl overflow-hidden group border border-white/5">
+                        <img src="img/servizi-2.jpg" alt="Attrezzatura da palestra" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                            <span class="font-display text-2xl font-bold uppercase text-white">Training & Fitness</span>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-2xl overflow-hidden group border border-white/5">
+                        <img src="img/galleria-3.jpg" alt="Accessori e tecnologia sportiva" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                            <span class="font-display text-2xl font-bold uppercase text-white">Tech & Accessories</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOVE SIAMO E ORARI (Store Fisico) -->
+        <section id="store" class="py-20 bg-brand-card border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- Info Store -->
+                    <div class="space-y-6 fade-in-section">
+                        <span class="text-brand-neon font-display text-2xl uppercase font-bold tracking-wider">Vieni a Trovarci</span>
+                        <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide">Il Nostro Store Fisico</h2>
+                        <p class="text-brand-muted leading-relaxed">
+                            Oltre allo shop online, puoi provare i nostri prodotti ed effettuare test biomeccanici della calzata presso la nostra sede principale.
+                        </p>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 bg-white/5 rounded-xl text-brand-neon">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white uppercase text-sm">Indirizzo</h4>
+                                    <p class="text-brand-muted">[INDIRIZZO STORE, CITTA]</p>
+                                    <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs text-brand-neon font-bold uppercase mt-1 hover:underline">
+                                        Apri su Google Maps 
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 bg-white/5 rounded-xl text-brand-neon">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white uppercase text-sm">Orari di Apertura</h4>
+                                    <p class="text-brand-muted text-sm">Lunedì - Venerdì: 09:00 - 19:30</p>
+                                    <p class="text-brand-muted text-sm">Sabato: 09:30 - 13:00 / 15:30 - 19:30</p>
+                                    <p class="text-brand-muted text-sm">Domenica: Chiuso</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mappa MOCK -->
+                    <div class="bg-brand-dark border border-white/10 rounded-2xl p-4 flex flex-col justify-center items-center text-center relative overflow-hidden min-h-[300px] fade-in-section">
+                        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#CCFF00_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                        <svg class="w-16 h-16 text-brand-neon mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                        <h3 class="font-display text-2xl font-bold uppercase">Mappa Interattiva</h3>
+                        <p class="text-brand-muted text-sm max-w-xs mt-1 mb-4">Raggiungi facilmente il nostro store principale.</p>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 bg-brand-neon text-brand-dark font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-white transition-colors duration-200">
+                            Ottieni Indicazioni
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTATTI -->
+        <section id="contatti" class="py-20 bg-brand-dark border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 fade-in-section">
+                    <span class="text-brand-neon font-display text-2xl uppercase font-bold tracking-wider">Serve Aiuto?</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide">Mettiti in Contatto</h2>
+                    <p class="text-brand-muted mt-2">Hai domande sui nostri prodotti, sulle taglie o sugli ordini? Il nostro team è a tua disposizione.</p>
+                </div>
+
+                <!-- Fast Contact Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 fade-in-section">
+                    <a href="tel:[TELEFONO]" class="flex items-center justify-center gap-3 p-4 bg-brand-card border border-white/10 rounded-xl hover:border-brand-neon transition-colors duration-200">
+                        <svg class="w-5 h-5 text-brand-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h32a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <span class="font-bold text-sm uppercase">Chiama: [TELEFONO]</span>
+                    </a>
+                    <a href="https://wa.me/[TELEFONO]" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 p-4 bg-brand-card border border-white/10 rounded-xl hover:border-brand-neon transition-colors duration-200">
+                        <svg class="w-5 h-5 text-brand-neon" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001l-1.416 5.169 5.305-1.387c1.464.798 3.118 1.218 4.764 1.219h.004c5.507 0 9.99-4.479 9.99-9.986 0-2.668-1.039-5.176-2.929-7.063C17.18 3.05 14.673 2 12.012 2z"/></svg>
+                        <span class="font-bold text-sm uppercase">WhatsApp</span>
+                    </a>
+                    <a href="mailto:[EMAIL]" class="flex items-center justify-center gap-3 p-4 bg-brand-card border border-white/10 rounded-xl hover:border-brand-neon transition-colors duration-200">
+                        <svg class="w-5 h-5 text-brand-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span class="font-bold text-sm uppercase">Email: [EMAIL]</span>
+                    </a>
+                </div>
+
+                <!-- Form Mailto -->
+                <form action="mailto:[EMAIL]" method="get" enctype="text/plain" class="max-w-2xl mx-auto bg-brand-card p-8 rounded-2xl border border-white/10 space-y-6 fade-in-section">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">Nome e Cognome</label>
+                            <input type="text" id="name" name="name" required class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-neon transition-colors">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">Indirizzo Email</label>
+                            <input type="email" id="email" name="email" required class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-neon transition-colors">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">Oggetto</label>
+                        <input type="text" id="subject" name="subject" required class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-neon transition-colors">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">Messaggio</label>
+                        <textarea id="message" name="body" rows="4" required class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-neon transition-colors"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-neon text-brand-dark py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-white transition-colors duration-200">
+                        Invia Messaggio
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card border-t border-white/10 py-12 text-brand-muted text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                
+                <!-- Logo Footer -->
+                <a href="#" class="flex items-center gap-2">
+                    <span class="p-1.5 bg-brand-neon rounded-lg">
+                        <svg class="w-5 h-5 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </span>
+                    <span class="font-display text-2xl font-bold tracking-wider uppercase text-white">SPORTTECH<span class="text-brand-neon">PRO</span></span>
+                </a>
+
+                <!-- Nav Footer -->
+                <div class="flex flex-wrap gap-6 font-semibold uppercase text-xs tracking-wider">
+                    <a href="#prodotti" class="hover:text-white transition-colors">Prodotti</a>
+                    <a href="#chi-siamo" class="hover:text-white transition-colors">Chi Siamo</a>
+                    <a href="#store" class="hover:text-white transition-colors">Store Fisico</a>
+                    <a href="#contatti" class="hover:text-white transition-colors">Contatti</a>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+                <div>
+                    <p>SportTech Pro S.r.l. - P.IVA: [PARTITA_IVA] - Reg. Imprese: [NUMERO_REA]</p>
+                    <p class="mt-1">Sede Legale: [INDIRIZZO STORE, CITTA]</p>
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" onclick="alert('Informativa Privacy generica.'); return false;" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" onclick="alert('Informativa Cookie generica.'); return false;" class="hover:text-white transition-colors">Cookie Policy</a>
+                    <a href="#" onclick="alert('Termini e Condizioni.'); return false;" class="hover:text-white transition-colors">Termini di Vendita</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // Carrello State
+        let cart = [];
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+
+            // Aggiorna contatore
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.innerText = totalCount;
+
+            // Aggiorna lista
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p id="empty-cart-msg" class="text-brand-muted text-center py-8">Il carrello è vuoto.</p>';
+                cartTotal.innerText = '€0.00';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex items-center justify-between p-3 bg-brand-dark/50 border border-white/5 rounded-xl';
+                itemEl.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-sm text-white uppercase">${item.title}</h4>
+                        <p class="text-xs text-brand-neon mt-0.5">€${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-brand-muted hover:text-brand-accent p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                `;
+                cartItemsContainer.appendChild(itemEl);
+            });
+
+            cartTotal.innerText = `€${total.toFixed(2)}`;
+        }
+
+        function addToCart(title, price) {
+            const existingIndex = cart.findIndex(item => item.title === title);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({ title, price, quantity: 1 });
+            }
+            updateCartUI();
+            openCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // Cart Drawer Handlers
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function openCart() {
+            cartDrawer.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeCart() {
+            cartDrawer.classList.add('translate-x-full');
+            cartOverlay.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        cartBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on click link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // IntersectionObserver for Light Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
