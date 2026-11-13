@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2558F5">
+  <title>SportVibe Store | Il tuo sport. La tua energia.</title>
+  <meta name="description" content="Abbigliamento, scarpe e accessori sportivi. Scopri SportVibe Store e trova l’attrezzatura giusta per allenarti, muoverti e vivere lo sport a modo tuo.">
+  <meta property="og:title" content="SportVibe Store — Accendi la tua voglia di sport">
+  <meta property="og:description" content="Abbigliamento e articoli sportivi per dare spazio alla tua energia. Esplora le categorie e chiedici disponibilità, taglie e dettagli.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:image" content="img/hero-1.jpg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232558F5'/%3E%3Cpath d='M36 9 17 36h15l-4 19 21-29H34z' fill='%23D4FA45'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: '#2558F5', lime: '#D4FA45', ink: '#182526', mist: '#F4F6F5' },
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Barlow Condensed', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    body { overflow-x: hidden; }
+    section[id] { scroll-margin-top: 110px; }
+    .display { font-family: 'Barlow Condensed', sans-serif; }
+    .hero-title { font-size: clamp(4.7rem, 8.1vw, 8rem); line-height: .87; letter-spacing: -.025em; }
+    .reveal { opacity: 1; transform: none; }
+    .motion-ready .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .motion-ready .reveal.visible { opacity: 1; transform: none; }
+    .arrow-link svg { transition: transform .2s ease; }
+    .arrow-link:hover svg { transform: translate(3px,-3px); }
+    .category.active { background: #2558F5; color: white; border-color: #2558F5; }
+    .product-art { background-image: radial-gradient(circle at 50% 50%, white 0%, #f0f3ed 70%); }
+    .product-card:hover .product-icon { transform: rotate(-7deg) scale(1.06); }
+    .product-icon { transition: transform .35s ease; }
+    :focus-visible { outline: 3px solid #2558F5; outline-offset: 5px; }
+    summary::-webkit-details-marker { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .motion-ready .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body class="bg-white text-ink font-sans antialiased">
+  <a href="#contenuto" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:p-4">Salta al contenuto</a>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m14 2-9 12h7l-2 8L21 9h-8l1-7Z" fill="currentColor"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8ZM8 8V6a4 4 0 0 1 8 0v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 180 160"><path d="m60 26-41 24 20 35 20-12-2 67h66l-2-67 20 12 20-35-41-24c-5 20-54 20-60 0Z" fill="#2558F5" stroke="#182526" stroke-width="2" stroke-linejoin="round"/><path d="M60 26c6 20 55 20 60 0M60 73l-1-22m62 22-1-22" fill="none" stroke="#182526" stroke-width="2"/><path d="m91 57-13 21h13l-4 16 20-25H94l3-12Z" fill="#D4FA45"/></symbol>
+    <symbol id="i-shoe" viewBox="0 0 180 160"><path d="m29 102 12-55 26 11 22-9 24 37 35 12c11 4 16 15 13 24H27c-6 0-7-14 2-20Z" fill="#FDFEFE" stroke="#182526" stroke-width="2.5" stroke-linejoin="round"/><path d="m40 53 15 14 16-7m14-5 23 36 30 11-16 13H30m-4 11h136M80 70l17-7M86 80l17-7M92 90l17-7" fill="none" stroke="#182526" stroke-width="2.5"/><path d="m63 82 10 18 36-7-38 20-19-24Z" fill="#2558F5"/><path d="M28 119h133v9H27Z" fill="#D4FA45" stroke="#182526" stroke-width="2"/></symbol>
+    <symbol id="i-weight" viewBox="0 0 180 160"><g transform="rotate(-30 90 80)" stroke="#182526" stroke-width="2.5"><rect x="48" y="71" width="84" height="18" rx="4" fill="#E0E6E4"/><rect x="28" y="42" width="24" height="76" rx="7" fill="#2558F5"/><rect x="15" y="55" width="14" height="50" rx="5" fill="#D4FA45"/><rect x="128" y="42" width="24" height="76" rx="7" fill="#2558F5"/><rect x="152" y="55" width="14" height="50" rx="5" fill="#D4FA45"/></g></symbol>
+    <symbol id="i-pack" viewBox="0 0 180 160"><path d="M63 47V32c0-17 54-17 54 0v15" fill="none" stroke="#182526" stroke-width="5"/><rect x="44" y="35" width="92" height="107" rx="28" fill="#D4FA45" stroke="#182526" stroke-width="2.5"/><path d="M46 75H32v44h12m91-44h13v44h-13" fill="#2558F5" stroke="#182526" stroke-width="2.5"/><rect x="58" y="85" width="64" height="42" rx="12" fill="#2558F5" stroke="#182526" stroke-width="2"/><path d="M69 97h42M64 51h52" stroke="#182526" stroke-width="2.5"/><path d="m91 57-8 13h9l-3 10 13-16h-9l2-7Z" fill="#2558F5"/></symbol>
+  </svg>
+
+  <header class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-b border-gray-100">
+    <div class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 h-20 flex items-center justify-between gap-5">
+      <a href="#" aria-label="SportVibe Store, homepage" class="flex items-center gap-2.5 shrink-0">
+        <span class="bg-brand rounded-xl w-10 h-10 grid place-items-center text-lime -rotate-6"><svg class="w-7 h-7"><use href="#i-bolt"/></svg></span>
+        <span class="display font-bold text-[29px] tracking-tight leading-none">SPORTVIBE<span class="block text-[10px] tracking-[.48em] font-sans font-semibold mt-1">STORE</span></span>
+      </a>
+      <nav aria-label="Menu principale" class="hidden lg:flex items-center gap-8 text-sm font-semibold">
+        <a href="#collezione" class="hover:text-brand">Shop</a>
+        <a href="#universo" class="hover:text-brand">Il tuo sport</a>
+        <a href="#chi-siamo" class="hover:text-brand">La nostra vibe</a>
+        <a href="#negozio" class="hover:text-brand">Il negozio</a>
+      </nav>
+      <div class="flex items-center gap-4 md:gap-6">
+        <a href="#contatti" class="hidden sm:inline-flex text-sm font-semibold items-center gap-2">Parliamone <svg class="w-4 h-4"><use href="#i-arrow"/></svg></a>
+        <button id="list-open" class="relative p-2" aria-label="Apri la tua selezione" aria-haspopup="dialog">
+          <svg class="w-6 h-6"><use href="#i-bag"/></svg>
+          <span id="list-count" class="absolute -right-1 -top-1 w-5 h-5 rounded-full bg-lime text-[11px] font-bold grid place-items-center">0</span>
+        </button>
+        <button id="menu-toggle" class="lg:hidden p-2" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="mobile-menu" aria-label="Menu mobile" class="hidden lg:hidden px-6 pb-6 border-t border-gray-100 bg-white">
+      <div class="flex flex-col gap-5 pt-5 font-semibold"><a href="#collezione">Shop</a><a href="#universo">Il tuo sport</a><a href="#chi-siamo">La nostra vibe</a><a href="#negozio">Il negozio</a><a href="#contatti">Contatti</a></div>
+    </nav>
+  </header>
+
+  <main id="contenuto" class="pt-20">
+    <section class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 pt-9 md:pt-14 pb-10 md:pb-14">
+      <div class="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-7 items-center">
+        <div class="relative py-4 lg:py-10">
+          <div class="inline-flex gap-2 items-center text-[11px] md:text-xs font-bold uppercase tracking-[.15em] mb-7">
+            <span class="w-2 h-2 rounded-full bg-brand"></span> Più movimento. Più te.
+          </div>
+          <h1 class="display font-bold uppercase hero-title">LA TUA ENERGIA.<br>LA TUA <span class="text-brand relative inline-block">VIBE.<svg aria-hidden="true" class="absolute w-full -bottom-3 left-0 h-4 text-lime" viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M2 14Q150 0 297 9" fill="none" stroke="currentColor" stroke-width="10"/></svg></span></h1>
+          <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-[390px] mt-9">Ogni traguardo comincia con la voglia di muoversi. Abbigliamento, scarpe e accessori per trovare il tuo ritmo. E non fermarti.</p>
+          <div class="flex flex-wrap gap-4 mt-8">
+            <a href="#collezione" class="bg-brand text-white px-6 py-4 rounded-full inline-flex items-center justify-center gap-6 font-semibold text-sm hover:bg-blue-700 transition arrow-link">Trova la tua prossima vibe <svg class="w-5 h-5"><use href="#i-arrow"/></svg></a>
+            <a href="#contatti" class="px-4 py-4 text-sm font-semibold underline underline-offset-4 decoration-gray-300 hover:text-brand">Chiedici un consiglio</a>
+          </div>
+          <div class="flex items-center gap-3 mt-10 text-xs text-gray-500"><span class="flex -space-x-1"><span class="w-7 h-7 rounded-full bg-lime border-2 border-white grid place-items-center text-ink"><svg class="w-4 h-4"><use href="#i-check"/></svg></span><span class="w-7 h-7 rounded-full bg-blue-100 border-2 border-white grid place-items-center text-brand"><svg class="w-4 h-4"><use href="#i-bolt"/></svg></span></span> Per chi inizia. Per chi non si ferma mai.</div>
+        </div>
+        <div class="relative lg:ml-3">
+          <div class="absolute -top-4 -right-3 w-28 h-28 bg-lime rounded-full -z-10"></div>
+          <div class="relative rounded-[28px] md:rounded-[36px] overflow-hidden h-[440px] md:h-[560px] lg:h-[620px] bg-mist">
+            <img src="img/hero-1.jpg" alt="Sport e movimento all’aria aperta: trova la tua energia con SportVibe" class="w-full h-full object-cover" fetchpriority="high">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+            <div class="absolute top-6 left-6 bg-white/95 backdrop-blur px-4 py-2 rounded-full text-[10px] font-bold tracking-[.15em] uppercase flex items-center gap-2"><span class="w-1.5 h-1.5 bg-brand rounded-full"></span> Ready. Set. Vibe.</div>
+            <div class="absolute bottom-7 inset-x-7 flex justify-between items-end text-white">
+              <p class="display uppercase text-5xl md:text-6xl font-semibold leading-[.9]">NATO PER<br>MUOVERTI.</p>
+              <a href="#universo" aria-label="Scopri il tuo sport" class="w-12 h-12 rounded-full border border-white/60 grid place-items-center hover:bg-white hover:text-brand transition"><svg class="w-6 h-6"><use href="#i-arrow"/></svg></a>
+            </div>
+          </div>
+          <div class="absolute top-[48%] -left-3 md:-left-6 bg-lime text-ink rounded-2xl p-4 shadow-lg shadow-black/5 -rotate-6 flex gap-3 items-center"><svg class="w-8 h-8"><use href="#i-bolt"/></svg><span class="display text-2xl font-bold leading-none uppercase">GOOD ENERGY.<br>GREAT MOVES.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bg-lime py-5 overflow-hidden border-y border-ink/5" aria-label="Move your body. Feel your vibe. Play your way.">
+      <div class="max-w-[1440px] mx-auto px-5 flex items-center justify-around gap-8 display text-2xl md:text-3xl font-semibold uppercase whitespace-nowrap">
+        <span>Move your body</span><svg class="w-6 h-6 shrink-0 text-brand"><use href="#i-bolt"/></svg><span>Feel your vibe</span><svg class="w-6 h-6 shrink-0 text-brand"><use href="#i-bolt"/></svg><span class="hidden sm:block">Play your way</span><svg class="hidden sm:block w-6 h-6 shrink-0 text-brand"><use href="#i-bolt"/></svg><span class="hidden xl:block">Make your move</span>
+      </div>
+    </div>
+
+    <section id="collezione" class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 py-20 md:py-24">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-5 mb-9">
+        <div><p class="text-brand text-xs font-bold uppercase tracking-[.17em] mb-3">La tua prossima mossa</p><h2 class="display text-5xl md:text-6xl uppercase font-semibold leading-none">L’essenziale per dare il massimo.</h2></div>
+        <p class="text-gray-500 text-sm leading-relaxed max-w-[270px]">Esplora le categorie. Per modelli, taglie, prezzi e disponibilità, ci siamo noi.</p>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-8" role="group" aria-label="Filtra le categorie">
+        <button class="category active border border-gray-200 rounded-full px-5 py-2.5 text-xs font-semibold transition" data-filter="all" aria-pressed="true">Tutto lo sport</button>
+        <button class="category border border-gray-200 rounded-full px-5 py-2.5 text-xs font-semibold transition" data-filter="abbigliamento" aria-pressed="false">Abbigliamento</button>
+        <button class="category border border-gray-200 rounded-full px-5 py-2.5 text-xs font-semibold transition" data-filter="scarpe" aria-pressed="false">Scarpe</button>
+        <button class="category border border-gray-200 rounded-full px-5 py-2.5 text-xs font-semibold transition" data-filter="attrezzatura" aria-pressed="false">Attrezzatura</button>
+        <button class="category border border-gray-200 rounded-full px-5 py-2.5 text-xs font-semibold transition" data-filter="accessori" aria-pressed="false">Accessori</button>
+      </div>
+      <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5" id="product-grid">
+        <article class="product-card" data-category="abbigliamento">
+          <div class="product-art h-64 rounded-2xl relative flex items-center justify-center mb-5"><span class="absolute left-4 top-4 text-[10px] font-bold uppercase tracking-wider bg-white rounded-full px-3 py-1.5">Wear your energy</span><svg role="img" aria-label="Illustrazione di una maglia sportiva blu" class="product-icon w-48 h-48"><use href="#i-shirt"/></svg><button data-add="Abbigliamento tecnico" class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full grid place-items-center hover:bg-lime transition text-xl" aria-label="Aggiungi abbigliamento tecnico alla selezione">+</button></div>
+          <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-1.5">Abbigliamento</p><h3 class="font-bold text-lg">Libertà, in ogni movimento.</h3><p class="text-sm text-gray-500 mt-2">Capi tecnici per allenarti con il tuo stile.</p><button data-inquiry="Abbigliamento tecnico" class="text-brand font-semibold text-xs mt-4 inline-flex gap-2 items-center">Scopri la categoria <svg class="w-3 h-3"><use href="#i-arrow"/></svg></button>
+        </article>
+        <article class="product-card" data-category="scarpe">
+          <div class="product-art h-64 rounded-2xl relative flex items-center justify-center mb-5"><span class="absolute left-4 top-4 text-[10px] font-bold uppercase tracking-wider bg-white rounded-full px-3 py-1.5">Find your pace</span><svg role="img" aria-label="Illustrazione di una scarpa sportiva" class="product-icon w-52 h-48"><use href="#i-shoe"/></svg><button data-add="Scarpe sportive" class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full grid place-items-center hover:bg-lime transition text-xl" aria-label="Aggiungi scarpe sportive alla selezione">+</button></div>
+          <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-1.5">Scarpe</p><h3 class="font-bold text-lg">Il prossimo passo è tuo.</h3><p class="text-sm text-gray-500 mt-2">Trova la scarpa adatta al tuo allenamento.</p><button data-inquiry="Scarpe sportive" class="text-brand font-semibold text-xs mt-4 inline-flex gap-2 items-center">Scopri la categoria <svg class="w-3 h-3"><use href="#i-arrow"/></svg></button>
+        </article>
+        <article class="product-card" data-category="attrezzatura">
+          <div class="product-art h-64 rounded-2xl relative flex items-center justify-center mb-5"><span class="absolute left-4 top-4 text-[10px] font-bold uppercase tracking-wider bg-white rounded-full px-3 py-1.5">Build your strength</span><svg role="img" aria-label="Illustrazione di un manubrio per fitness" class="product-icon w-48 h-48"><use href="#i-weight"/></svg><button data-add="Attrezzatura fitness" class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full grid place-items-center hover:bg-lime transition text-xl" aria-label="Aggiungi attrezzatura fitness alla selezione">+</button></div>
+          <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-1.5">Attrezzatura</p><h3 class="font-bold text-lg">Dai forza ai tuoi obiettivi.</h3><p class="text-sm text-gray-500 mt-2">Gli alleati giusti per la tua routine fitness.</p><button data-inquiry="Attrezzatura fitness" class="text-brand font-semibold text-xs mt-4 inline-flex gap-2 items-center">Scopri la categoria <svg class="w-3 h-3"><use href="#i-arrow"/></svg></button>
+        </article>
+        <article class="product-card" data-category="accessori">
+          <div class="product-art h-64 rounded-2xl relative flex items-center justify-center mb-5"><span class="absolute left-4 top-4 text-[10px] font-bold uppercase tracking-wider bg-white rounded-full px-3 py-1.5">Pack the good vibes</span><svg role="img" aria-label="Illustrazione di uno zaino sportivo verde lime" class="product-icon w-48 h-48"><use href="#i-pack"/></svg><button data-add="Accessori sportivi" class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full grid place-items-center hover:bg-lime transition text-xl" aria-label="Aggiungi accessori sportivi alla selezione">+</button></div>
+          <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-1.5">Accessori</p><h3 class="font-bold text-lg">Piccoli dettagli. Grande vibe.</h3><p class="text-sm text-gray-500 mt-2">Porta con te tutto quello che ti serve.</p><button data-inquiry="Accessori sportivi" class="text-brand font-semibold text-xs mt-4 inline-flex gap-2 items-center">Scopri la categoria <svg class="w-3 h-3"><use href="#i-arrow"/></svg></button>
+        </article>
+      </div>
+      <p class="text-xs text-gray-500 mt-8 flex items-start gap-2"><svg class="w-4 h-4 shrink-0"><use href="#i-bag"/></svg> Crea la tua selezione con il pulsante + e inviaci una richiesta. Le illustrazioni rappresentano le categorie, non singoli prodotti acquistabili.</p>
+    </section>
+
+    <section id="universo" class="bg-mist py-16 md:py-20">
+      <div class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div class="reveal relative">
+          <img src="img/servizi-2.jpg" loading="lazy" alt="Articoli e abbigliamento sportivo per accompagnare il tuo allenamento" class="w-full h-[380px] md:h-[480px] object-cover rounded-[28px]">
+          <div class="absolute bottom-5 left-5 bg-lime px-5 py-3 rounded-xl -rotate-3"><span class="display text-3xl font-semibold uppercase">Un solo limite? Restare fermi.</span></div>
+        </div>
+        <div class="reveal">
+          <p class="text-brand text-xs font-bold uppercase tracking-[.17em] mb-4">A ogni passione, la sua vibe</p>
+          <h2 class="display text-5xl md:text-6xl font-semibold uppercase leading-[.95]">Non importa come ti muovi.<br><span class="text-brand">Basta che sia a modo tuo.</span></h2>
+          <p class="text-gray-600 text-sm leading-relaxed mt-6 max-w-lg">Una corsa per staccare. Un allenamento per ritrovarti. Una partita per stare insieme. Parti da quello che ami: ti aiutiamo a scegliere ciò che serve davvero.</p>
+          <div class="mt-6 divide-y divide-gray-200">
+            <a href="#contatti" data-sport="Running e camminata" class="flex items-center justify-between py-4 group"><span class="flex items-center gap-4"><span class="text-xs text-gray-400">01</span><span class="font-semibold group-hover:text-brand">Running & camminata</span></span><svg class="w-5 h-5 text-brand"><use href="#i-arrow"/></svg></a>
+            <a href="#contatti" data-sport="Fitness e training" class="flex items-center justify-between py-4 group"><span class="flex items-center gap-4"><span class="text-xs text-gray-400">02</span><span class="font-semibold group-hover:text-brand">Fitness & training</span></span><svg class="w-5 h-5 text-brand"><use href="#i-arrow"/></svg></a>
+            <a href="#contatti" data-sport="Sport di squadra e tempo libero" class="flex items-center justify-between py-4 group"><span class="flex items-center gap-4"><span class="text-xs text-gray-400">03</span><span class="font-semibold group-hover:text-brand">Sport di squadra & tempo libero</span></span><svg class="w-5 h-5 text-brand"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chi-siamo" class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 py-20 md:py-24">
+      <div class="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-20">
+        <div class="reveal">
+          <p class="text-brand text-xs font-bold uppercase tracking-[.17em] mb-4">La nostra vibe</p>
+          <h2 class="display text-5xl md:text-7xl font-semibold uppercase leading-[.95]">Lo sport non è solo<br>quello che fai.<br><span class="text-brand">È come ti senti.</span></h2>
+        </div>
+        <div class="reveal pt-1">
+          <p class="text-lg leading-relaxed">SportVibe Store è il punto d’incontro tra la voglia di muoversi e gli articoli giusti per farlo.</p>
+          <p class="text-gray-500 text-sm leading-relaxed mt-5">Crediamo in uno sport accessibile, personale, senza etichette. Non devi essere un atleta per scegliere con cura quello che indossi o l’attrezzatura che usi: basta avere un obiettivo, anche piccolo, e la voglia di cominciare.</p>
+          <div class="grid sm:grid-cols-2 gap-6 mt-8">
+            <div class="border-t border-gray-200 pt-5"><svg class="w-6 h-6 text-brand mb-3"><use href="#i-bolt"/></svg><h3 class="font-bold text-sm">La tua passione, al centro</h3><p class="text-xs text-gray-500 leading-relaxed mt-2">Partiamo dal tuo sport, dalle tue abitudini e da ciò che cerchi.</p></div>
+            <div class="border-t border-gray-200 pt-5"><svg class="w-6 h-6 text-brand mb-3"><use href="#i-check"/></svg><h3 class="font-bold text-sm">Scelte più consapevoli</h3><p class="text-xs text-gray-500 leading-relaxed mt-2">Un confronto diretto su vestibilità, utilizzo e caratteristiche.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="negozio" class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 pb-20 md:pb-24">
+      <div class="rounded-[28px] bg-mist p-6 md:p-10 grid md:grid-cols-2 gap-10 items-center reveal">
+        <div>
+          <p class="text-brand text-xs font-bold uppercase tracking-[.17em] mb-3">Ci vediamo in negozio</p>
+          <h2 class="display font-semibold text-5xl uppercase">Passa dalla nostra parte.</h2>
+          <p class="text-sm text-gray-500 leading-relaxed mt-4 max-w-md">Tocca i materiali, confronta i modelli e raccontaci cosa hai in mente. Il prossimo allenamento comincia anche da qui.</p>
+          <div class="mt-6 flex items-start gap-3"><svg class="w-5 h-5 text-brand shrink-0"><use href="#i-pin"/></svg><address class="not-italic text-sm font-semibold">[INDIRIZZO]<br><span class="text-gray-500 font-normal">[CAP] [CITTÀ] ([PROVINCIA])</span></address></div>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=%5BINDIRIZZO%5D%20%5BCITT%C3%80%5D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-brand font-semibold text-sm mt-5 underline underline-offset-4">Apri Google Maps <svg class="w-4 h-4"><use href="#i-arrow"/></svg></a>
+          <p class="text-xs text-gray-500 mt-3">Indicazioni disponibili dopo l’inserimento dell’indirizzo.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 md:p-8">
+          <div class="flex items-center justify-between mb-6"><h3 class="font-bold">Quando trovarci</h3><svg class="w-5 h-5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></div>
+          <dl class="text-sm divide-y divide-gray-100"><div class="flex justify-between gap-4 pb-4"><dt>Lunedì – Venerdì</dt><dd class="text-gray-500">[ORARI]</dd></div><div class="flex justify-between gap-4 py-4"><dt>Sabato</dt><dd class="text-gray-500">[ORARI]</dd></div><div class="flex justify-between gap-4 pt-4"><dt>Domenica</dt><dd class="text-gray-500">[ORARI / CHIUSO]</dd></div></dl>
+          <p class="text-xs text-gray-500 mt-6 bg-mist rounded-lg p-3">Gli orari sono da confermare. Contattaci prima di organizzare la tua visita.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contatti" class="bg-[#F0F4FF] py-16 md:py-20">
+      <div class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <div class="reveal">
+          <p class="text-brand text-xs font-bold uppercase tracking-[.17em] mb-4">Facciamo squadra</p>
+          <h2 class="display font-semibold text-6xl md:text-7xl uppercase leading-[.95]">Hai un obiettivo?<br><span class="text-brand">Parliamone.</span></h2>
+          <p class="text-gray-600 text-sm leading-relaxed mt-6 max-w-md">Una domanda sulle taglie? Cerchi un articolo preciso? Scrivici cosa ti serve: ti aiuteremo a orientarti tra le possibilità.</p>
+          <div class="flex flex-wrap gap-3 mt-7">
+            <a href="tel:[TELEFONO]" data-contact="telefono" class="bg-brand text-white rounded-full px-5 py-3 text-sm font-semibold hover:bg-blue-700">Chiama ↗</a>
+            <a href="https://wa.me/[TELEFONO]" data-contact="whatsapp" class="bg-lime rounded-full px-5 py-3 text-sm font-semibold hover:bg-[#c5ee2c]">WhatsApp ↗</a>
+            <a href="mailto:[EMAIL]" data-contact="email" class="bg-white border border-blue-100 rounded-full px-5 py-3 text-sm font-semibold hover:border-brand">Email ↗</a>
+          </div>
+          <div class="mt-7 text-sm text-gray-500 space-y-2"><p>Telefono: <span class="text-ink">[TELEFONO]</span></p><p>Email: <span class="text-ink">[EMAIL]</span></p></div>
+          <p class="text-xs text-gray-500 mt-5 max-w-sm">Recapiti da completare: i collegamenti diretti saranno disponibili una volta inseriti i dati del negozio.</p>
+        </div>
+        <form id="contact-form" class="reveal bg-white p-6 md:p-8 rounded-[24px]">
+          <h3 class="font-bold text-xl mb-1">Raccontaci la tua prossima mossa.</h3>
+          <p class="text-xs text-gray-500 mb-6">I campi con * sono obbligatori.</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label for="name" class="block text-xs font-semibold mb-2">Nome *</label><input required id="name" name="name" autocomplete="name" placeholder="Il tuo nome" class="w-full bg-mist rounded-lg border border-gray-200 px-4 py-3 text-sm"></div>
+            <div><label for="email" class="block text-xs font-semibold mb-2">Email *</label><input required type="email" id="email" name="email" autocomplete="email" placeholder="nome@email.it" class="w-full bg-mist rounded-lg border border-gray-200 px-4 py-3 text-sm"></div>
+          </div>
+          <div class="mt-4"><label for="interest" class="block text-xs font-semibold mb-2">Di cosa hai bisogno?</label><select id="interest" name="interest" class="w-full bg-mist rounded-lg border border-gray-200 px-4 py-3 text-sm"><option value="Informazioni generali">Informazioni generali</option>Abbigliamento tecnico</option><option>Scarpe sportive</option><option>Attrezzatura fitness</option><option>Accessori sportivi</option><option>La mia selezione</option><option>Running e camminata</option><option>Fitness e training</option><option>Sport di squadra e tempo libero</option></select></div>
+          <div class="mt-4"><label for="message" class="block text-xs font-semibold mb-2">Messaggio *</label><textarea required id="message" name="message" rows="4" placeholder="Raccontaci il tuo sport, cosa cerchi e le taglie che ti interessano…" class="w-full bg-mist rounded-lg border border-gray-200 px-4 py-3 text-sm resize-y"></textarea></div>
+          <label class="flex items-start gap-3 mt-4 text-xs text-gray-500 leading-relaxed"><input required type="checkbox" class="mt-1 accent-brand w-4 h-4 shrink-0"><span>Ho letto l’<button type="button" data-privacy class="underline text-ink underline-offset-2">informativa privacy</button> e compreso come verranno utilizzati i dati della richiesta. *</span></label>
+          <button type="submit" class="mt-6 w-full rounded-full bg-brand text-white px-6 py-4 text-sm font-semibold flex items-center justify-between hover:bg-blue-700">Prepara la tua email <svg class="w-5 h-5"><use href="#i-arrow"/></svg></button>
+          <p class="text-[11px] text-gray-500 leading-relaxed mt-3">Il modulo apre il tuo programma di posta. Nessun messaggio viene inviato automaticamente e nessun acquisto viene concluso.</p>
+          <p id="form-status" role="status" class="text-xs text-brand mt-3"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-[1440px] mx-auto px-5 md:px-10 xl:px-16 pt-12 pb-6">
+    <div class="flex flex-col md:flex-row justify-between gap-8 pb-10">
+      <div><a href="#" class="display text-3xl font-bold tracking-tight">SPORTVIBE<span class="text-brand">.</span> <span class="text-base font-medium">STORE</span></a><p class="text-sm text-gray-500 mt-2">Il tuo sport. La tua energia.</p></div>
+      <div class="flex flex-wrap gap-x-8 gap-y-4 text-sm"><a href="#collezione" class="hover:text-brand">Shop</a><a href="#chi-siamo" class="hover:text-brand">Chi siamo</a><a href="#negozio" class="hover:text-brand">Dove siamo</a><a href="#contatti" class="hover:text-brand">Contatti</a></div>
+    </div>
+    <div class="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between gap-4 text-[11px] text-gray-500"><p>© <span id="year"></span> SportVibe Store · [RAGIONE SOCIALE] · P. IVA [P.IVA]</p><div class="flex gap-5"><button data-privacy class="underline underline-offset-2">Privacy</button><span>Made for movement ↗</span></div></div>
+  </footer>
+
+  <dialog id="selection-dialog" aria-labelledby="selection-title" class="rounded-3xl p-0 w-[calc(100%-2rem)] max-w-lg backdrop:bg-ink/35">
+    <div class="p-6 md:p-8">
+      <div class="flex items-center justify-between gap-3"><h2 id="selection-title" class="display text-4xl font-semibold uppercase">La tua selezione</h2><button data-close class="w-9 h-9 rounded-full bg-mist text-xl" aria-label="Chiudi selezione">×</button></div>
+      <p class="text-sm text-gray-500 mt-3">Raccogli le categorie che ti interessano e chiedici modelli, prezzi e disponibilità. Non è un ordine.</p>
+      <ul id="selection-items" class="my-6 divide-y divide-gray-100"></ul>
+      <button id="selection-send" class="w-full bg-brand text-white font-semibold text-sm rounded-full p-4">Richiedi informazioni sulla selezione ↗</button>
+    </div>
+  </dialog>
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title" class="rounded-3xl p-0 w-[calc(100%-2rem)] max-w-xl backdrop:bg-ink/35">
+    <div class="p-6 md:p-8">
+      <div class="flex items-center justify-between gap-3"><h2 id="privacy-title" class="text-xl font-bold">Informativa privacy</h2><button data-close class="w-9 h-9 rounded-full bg-mist text-xl shrink-0" aria-label="Chiudi informativa">×</button></div>
+      <div class="text-sm text-gray-600 leading-relaxed space-y-4 mt-5">
+        <p><strong>Avviso: informativa da completare prima della pubblicazione del sito.</strong></p>
+        <p>Titolare del trattamento: [RAGIONE SOCIALE], [INDIRIZZO]. Contatto per la privacy: [EMAIL].</p>
+        <p>Il modulo prepara un’email nel programma di posta dell’utente e non trasmette i dati a un server di questo sito. Nome, indirizzo email e contenuto del messaggio saranno comunicati al negozio solo se l’utente invierà l’email.</p>
+        <p>I dati della richiesta sono destinati alla gestione del contatto e delle eventuali attività precontrattuali richieste dall’interessato. Tempi di conservazione, destinatari e ulteriori dettagli devono essere definiti dal titolare: [DETTAGLI DA COMPLETARE].</p>
+        <p>È possibile chiedere accesso, rettifica, cancellazione o limitazione dei dati e, ove applicabile, opporsi al trattamento o richiederne la portabilità scrivendo a [EMAIL]. È possibile proporre reclamo al Garante per la protezione dei dati personali.</p>
+        <p>Il sito carica font da Google Fonts e risorse da Tailwind CDN, che possono ricevere dati tecnici di connessione. Non sono presenti strumenti di analisi o profilazione in questo file.</p>
+      </div>
+    </div>
+  </dialog>
+  <div id="toast" role="status" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] bg-white text-ink border border-gray-200 shadow-xl rounded-2xl px-5 py-4 text-sm max-w-[calc(100%-2rem)] w-max hidden"></div>
+
+  <script>
+    const menuButton = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') !== 'true';
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      mobileMenu.classList.toggle('hidden', !open);
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Apri menu');
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    if ('IntersectionObserver' in window) {
+      document.body.classList.add('motion-ready');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    document.querySelectorAll('[data-filter]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+        document.querySelectorAll('[data-category]').forEach(card => {
+          card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
+        });
+      });
+    });
+
+    let toastTimer;
+    function notify(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add('hidden'), 4500);
+    }
+    const selection = new Set();
+    const selectionDialog = document.getElementById('selection-dialog');
+    const selectionItems = document.getElementById('selection-items');
+    function renderSelection() {
+      document.getElementById('list-count').textContent = selection.size;
+      selectionItems.replaceChildren();
+      if (!selection.size) {
+        const empty = document.createElement('li');
+        empty.className = 'py-4 text-sm text-gray-500';
+        empty.textContent = 'La selezione è vuota. Aggiungi una categoria con il pulsante +.';
+        selectionItems.append(empty);
+      }
+      selection.forEach(name => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between gap-3 py-4 text-sm';
+        const text = document.createElement('span');
+        text.textContent = name;
+        const remove = document.createElement('button');
+        remove.className = 'text-brand text-xs underline p-2';
+        remove.textContent = 'Rimuovi';
+        remove.setAttribute('aria-label', 'Rimuovi ' + name);
+        remove.addEventListener('click', () => { selection.delete(name); renderSelection(); });
+        li.append(text, remove);
+        selectionItems.append(li);
+      });
+      document.getElementById('selection-send').disabled = !selection.size;
+      document.getElementById('selection-send').classList.toggle('opacity-40', !selection.size);
+    }
+    document.querySelectorAll('[data-add]').forEach(button => button.addEventListener('click', () => {
+      const name = button.dataset.add;
+      const exists = selection.has(name);
+      selection.add(name);
+      renderSelection();
+      notify(exists ? 'Questa categoria è già nella tua selezione.' : 'Categoria aggiunta alla tua selezione.');
+    }));
+    document.getElementById('list-open').addEventListener('click', () => { renderSelection(); selectionDialog.showModal(); });
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
+    document.querySelectorAll('[data-privacy]').forEach(button => button.addEventListener('click', () => document.getElementById('privacy-dialog').showModal()));
+    document.querySelectorAll('dialog').forEach(dialog => {
+      dialog.addEventListener('click', event => {
+        const rect = dialog.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+      });
+    });
+    function prepareInquiry(interest, message) {
+      document.getElementById('interest').value = interest;
+      if (message) document.getElementById('message').value = message;
+      document.getElementById('contatti').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    }
+    document.querySelectorAll('[data-inquiry]').forEach(button => button.addEventListener('click', () => prepareInquiry(button.dataset.inquiry)));
+    document.querySelectorAll('[data-sport]').forEach(link => link.addEventListener('click', () => { document.getElementById('interest').value = link.dataset.sport; }));
+    document.getElementById('selection-send').addEventListener('click', () => {
+      if (!selection.size) return;
+      selectionDialog.close();
+      prepareInquiry('La mia selezione', 'Ciao SportVibe! Vorrei informazioni su modelli, prezzi e disponibilità per:\n\n' + [...selection].map(name => '• ' + name).join('\n') + '\n\nIl mio sport e le taglie che cerco: ');
+    });
+    document.querySelectorAll('[data-contact]').forEach(link => link.addEventListener('click', event => {
+      event.preventDefault();
+      notify('Recapito da completare: ' + (link.dataset.contact === 'email' ? '[EMAIL]' : '[TELEFONO]') + '.');
+    }));
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const subject = 'SportVibe Store — ' + data.get('interest');
+      const body = 'Nome: ' + data.get('name') + '\nEmail: ' + data.get('email') + '\nInteresse: ' + data.get('interest') + '\n\n' + data.get('message');
+      document.getElementById('form-status').textContent = 'Email preparata. Attenzione: sostituisci [EMAIL] con il recapito del negozio prima di inviare.';
+      window.location.href = 'mailto:[EMAIL]?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+    renderSelection();
+  </script>
+</body>
+</html>
