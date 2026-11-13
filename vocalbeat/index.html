@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VocalBeat - Prototipo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E1A47">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand: { 50: '#F5F2F9', 100: '#EAE3F2', 500: '#2E1A47', 600: '#241438', 700: '#1A0E28' }
+      },
+      fontFamily: { sans: ['Inter', 'sans-serif'] }
+    }
+  }
+}
+</script>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 font-sans flex flex-col items-center justify-center overflow-hidden select-none">
+<div id="app" class="w-full h-full max-w-md bg-brand-700 flex flex-col relative shadow-2xl overflow-hidden sm:h-[844px] sm:rounded-3xl sm:border sm:border-brand-500">
+<header class="bg-brand-600 px-4 py-3 flex items-center justify-between border-b border-brand-500 z-10 shrink-0">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold text-lg">V</div>
+<span class="font-bold text-lg tracking-wide text-white">VocalBeat</span>
+</div>
+<div class="flex items-center space-x-2">
+<span id="user-badge" class="text-xs bg-brand-500 px-2 py-1 rounded-full text-brand-100">Cantautore</span>
+<button onclick="router('settings')" class="p-2 text-brand-100 hover:text-white">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+</button>
+</div>
+</header>
+<main id="main-content" class="flex-1 overflow-y-auto relative flex flex-col"></main>
+<nav class="bg-brand-600 border-t border-brand-500 py-2 px-6 flex justify-around items-center shrink-0 z-10">
+<button onclick="router('home')" id="nav-home" class="flex flex-col items-center text-white">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+<span class="text-[10px] mt-1">Home</span>
+</button>
+<button onclick="router('beats')" id="nav-beats" class="flex flex-col items-center text-brand-100 opacity-60">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+<span class="text-[10px] mt-1">Libreria</span>
+</button>
+</nav>
+</div>
+<div id="modal-container"></div>
+<div id="toast" class="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2 rounded-full shadow-lg text-sm transition-all duration-300 opacity-0 pointer-events-none z-50 border border-brand-500"></div>
+<script>
+const defaultData = {
+  user: "Cantautori",
+  beats: [
+    { id: "b1", nome: "Lo-Fi Chill", genere: "Lo-Fi", url: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg", durata: "2:15", custom: false },
+    { id: "b2", nome: "Trap Heavy 808", genere: "Trap", url: "https://actions.google.com/sounds/v1/science_fiction/teleport_beam.ogg", durata: "1:45", custom: false },
+    { id: "b3", nome: "Acoustic Strum", genere: "Acustico", url: "https://actions.google.com/sounds/v1/weather/rain_heavy.ogg", durata: "3:00", custom: false }
+  ],
+  registrazioni: [
+    { id: "r1", titolo: "Idea per ritornello", tipo: "voce", contenuto: "Registrazione vocale rapida", fileAudioUrl: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg", durata: "0:45", beatId: "b1", volumeVoce: 80, volumeBeat: 50, dataCreazione: new Date(Date.now()-86400000).toISOString() },
+    { id: "r2", titolo: "Testo strofa 1", tipo: "testo", contenuto: "Cammino nella notte senza meta, la musica mi salva quando è quieta...", fileAudioUrl: "", durata: "0:00", beatId: "b2", volumeVoce: 100, volumeBeat: 40, dataCreazione: new Date().toISOString() }
+  ]
+};
+
+let db = JSON.parse(localStorage.getItem("vocalbeat_dati")) || defaultData;
+let currentRoute = "home";
+let activeMixId = null;
+let isRecording = false;
+let mediaRecorder = null;
+let audioChunks = [];
+let audioPlayer = new Audio();
+let isPlayingMix = false;
+
+function saveDb() {
+  localStorage.setItem("vocalbeat_dati", JSON.stringify(db));
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.remove("opacity-0", "pointer-events-none");
+  setTimeout(() => t.classList.add("opacity-0", "pointer-events-none"), 2500);
+}
+
+function router(route, param = null) {
+  currentRoute = route;
+  if(route !== 'mix') {
+    audioPlayer.pause();
+    isPlayingMix = false;
+  }
+  document.querySelectorAll('nav button').forEach(b => b.classList.add('opacity-60', 'text-brand-100'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('text-white'));
+  if(route === 'home') document.getElementById('nav-home').classList.remove('opacity-60', 'text-brand-100'), document.getElementById('nav-home').classList.add('text-white');
+  if(route === 'beats') document.getElementById('nav-beats').classList.remove('opacity-60', 'text-brand-100'), document.getElementById('nav-beats').classList.add('text-white');
+  
+  const main = document.getElementById('main-content');
+  main.scrollTop = 0;
+  if(route === 'home') renderHome(main);
+  else if(route === 'beats') renderBeats(main);
+  else if(route === 'mix') renderMix(main, param);
+  else if(route === 'settings') renderSettings(main);
+  document.getElementById('user-badge').innerText = db.user;
+}
+
+function renderHome(container) {
+  container.innerHTML = `
+    <div class="p-4 flex-1 flex flex-col">
+      <div class="flex gap-2 mb-4">
+        <input type="text" id="search-reg" placeholder="Cerca registrazioni..." oninput="filterRegistrations()" class="flex-1 bg-brand-600 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-brand-100/50 focus:outline-none focus:border-white">
+        <select id="filter-tipo" onchange="filterRegistrations()" class="bg-brand-600 border border-brand-500 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none">
+          <option value="">Tutti</option>
+          <option value="voce">Voce</option>
+          <option value="testo">Testo</option>
+        </select>
+      </div>
+      <div id="reg-list" class="space-y-3 flex-1 overflow-y-auto pb-20"></div>
+    </div>
+    <div class="absolute bottom-4 left-0 right-0 px-4 flex justify-center pointer-events-none">
+      <button onclick="openNewModal()" class="pointer-events-auto bg-white text-brand-700 font-bold px-6 py-3.5 rounded-full shadow-lg flex items-center space-x-2 hover:bg-brand-50 transition transform active:scale-95">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+        <span>Nuova Registrazione</span>
+      </button>
+    </div>
+  `;
+  filterRegistrations();
+}
+
+function filterRegistrations() {
+  const q = (document.getElementById('search-reg')?.value || '').toLowerCase();
+  const tipo = document.getElementById('filter-tipo')?.value || '';
+  const list = document.getElementById('reg-list');
+  
+  const filtered = db.registrazioni.filter(r => {
+    const matchQ = r.titolo.toLowerCase().includes(q) || r.contenuto.toLowerCase().includes(q);
+    const matchT = tipo ? r.tipo === tipo : true;
+    return matchQ && matchT;
+  });
+
+  if(filtered.length === 0) {
+    list.innerHTML = `
+      <div class="flex flex-col items-center justify-center h-64 text-brand-100/60 text-center">
+        <svg class="w-16 h-16 mb-2 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+        <p class="font-medium">Nessuna registrazione trovata</p>
+        <p class="text-xs mt-1">Tocca il pulsante in basso per crearne una</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(r => {
+    const beat = db.beats.find(b => b.id === r.beatId);
+    return `
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+        <div class="flex items-center space-x-3.5 flex-1 min-w-0 cursor-pointer" onclick="router('mix', '${r.id}')">
+          <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center shrink-0 text-white">
+            ${r.tipo === 'voce' ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>' : '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>'}
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="font-semibold text-sm text-white truncate">${r.titolo}</h3>
+            <p class="text-xs text-brand-100/70 truncate">${beat ? 'Beat: ' + beat.nome : 'Nessun beat'} • ${new Date(r.dataCreazione).toLocaleDateString()}</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-1 ml-2">
+          <button onclick="router('mix', '${r.id}')" class="p-2 text-brand-100 hover:text-white" title="Studio Mix">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+          </button>
+          <button onclick="confirmDelete('${r.id}')" class="p-2 text-rose-400 hover:text-rose-300" title="Elimina">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderBeats(container) {
+  container.innerHTML = `
+    <div class="p-4 flex-1 flex flex-col pb-20">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-lg text-white">Libreria Beat</h2>
+        <button onclick="openBeatModal()" class="bg-white text-brand-700 font-semibold text-xs px-3.5 py-2 rounded-xl shadow hover:bg-brand-50 flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Carica Beat</span>
+        </button>
+      </div>
+      <div class="space-y-3 flex-1 overflow-y-auto">
+        ${db.beats.map(b => `
+          <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-3.5 min-w-0 flex-1">
+              <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center shrink-0 text-white font-bold text-sm">🎵</div>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-semibold text-sm text-white truncate">${b.nome}</h3>
+                <p class="text-xs text-brand-100/70">${b.genere} • ${b.durata}</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-1 ml-2">
+              <button onclick="playPreview('${b.url}')" class="p-2 text-brand-100 hover:text-white" title="Ascolta">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </button>
+              ${b.custom ? `<button onclick="deleteBeat('${b.id}')" class="p-2 text-rose-400 hover:text-rose-300" title="Elimina"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderMix(container, regId) {
+  const reg = db.registrazioni.find(r => r.id === regId);
+  if(!reg) { router('home'); return; }
+  activeMixId = reg.id;
+  const beat = db.beats.find(b => b.id === reg.beatId) || db.beats[0];
+
+  container.innerHTML = `
+    <div class="p-4 flex-1 flex flex-col pb-20">
+      <div class="flex items-center justify-between mb-4">
+        <button onclick="router('home')" class="text-brand-100 hover:text-white flex items-center space-x-1 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span>Indietro</span>
+        </button>
+        <h2 class="font-bold text-base text-white truncate max-w-[200px]">${reg.titolo}</h2>
+        <button onclick="saveMixData()" class="bg-white text-brand-700 font-semibold text-xs px-3 py-1.5 rounded-lg">Salva</button>
+      </div>
+      
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-6 flex flex-col items-center justify-center mb-4 shadow-sm relative overflow-hidden">
+        <div class="absolute inset-0 bg-brand-500/10 flex items-center justify-center opacity-30 pointer-events-none">
+          <svg class="w-48 h-48 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+        </div>
+        <button onclick="togglePlayMix()" id="play-mix-btn" class="w-16 h-16 bg-white text-brand-700 rounded-full flex items-center justify-center shadow-lg hover:bg-brand-50 transition transform active:scale-95 z-10">
+          <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <span id="mix-status" class="text-xs text-brand-100 mt-3 z-10">Pronto per il mix</span>
+      </div>
+
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 mb-4 space-y-4">
+        <h3 class="font-semibold text-sm text-white border-b border-brand-500 pb-2">Selezione Beat</h3>
+        <select id="mix-beat-select" onchange="updateMixBeat(this.value)" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+          ${db.beats.map(b => `<option value="${b.id}" ${b.id === reg.beatId ? 'selected' : ''}>${b.nome} (${b.genere})</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 space-y-4">
+        <h3 class="font-semibold text-sm text-white border-b border-brand-500 pb-2">Controllo Volumi</h3>
+        <div>
+          <div class="flex justify-between text-xs text-brand-100 mb-1">
+            <span>Volume Voce</span>
+            <span id="val-voce">${reg.volumeVoce}%</span>
+          </div>
+          <input type="range" min="0" max="100" value="${reg.volumeVoce}" oninput="updateVolume('voce', this.value)" class="w-full accent-white cursor-pointer">
+        </div>
+        <div>
+          <div class="flex justify-between text-xs text-brand-100 mb-1">
+            <span>Volume Beat</span>
+            <span id="val-beat">${reg.volumeBeat}%</span>
+          </div>
+          <input type="range" min="0" max="100" value="${reg.volumeBeat}" oninput="updateVolume('beat', this.value)" class="w-full accent-white cursor-pointer">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function updateVolume(tipo, val) {
+  const reg = db.registrazioni.find(r => r.id === activeMixId);
+  if(!reg) return;
+  if(tipo === 'voce') {
+    reg.volumeVoce = parseInt(val);
+    document.getElementById('val-voce').innerText = val + '%';
+  } else {
+    reg.volumeBeat = parseInt(val);
+    document.getElementById('val-beat').innerText = val + '%';
+    audioPlayer.volume = val / 100;
+  }
+}
+
+function updateMixBeat(beatId) {
+  const reg = db.registrazioni.find(r => r.id === activeMixId);
+  if(!reg) return;
+  reg.beatId = beatId;
+  const beat = db.beats.find(b => b.id === beatId);
+  if(beat && isPlayingMix) {
+    audioPlayer.src = beat.url;
+    audioPlayer.play();
+  }
+  showToast("Beat aggiornato");
+}
+
+function saveMixData() {
+  saveDb();
+  showToast("Modifiche salvate");
+}
+
+function togglePlayMix() {
+  const reg = db.registrazioni.find(r => r.id === activeMixId);
+  if(!reg) return;
+  const beat = db.beats.find(b => b.id === reg.beatId) || db.beats[0];
+  const btn = document.getElementById('play-mix-btn');
+  const status = document.getElementById('mix-status');
+
+  if(isPlayingMix) {
+    audioPlayer.pause();
+    isPlayingMix = false;
+    btn.innerHTML = '<svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    status.innerText = "Pronto per il mix";
+  } else {
+    audioPlayer.src = beat ? beat.url : db.beats[0].url;
+    audioPlayer.volume = reg.volumeBeat / 100;
+    audioPlayer.play().catch(() => {});
+    isPlayingMix = true;
+    btn.innerHTML = '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    status.innerText = "Riproduzione in corso...";
+    audioPlayer.onended = () => {
+      isPlayingMix = false;
+      btn.innerHTML = '<svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      status.innerText = "Pronto per il mix";
+    };
+  }
+}
+
+function renderSettings(container) {
+  container.innerHTML = `
+    <div class="p-4 flex-1 flex flex-col pb-20">
+      <div class="flex items-center justify-between mb-4">
+        <button onclick="router('home')" class="text-brand-100 hover:text-white flex items-center space-x-1 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span>Indietro</span>
+        </button>
+        <h2 class="font-bold text-base text-white">Impostazioni</h2>
+        <div class="w-12"></div>
+      </div>
+
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 mb-4 space-y-3">
+        <h3 class="font-semibold text-sm text-white">Profilo Utente</h3>
+        <select id="user-profile-select" onchange="changeProfile(this.value)" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+          ${["Cantautori", "Podcaster", "Creatori di contenuti", "Musicisti amatoriali"].map(u => `<option value="${u}" ${db.user === u ? 'selected' : ''}>${u}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="bg-brand-600 border border-brand-500 rounded-2xl p-4 mb-4 space-y-3">
+        <h3 class="font-semibold text-sm text-white">Gestione Dati</h3>
+        <button onclick="resetData()" class="w-full bg-brand-700 hover:bg-brand-500 text-white font-medium text-xs py-3 px-4 rounded-xl border border-brand-500 text-left flex justify-between items-center">
+          <span>Ripristina dati di esempio</span>
+          <svg class="w-4 h-4 text-brand-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+        <button onclick="exportCSV()" class="w-full bg-brand-700 hover:bg-brand-500 text-white font-medium text-xs py-3 px-4 rounded-xl border border-brand-500 text-left flex justify-between items-center">
+          <span>Esporta in CSV</span>
+          <svg class="w-4 h-4 text-brand-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
+        <button onclick="clearAllData()" class="w-full bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 font-medium text-xs py-3 px-4 rounded-xl border border-rose-900/50 text-left flex justify-between items-center">
+          <span>Cancella tutti i dati</span>
+          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+      </div>
+
+      <div class="mt-auto text-center text-xs text-brand-100/50 py-2">
+        Prototipo realizzato da CybernetLab
+      </div>
+    </div>
+  `;
+}
+
+function changeProfile(val) {
+  db.user = val;
+  saveDb();
+  document.getElementById('user-badge').innerText = val;
+  showToast("Profilo aggiornato");
+}
+
+function resetData() {
+  if(confirm("Vuoi ripristinare i dati di esempio?")) {
+    db = JSON.parse(JSON.stringify(defaultData));
+    saveDb();
+    router('home');
+    showToast("Dati ripristinati");
+  }
+}
+
+function clearAllData() {
+  if(confirm("Attenzione: questa azione cancellerà tutte le registrazioni. Procedere?")) {
+    db.registrazioni = [];
+    saveDb();
+    router('home');
+    showToast("Tutti i dati sono stati cancellati");
+  }
+}
+
+function exportCSV() {
+  let csv = "id,titolo,tipo,contenuto,durata,dataCreazione\n";
+  db.registrazioni.forEach(r => {
+    csv += `"${r.id}","${r.titolo}","${r.tipo}","${r.contenuto.replace(/"/g, '""')}","${r.durata}","${r.dataCreazione}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `vocalbeat_export_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  showToast("Esportazione CSV completata");
+}
+
+function openNewModal() {
+  const modal = document.getElementById('modal-container');
+  modal.innerHTML = `
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 animate-fadeIn">
+      <div class="bg-brand-600 border border-brand-500 w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-lg text-white">Nuova Registrazione</h3>
+          <button onclick="closeModal()" class="text-brand-100 hover:text-white p-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        
+        <div class="space-y-4 flex-1 overflow-y-auto">
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">Titolo</label>
+            <input type="text" id="new-titolo" placeholder="Es. Strofa principale" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-brand-100/40 focus:outline-none focus:border-white">
+          </div>
+          
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">Tipo di inserimento</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="type-voce-btn" onclick="switchInputType('voce')" class="py-2.5 px-4 rounded-xl border border-white bg-white text-brand-700 font-semibold text-xs transition">Voce (Registra)</button>
+              <button type="button" id="type-testo-btn" onclick="switchInputType('testo')" class="py-2.5 px-4 rounded-xl border border-brand-500 bg-brand-700 text-brand-100 font-semibold text-xs transition">Testo Scritto</button>
+            </div>
+          </div>
+
+          <div id="section-voce" class="flex flex-col items-center justify-center py-6 bg-brand-700 border border-brand-500 rounded-xl">
+            <button type="button" id="record-btn" onclick="toggleRecording()" class="w-16 h-16 rounded-full bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center shadow-lg transition transform active:scale-95 mb-2">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+            </button>
+            <span id="record-status" class="text-xs text-brand-100">Tocca per registrare la voce</span>
+          </div>
+
+          <div id="section-testo" class="hidden">
+            <label class="block text-xs font-medium text-brand-100 mb-1">Contenuto Testo</label>
+            <textarea id="new-contenuto" rows="4" placeholder="Scrivi qui il testo..." class="w-full bg-brand-700 border border-brand-500 rounded-xl p-3 text-sm text-white placeholder-brand-100/40 focus:outline-none focus:border-white resize-none"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">Associa Beat</label>
+            <select id="new-beat-id" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+              ${db.beats.map(b => `<option value="${b.id}">${b.nome} (${b.genere})</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <button onclick="saveNewRegistration()" class="mt-4 w-full bg-white text-brand-700 font-bold py-3 rounded-xl shadow hover:bg-brand-50 transition">Salva Registrazione</button>
+      </div>
+    </div>
+  `;
+}
+
+let activeInputType = 'voce';
+let recordedBlobUrl = '';
+
+function switchInputType(type) {
+  activeInputType = type;
+  const btnV = document.getElementById('type-voce-btn');
+  const btnT = document.getElementById('type-testo-btn');
+  const secV = document.getElementById('section-voce');
+  const secT = document.getElementById('section-testo');
+
+  if(type === 'voce') {
+    btnV.className = "py-2.5 px-4 rounded-xl border border-white bg-white text-brand-700 font-semibold text-xs transition";
+    btnT.className = "py-2.5 px-4 rounded-xl border border-brand-500 bg-brand-700 text-brand-100 font-semibold text-xs transition";
+    secV.classList.remove('hidden');
+    secT.classList.add('hidden');
+  } else {
+    btnT.className = "py-2.5 px-4 rounded-xl border border-white bg-white text-brand-700 font-semibold text-xs transition";
+    btnV.className = "py-2.5 px-4 rounded-xl border border-brand-500 bg-brand-700 text-brand-100 font-semibold text-xs transition";
+    secT.classList.remove('hidden');
+    secV.classList.add('hidden');
+  }
+}
+
+function toggleRecording() {
+  const btn = document.getElementById('record-btn');
+  const status = document.getElementById('record-status');
+  
+  if(!isRecording) {
+    audioChunks = [];
+    navigator.mediaDevices?.getUserMedia({ audio: true }).then(stream => {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(audioChunks, { type: 'audio/ogg' });
+        recordedBlobUrl = URL.createObjectURL(blob);
+      };
+      mediaRecorder.start();
+      isRecording = true;
+      btn.className = "w-16 h-16 rounded-full bg-white text-rose-600 flex items-center justify-center shadow-lg transition transform active:scale-95 mb-2 animate-pulse";
+      status.innerText = "Registrazione in corso... Tocca per fermare";
+    }).catch(() => {
+      isRecording = true;
+      btn.className = "w-16 h-16 rounded-full bg-white text-rose-600 flex items-center justify-center shadow-lg transition transform active:scale-95 mb-2 animate-pulse";
+      status.innerText = "Simulazione registrazione attiva... Tocca per fermare";
+      recordedBlobUrl = db.beats[0].url;
+    });
+  } else {
+    if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach(t => t.stop());
+    }
+    isRecording = false;
+    btn.className = "w-16 h-16 rounded-full bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center shadow-lg transition transform active:scale-95 mb-2";
+    status.innerText = "Registrazione completata! Pronto per il salvataggio";
+    showToast("Registrazione vocale completata");
+  }
+}
+
+function saveNewRegistration() {
+  const titolo = document.getElementById('new-titolo').value.trim();
+  const contenuto = activeInputType === 'testo' ? document.getElementById('new-contenuto').value.trim() : 'Registrazione vocale';
+  const beatId = document.getElementById('new-beat-id').value;
+
+  if(!titolo) {
+    showToast("Inserisci un titolo");
+    return;
+  }
+
+  const newReg = {
+    id: 'r_' + Date.now(),
+    titolo,
+    tipo: activeInputType,
+    contenuto,
+    fileAudioUrl: activeInputType === 'voce' ? (recordedBlobUrl || db.beats[0].url) : '',
+    durata: '0:30',
+    beatId,
+    volumeVoce: 80,
+    volumeBeat: 50,
+    dataCreazione: new Date().toISOString()
+  };
+
+  db.registrazioni.unshift(newReg);
+  saveDb();
+  closeModal();
+  router('home');
+  showToast("Registrazione salvata con successo");
+}
+
+function openBeatModal() {
+  const modal = document.getElementById('modal-container');
+  modal.innerHTML = `
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 animate-fadeIn">
+      <div class="bg-brand-600 border border-brand-500 w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-lg text-white">Carica Beat o Loop</h3>
+          <button onclick="closeModal()" class="text-brand-100 hover:text-white p-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">Nome Beat</label>
+            <input type="text" id="beat-nome" placeholder="Es. Funk Groove 90s" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-brand-100/40 focus:outline-none focus:border-white">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">Genere</label>
+            <input type="text" id="beat-genere" placeholder="Es. Funk / Hip Hop" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-brand-100/40 focus:outline-none focus:border-white">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-brand-100 mb-1">File Audio (Simulato)</label>
+            <input type="text" id="beat-url" value="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" class="w-full bg-brand-700 border border-brand-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+          </div>
+        </div>
+
+        <button onclick="saveNewBeat()" class="mt-6 w-full bg-white text-brand-700 font-bold py-3 rounded-xl shadow hover:bg-brand-50 transition">Aggiungi alla Libreria</button>
+      </div>
+    </div>
+  `;
+}
+
+function saveNewBeat() {
+  const nome = document.getElementById('beat-nome').value.trim();
+  const genere = document.getElementById('beat-genere').value.trim();
+  const url = document.getElementById('beat-url').value.trim();
+
+  if(!nome || !genere) {
+    showToast("Compila tutti i campi");
+    return;
+  }
+
+  const newB = {
+    id: 'b_' + Date.now(),
+    nome,
+    genere,
+    url,
+    durata: '2:00',
+    custom: true
+  };
+
+  db.beats.push(newB);
+  saveDb();
+  closeModal();
+  router('beats');
+  showToast("Beat aggiunto alla libreria");
+}
+
+function closeModal() {
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+function confirmDelete(id) {
+  if(confirm("Vuoi davvero eliminare questa registrazione?")) {
+    db.registrazioni = db.registrazioni.filter(r => r.id !== id);
+    saveDb();
+    filterRegistrations();
+    showToast("Registrazione eliminata");
+  }
+}
+
+function deleteBeat(id) {
+  if(confirm("Vuoi eliminare questo beat dalla libreria?")) {
+    db.beats = db.beats.filter(b => b.id !== id);
+    saveDb();
+    router('beats');
+    showToast("Beat eliminato");
+  }
+}
+
+function playPreview(url) {
+  audioPlayer.src = url;
+  audioPlayer.volume = 0.8;
+  audioPlayer.play().catch(() => {});
+  showToast("Riproduzione anteprima beat");
+}
+
+router('home');
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
