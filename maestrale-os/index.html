@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="it" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maestrale OS - Ristorante Verso il Maestrale</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10354A">
+  <link rel="icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { DEFAULT: '#10354A', dark: '#0a2332', light: '#1d5373', bg: '#f4f7f9' } }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-brand-bg text-slate-800 h-full flex flex-col md:flex-row overflow-hidden select-none">
+
+  <!-- TOP BAR (Mobile) -->
+  <header class="bg-brand text-white p-3 flex justify-between items-center shadow-md shrink-0 md:hidden z-20">
+    <div class="flex items-center gap-2">
+      <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
+      <h1 class="font-bold text-lg tracking-wide">Maestrale <span class="text-cyan-400 font-normal">OS</span></h1>
+    </div>
+    <div class="flex items-center gap-2 text-xs bg-brand-dark px-2.5 py-1 rounded-full border border-cyan-900">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="role-label" class="font-medium text-slate-200">Maître</span>
+    </div>
+  </header>
+
+  <!-- SIDEBAR (Desktop) -->
+  <aside class="hidden md:flex flex-col w-64 bg-brand text-white shrink-0 shadow-xl z-20">
+    <div class="p-5 flex items-center gap-3 border-b border-brand-light">
+      <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
+      <div>
+        <h1 class="font-bold text-xl leading-none">Maestrale <span class="text-cyan-400">OS</span></h1>
+        <p class="text-xs text-slate-300 mt-1">Verso il Maestrale</p>
+      </div>
+    </div>
+    <nav class="flex-1 p-4 space-y-1" id="desktop-nav"></nav>
+    <div class="p-4 border-t border-brand-light bg-brand-dark flex items-center justify-between">
+      <div class="text-xs">
+        <p class="text-slate-400">Ruolo Attivo:</p>
+        <p id="desktop-role-label" class="font-semibold text-cyan-300">Maître / Cassiere</p>
+      </div>
+      <button onclick="switchTab('settings')" class="p-2 hover:bg-brand-light rounded-lg transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main id="app-content" class="flex-1 overflow-y-auto relative p-4 md:p-6 pb-20 md:pb-6"></main>
+
+  <!-- BOTTOM NAVBAR (Mobile) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-1 z-20 shadow-lg" id="mobile-nav"></nav>
+
+  <!-- MODAL CONTAINER -->
+  <div id="modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div class="p-4 bg-brand text-white flex justify-between items-center">
+        <h3 id="modal-title" class="font-bold text-lg">Modale</h3>
+        <button onclick="closeModal()" class="text-slate-300 hover:text-white p-1"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div id="modal-body" class="p-5 overflow-y-auto flex-1 space-y-4"></div>
+      <div id="modal-footer" class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed top-4 right-4 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 flex items-center gap-3 border-l-4 border-cyan-400">
+    <span id="toast-msg" class="text-sm font-medium">Notifica</span>
+  </div>
+
+  <script>
+    // INITIAL SEED DATA
+    const initialData = {
+      role: 'maitre',
+      cart: [],
+      selectedTable: 1,
+      tables: [
+        { id: 1, numero: 1, capienza: 2, zona: 'Interno', stato: 'occupato' },
+        { id: 2, numero: 2, capienza: 4, zona: 'Interno', stato: 'libero' },
+        { id: 3, numero: 3, capienza: 6, zona: 'Terrazza', stato: 'occupato' },
+        { id: 4, numero: 4, capienza: 2, zona: 'Terrazza', stato: 'conto' },
+        { id: 5, numero: 5, capienza: 8, zona: 'Giardino', stato: 'libero' }
+      ],
+      menu: [
+        { id: 1, titolo: 'Sautè di Cozze e Cannolicchi', descrizione: 'Cozze locali con aglio, prezzemolo e crostini di pane dorato.', prezzo: 14.00, categoria: 'Antipasti', allergeni: 'Molluschi, Glutine', disponibile: true },
+        { id: 2, titolo: 'Tartare di Tonno Rosso', descrizione: 'Tonno fresco, avocado, lime e cialda di riso croccante.', prezzo: 18.00, categoria: 'Antipasti', allergeni: 'Pesce, Sesamo', disponibile: true },
+        { id: 3, titolo: 'Spaghetti ai Ricci di Mare', descrizione: 'Pasta fresca trafilata in bronzo, ricci freschi e scorza di limone.', prezzo: 22.00, categoria: 'Primi', allergeni: 'Glutine, Molluschi', disponibile: true },
+        { id: 4, titolo: 'Paccheri al Pescato del Giorno', descrizione: 'Pomodorini datterini, pescato locale e basilico fresco.', prezzo: 20.00, categoria: 'Primi', allergeni: 'Glutine, Pesce', disponibile: true },
+        { id: 5, titolo: 'Frittura del Maestrale', descrizione: 'Calamari, gamberi rossi e verdurine croccanti pastellate.', prezzo: 19.00, categoria: 'Secondi', allergeni: 'Glutine, Crostacei', disponibile: true },
+        { id: 6, titolo: 'Tiramisù al Limoncello', descrizione: 'Rivisitazione estiva con limoni di Sorrento IGT.', prezzo: 7.00, categoria: 'Dolci', allergeni: 'Glutine, Uova, Latte', disponibile: true }
+      ],
+      orders: [
+        { id: 101, tavolo_id: 1, orario_creazione: '12:45', stato_comanda: 'in_corso', totale: 36.00 },
+        { id: 102, tavolo_id: 3, orario_creazione: '13:10', stato_comanda: 'in_attesa', totale: 64.00 },
+        { id: 103, tavolo_id: 4, orario_creazione: '12:15', stato_comanda: 'pronto', totale: 41.00 }
+      ],
+      orderItems: [
+        { id: 1, ordine_id: 101, elemento_menu_id: 1, quantita: 1, note_modifica: 'Senza pepe', stato_portata: 'servito' },
+        { id: 2, ordine_id: 101, elemento_menu_id: 3, quantita: 1, note_modifica: '', stato_portata: 'in_preparazione' },
+        { id: 3, ordine_id: 102, elemento_menu_id: 2, quantita: 2, note_modifica: 'Ben fredda', stato_portata: 'da_fare' },
+        { id: 4, ordine_id: 102, elemento_menu_id: 4, quantita: 1, note_modifica: '', stato_portata: 'da_fare' },
+        { id: 5, ordine_id: 103, elemento_menu_id: 5, quantita: 1, note_modifica: '', stato_portata: 'pronto' },
+        { id: 6, ordine_id: 103, elemento_menu_id: 6, quantita: 2, note_modifica: '', stato_portata: 'pronto' }
+      ],
+      transactions: [
+        { id: 1, ordine_id: 99, importo: 52.00, metodo_pagamento: 'Carta di Credito', timestamp: '12:30' }
+      ]
+    };
+
+    // DB & STATE MANAGEMENT
+    let db = JSON.parse(localStorage.getItem('maestrale-os_dati')) || initialData;
+    let currentTab = 'sala';
+
+    function saveData() {
+      localStorage.setItem('maestrale-os_dati', JSON.stringify(db));
+      render();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      t.classList.remove('translate-y-[-100px]', 'opacity-0');
+      setTimeout(() => t.classList.add('translate-y-[-100px]', 'opacity-0'), 2500);
+    }
+
+    // NAVIGATION SETUP
+    const tabs = [
+      { id: 'qr', title: 'Menu QR', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>' },
+      { id: 'sala', title: 'Sala & Tavoli', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>' },
+      { id: 'kds', title: 'Cucina (KDS)', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>' },
+      { id: 'cassa', title: 'Cassa', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>' },
+      { id: 'settings', title: 'Impostazioni', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>' }
+    ];
+
+    function renderNav() {
+      const mobileNav = document.getElementById('mobile-nav');
+      const desktopNav = document.getElementById('desktop-nav');
+      
+      mobileNav.innerHTML = tabs.map(t => `
+        <button onclick="switchTab('${t.id}')" class="flex flex-col items-center py-1 px-2 text-xs font-medium ${currentTab === t.id ? 'text-brand' : 'text-slate-400'}">
+          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${t.icon}</svg>
+          ${t.title.split(' ')[0]}
+        </button>
+      `).join('');
+
+      desktopNav.innerHTML = tabs.map(t => `
+        <button onclick="switchTab('${t.id}')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${currentTab === t.id ? 'bg-cyan-500 text-slate-900 font-bold shadow-md' : 'text-slate-200 hover:bg-brand-light'}">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${t.icon}</svg>
+          ${t.title}
+        </button>
+      `).join('');
+
+      const roles = { cliente: 'Cliente', cameriera: 'Cameriere', chef: 'Chef / Cucina', maitre: 'Maître / Cassiere' };
+      document.getElementById('role-label').innerText = roles[db.role] || 'Utente';
+      document.getElementById('desktop-role-label').innerText = roles[db.role] || 'Utente';
+    }
+
+    function switchTab(id) {
+      currentTab = id;
+      renderNav();
+      render();
+    }
+
+    // RENDER SCREENS
+    function render() {
+      const container = document.getElementById('app-content');
+      if (currentTab === 'qr') renderQR(container);
+      else if (currentTab === 'sala') renderSala(container);
+      else if (currentTab === 'kds') renderKDS(container);
+      else if (currentTab === 'cassa') renderCassa(container);
+      else if (currentTab === 'settings') renderSettings(container);
+    }
+
+    // 1. MENU DIGITALE QR (CLIENTE)
+    let selectedCategory = 'Tutti';
+    let allergyFilter = '';
+
+    function renderQR(c) {
+      const categories = ['Tutti', ...new Set(db.menu.map(m => m.categoria))];
+      const items = db.menu.filter(m => {
+        const catMatch = selectedCategory === 'Tutti' || m.categoria === selectedCategory;
+        const allergyMatch = !allergyFilter || !m.allergeni.toLowerCase().includes(allergyFilter.toLowerCase());
+        return catMatch && allergyMatch;
+      });
+
+      const cartTotal = db.cart.reduce((sum, item) => sum + (item.prezzo * item.qty), 0);
+
+      c.innerHTML = `
+        <div class="max-w-2xl mx-auto space-y-4">
+          <div class="bg-gradient-to-r from-brand to-brand-light p-4 rounded-2xl text-white shadow-lg flex justify-between items-center">
+            <div>
+              <span class="text-xs bg-cyan-400/20 text-cyan-300 px-2 py-0.5 rounded-full font-semibold border border-cyan-400/30">Tavolo ${db.selectedTable}</span>
+              <h2 class="text-xl font-bold mt-1">Menu Digitale</h2>
+              <p class="text-xs text-slate-200">Seleziona e ordina i tuoi piatti</p>
+            </div>
+            <select onchange="db.selectedTable = Number(this.value); saveData();" class="bg-brand-dark text-white text-xs border border-brand-light rounded-lg p-2">
+              ${db.tables.map(t => `<option value="${t.numero}" ${db.selectedTable === t.numero ? 'selected' : ''}>Tavolo ${t.numero} (${t.zona})</option>`).join('')}
+            </select>
+          </div>
+
+          <!-- FILTRI -->
+          <div class="flex flex-col gap-2">
+            <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+              ${categories.map(cat => `
+                <button onclick="selectedCategory='${cat}'; render();" class="px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${selectedCategory === cat ? 'bg-brand text-white shadow' : 'bg-white text-slate-600 border border-slate-200'}">
+                  ${cat}
+                </button>
+              `).join('')}
+            </div>
+            <input type="text" placeholder="Filtra/Escludi allergeni (es. Glutine)..." value="${allergyFilter}" oninput="allergyFilter=this.value; render();" class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand">
+          </div>
+
+          <!-- ELENCO PIATTI -->
+          <div class="space-y-3">
+            ${items.length === 0 ? `<div class="text-center py-10 text-slate-400 text-sm">Nessun piatto trovato con i filtri selezionati.</div>` : 
+              items.map(item => `
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center gap-3">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                      <h3 class="font-bold text-slate-800 text-sm">${item.titolo}</h3>
+                      ${!item.disponibile ? `<span class="bg-rose-100 text-rose-600 text-[10px] px-1.5 py-0.5 rounded font-bold">Esaurito</span>` : ''}
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5 line-clamp-2">${item.descrizione}</p>
+                    <div class="mt-2 flex items-center gap-2">
+                      <span class="font-black text-brand text-sm">€ ${item.prezzo.toFixed(2)}</span>
+                      <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">${item.allergeni || 'Nessun allergene'}</span>
+                    </div>
+                  </div>
+                  <button onclick="addToCart(${item.id})" ${!item.disponibile ? 'disabled' : ''} class="bg-brand hover:bg-brand-light disabled:bg-slate-200 text-white p-2.5 rounded-xl transition shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                  </button>
+                </div>
+              `).join('')}
+          </div>
+
+          <!-- CARRELLO / BOTTOM BAR -->
+          ${db.cart.length > 0 ? `
+            <div class="fixed bottom-16 left-4 right-4 md:left-72 md:right-8 bg-brand text-white p-4 rounded-2xl shadow-2xl flex justify-between items-center z-30 animate-in slide-in-from-bottom duration-200">
+              <div>
+                <p class="text-xs text-cyan-300 font-semibold">${db.cart.reduce((a,b)=>a+b.qty,0)} articoli selezionati</p>
+                <p class="text-lg font-black">Totale: € ${cartTotal.toFixed(2)}</p>
+              </div>
+              <button onclick="openCartModal()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-bold px-4 py-2 rounded-xl text-sm transition">Visualizza Ordine</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function addToCart(id) {
+      const item = db.menu.find(m => m.id === id);
+      const inCart = db.cart.find(c => c.id === id);
+      if (inCart) inCart.qty++;
+      else db.cart.push({ ...item, qty: 1, note: '' });
+      saveData();
+      showToast('Piatto aggiunto all\'ordine');
+    }
+
+    function openCartModal() {
+      const body = `
+        <div class="space-y-3">
+          ${db.cart.map((item, idx) => `
+            <div class="flex flex-col gap-1 border-b border-slate-100 pb-2">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-sm text-slate-800">${item.titolo}</span>
+                <span class="font-bold text-sm text-brand">€ ${(item.prezzo * item.qty).toFixed(2)}</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <input type="text" placeholder="Note (es. Senza cipolla)..." value="${item.note}" onchange="db.cart[${idx}].note=this.value; saveData();" class="bg-slate-100 border border-slate-200 rounded px-2 py-1 flex-1 mr-2">
+                <div class="flex items-center gap-2">
+                  <button onclick="updateCartQty(${idx}, -1)" class="w-6 h-6 bg-slate-200 text-slate-800 rounded font-bold">-</button>
+                  <span class="font-semibold">${item.qty}</span>
+                  <button onclick="updateCartQty(${idx}, 1)" class="w-6 h-6 bg-slate-200 text-slate-800 rounded font-bold">+</button>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      openModal('Il Tuo Ordine', body, `
+        <button onclick="closeModal()" class="px-4 py-2 text-slate-500 font-bold text-xs">Chiudi</button>
+        <button onclick="sendOrderFromQR()" class="px-4 py-2 bg-brand text-white font-bold rounded-xl text-xs">Invia Ordine in Cucina</button>
+      `);
+    }
+
+    function updateCartQty(idx, change) {
+      db.cart[idx].qty += change;
+      if (db.cart[idx].qty <= 0) db.cart.splice(idx, 1);
+      saveData();
+      if (db.cart.length === 0) closeModal();
+      else openCartModal();
+    }
+
+    function sendOrderFromQR() {
+      if (db.cart.length === 0) return;
+      const orderId = Date.now() % 10000;
+      const total = db.cart.reduce((s, i) => s + (i.prezzo * i.qty), 0);
+      
+      db.orders.push({
+        id: orderId,
+        tavolo_id: db.selectedTable,
+        orario_creazione: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        stato_comanda: 'in_attesa',
+        totale: total
+      });
+
+      db.cart.forEach(item => {
+        db.orderItems.push({
+          id: Date.now() + Math.random(),
+          ordine_id: orderId,
+          elemento_menu_id: item.id,
+          quantita: item.qty,
+          note_modifica: item.note,
+          stato_portata: 'da_fare'
+        });
+      });
+
+      // Update Table state
+      const tbl = db.tables.find(t => t.numero === db.selectedTable);
+      if (tbl) tbl.stato = 'occupato';
+
+      db.cart = [];
+      saveData();
+      closeModal();
+      showToast('Ordine inviato con successo!');
+    }
+
+    // 2. GESTIONE SALA & TAVOLI
+    function renderSala(c) {
+      c.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-bold text-brand">Mappa Sala</h2>
+              <p class="text-xs text-slate-500">Gestisci i tavoli ed invia le comande</p>
+            </div>
+            <button onclick="openTableForm()" class="bg-brand text-white px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 shadow">+ Tavolo</button>
+          </div>
+
+          <!-- GRIGLIA TAVOLI -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            ${db.tables.map(t => {
+              const activeOrder = db.orders.find(o => o.tavolo_id === t.numero && o.stato_comanda !== 'pagato');
+              const statusColors = {
+                libero: 'border-emerald-500 bg-emerald-50/50 text-emerald-800',
+                occupato: 'border-amber-500 bg-amber-50/50 text-amber-800',
+                conto: 'border-rose-500 bg-rose-50/50 text-rose-800 animate-pulse'
+              };
+              return `
+                <div onclick="openTableDetails(${t.numero})" class="bg-white p-4 rounded-2xl border-2 ${statusColors[t.stato]} shadow-sm relative cursor-pointer hover:shadow-md transition">
+                  <div class="flex justify-between items-start">
+                    <span class="font-black text-2xl">T#${t.numero}</span>
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-white/80 border">${t.stato}</span>
+                  </div>
+                  <div class="mt-3 text-xs space-y-1">
+                    <p class="text-slate-600">Zona: <span class="font-semibold">${t.zona}</span></p>
+                    <p class="text-slate-600">Capienza: <span class="font-semibold">${t.capienza} persone</span></p>
+                    ${activeOrder ? `<p class="font-bold text-brand mt-2">Conto: € ${activeOrder.totale.toFixed(2)}</p>` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function openTableForm(id = null) {
+      const t = id ? db.tables.find(x => x.id === id) : { numero: db.tables.length + 1, capienza: 4, zona: 'Interno', stato: 'libero' };
+      const body = `
+        <form id="table-form" class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-600">Numero Tavolo</label>
+            <input type="number" id="tbl-num" value="${t.numero}" required class="w-full text-sm border p-2 rounded-xl mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-600">Capienza (Persone)</label>
+            <input type="number" id="tbl-cap" value="${t.capienza}" required class="w-full text-sm border p-2 rounded-xl mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-600">Zona</label>
+            <select id="tbl-zona" class="w-full text-sm border p-2 rounded-xl mt-1">
+              <option value="Interno" ${t.zona === 'Interno' ? 'selected' : ''}>Interno</option>
+              <option value="Terrazza" ${t.zona === 'Terrazza' ? 'selected' : ''}>Terrazza</option>
+              <option value="Giardino" ${t.zona === 'Giardino' ? 'selected' : ''}>Giardino</option>
+            </select>
+          </div>
+        </form>
+      `;
+      openModal(id ? 'Modifica Tavolo' : 'Nuovo Tavolo', body, `
+        ${id ? `<button onclick="deleteTable(${id})" class="px-3 py-2 bg-rose-100 text-rose-600 font-bold rounded-xl text-xs mr-auto">Elimina</button>` : ''}
+        <button onclick="saveTable(${id})" class="px-4 py-2 bg-brand text-white font-bold rounded-xl text-xs">Salva Tavolo</button>
+      `);
+    }
+
+    function saveTable(id) {
+      const num = Number(document.getElementById('tbl-num').value);
+      const cap = Number(document.getElementById('tbl-cap').value);
+      const zona = document.getElementById('tbl-zona').value;
+
+      if (!num || !cap) return showToast('Compila tutti i campi');
+
+      if (id) {
+        const t = db.tables.find(x => x.id === id);
+        t.numero = num; t.capienza = cap; t.zona = zona;
+      } else {
+        db.tables.push({ id: Date.now(), numero: num, capienza: cap, zona, stato: 'libero' });
+      }
+      saveData();
+      closeModal();
+      showToast('Tavolo salvato!');
+    }
+
+    function deleteTable(id) {
+      if (confirm('Sei sicuro di voler eliminare questo tavolo?')) {
+        db.tables = db.tables.filter(x => x.id !== id);
+        saveData();
+        closeModal();
+        showToast('Tavolo eliminato');
+      }
+    }
+
+    function openTableDetails(tableNum) {
+      const tbl = db.tables.find(t => t.numero === tableNum);
+      const order = db.orders.find(o => o.tavolo_id === tableNum && o.stato_comanda !== 'pagato');
+      const items = order ? db.orderItems.filter(i => i.ordine_id === order.id) : [];
+
+      const body = `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border">
+            <div>
+              <p class="text-xs text-slate-500">Stato Tavolo:</p>
+              <select onchange="updateTableStatus(${tbl.id}, this.value)" class="text-xs font-bold border rounded p-1 mt-1">
+                <option value="libero" ${tbl.stato === 'libero' ? 'selected' : ''}>Libero</option>
+                <option value="occupato" ${tbl.stato === 'occupato' ? 'selected' : ''}>Occupato</option>
+                <option value="conto" ${tbl.stato === 'conto' ? 'selected' : ''}>Richiesta Conto</option>
+              </select>
+            </div>
+            <button onclick="openTableForm(${tbl.id})" class="text-xs text-brand underline font-semibold">Modifica Config</button>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-sm mb-2 text-slate-800">Comanda Attiva #${order ? order.id : 'Nessuna'}</h4>
+            ${items.length === 0 ? `<p class="text-xs text-slate-400 italic">Nessun articolo ordinato al momento.</p>` : `
+              <div class="space-y-2 max-h-48 overflow-y-auto">
+                ${items.map(item => {
+                  const menuItem = db.menu.find(m => m.id === item.elemento_menu_id);
+                  return `
+                    <div class="flex justify-between items-center text-xs p-2 bg-slate-50 rounded-lg border">
+                      <div>
+                        <p class="font-bold text-slate-800">${item.quantita}x ${menuItem ? menuItem.titolo : 'Piatto'}</p>
+                        ${item.note_modifica ? `<p class="text-[10px] text-amber-600">Note: ${item.note_modifica}</p>` : ''}
+                      </div>
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.stato_portata === 'pronto' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-700'}">${item.stato_portata}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+
+      openModal(`Tavolo ${tableNum} (${tbl.zona})`, body, `
+        <button onclick="closeModal()" class="px-3 py-2 text-slate-500 font-bold text-xs">Chiudi</button>
+        <button onclick="db.selectedTable=${tableNum}; switchTab('qr'); closeModal();" class="px-4 py-2 bg-brand text-white font-bold rounded-xl text-xs">+ Prendi Ordine</button>
+      `);
+    }
+
+    function updateTableStatus(tblId, status) {
+      const t = db.tables.find(x => x.id === tblId);
+      if (t) {
+        t.stato = status;
+        saveData();
+      }
+    }
+
+    // 3. KITCHEN DISPLAY SYSTEM (KDS)
+    function renderKDS(c) {
+      const activeOrders = db.orders.filter(o => o.stato_comanda !== 'pagato');
+
+      c.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-bold text-brand">Kitchen Display System</h2>
+              <p class="text-xs text-slate-500">Gestione comande in tempo reale per la cucina</p>
+            </div>
+            <span class="bg-amber-100 text-amber-800 font-bold text-xs px-2.5 py-1 rounded-full border border-amber-200">${activeOrders.length} Comande In Corso</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${activeOrders.length === 0 ? `<div class="col-span-full text-center py-12 text-slate-400 text-sm">Nessuna comanda in attesa. Cucina libera!</div>` :
+              activeOrders.map(order => {
+                const items = db.orderItems.filter(i => i.ordine_id === order.id);
+                return `
+                  <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="bg-brand text-white p-3 flex justify-between items-center">
+                      <span class="font-black text-lg">Tavolo ${order.tavolo_id}</span>
+                      <span class="text-xs bg-white/20 px-2 py-0.5 rounded">${order.orario_creazione}</span>
+                    </div>
+                    <div class="p-3 flex-1 space-y-2">
+                      ${items.map(item => {
+                        const menuItem = db.menu.find(m => m.id === item.elemento_menu_id);
+                        return `
+                          <div class="flex justify-between items-center p-2 rounded-xl border bg-slate-50">
+                            <div>
+                              <p class="font-bold text-xs text-slate-800">${item.quantita}x ${menuItem ? menuItem.titolo : 'Piatto'}</p>
+                              ${item.note_modifica ? `<p class="text-[10px] text-rose-600 font-semibold">${item.note_modifica}</p>` : ''}
+                            </div>
+                            <button onclick="toggleItemStatus(${item.id})" class="px-2.5 py-1 rounded-lg text-[10px] font-bold transition ${
+                              item.stato_portata === 'pronto' ? 'bg-emerald-500 text-white' :
+                              item.stato_portata === 'in_preparazione' ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-700'
+                            }">
+                              ${item.stato_portata.replace('_', ' ')}
+                            </button>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                    <div class="p-3 bg-slate-50 border-t flex justify-end">
+                      <button onclick="completeOrder(${order.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition">
+                        Completa Comanda
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleItemStatus(itemId) {
+      const item = db.orderItems.find(i => i.id === itemId);
+      if (!item) return;
+      const states = ['da_fare', 'in_preparazione', 'pronto'];
+      const nextIdx = (states.indexOf(item.stato_portata) + 1) % states.length;
+      item.stato_portata = states[nextIdx];
+      saveData();
+    }
+
+    function completeOrder(orderId) {
+      const order = db.orders.find(o => o.id === orderId);
+      if (order) {
+        order.stato_comanda = 'pronto';
+        saveData();
+        showToast('Comanda contrassegnata come pronta!');
+      }
+    }
+
+    // 4. CASSA & CHECKOUT
+    function renderCassa(c) {
+      const unpaidOrders = db.orders.filter(o => o.stato_comanda !== 'pagato');
+      const totalIncome = db.transactions.reduce((acc, t) => acc + t.importo, 0);
+
+      c.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-bold text-brand">Cassa & Checkout</h2>
+              <p class="text-xs text-slate-500">Gestisci i conti ed emetti le ricevute</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[10px] text-slate-400 font-semibold uppercase">Incasso Giornaliero</p>
+              <p class="text-lg font-black text-emerald-600">€ ${totalIncome.toFixed(2)}</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- CONTI DA CHIUDERE -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 class="font-bold text-sm text-slate-800">Tavoli in Attesa di Conto</h3>
+              ${unpaidOrders.length === 0 ? `<p class="text-xs text-slate-400 py-4 text-center">Nessun conto aperto al momento.</p>` :
+                unpaidOrders.map(order => `
+                  <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <div>
+                      <span class="font-bold text-sm text-brand">Tavolo ${order.tavolo_id}</span>
+                      <p class="text-xs text-slate-500">Orario: ${order.orario_creazione}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-black text-sm text-slate-800">€ ${order.totale.toFixed(2)}</p>
+                      <button onclick="openCheckoutModal(${order.id})" class="mt-1 px-3 py-1 bg-brand text-white text-xs font-bold rounded-lg hover:bg-brand-light transition">
+                        Chiudi Conto
+                      </button>
+                    </div>
+                  </div>
+                `).join('')}
+            </div>
+
+            <!-- STORICO TRANSAZIONI -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 class="font-bold text-sm text-slate-800">Ultimi Incassi</h3>
+              ${db.transactions.length === 0 ? `<p class="text-xs text-slate-400 py-4 text-center">Nessuna transazione registrata oggi.</p>` :
+                db.transactions.slice().reverse().map(t => `
+                  <div class="flex justify-between items-center p-2.5 border-b border-slate-100 text-xs">
+                    <div>
+                      <p class="font-bold text-slate-700">Ordine #${t.ordine_id}</p>
+                      <p class="text-[10px] text-slate-400">${t.timestamp} - ${t.metodo_pagamento}</p>
+                    </div>
+                    <span class="font-black text-emerald-600">+ € ${t.importo.toFixed(2)}</span>
+                  </div>
+                `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openCheckoutModal(orderId) {
+      const order = db.orders.find(o => o.id === orderId);
+      const items = db.orderItems.filter(i => i.ordine_id === orderId);
+
+      const body = `
+        <div class="space-y-3 text-xs">
+          <div class="border-b pb-2">
+            <p class="font-bold text-sm text-slate-800">Ristorante Verso il Maestrale</p>
+            <p class="text-slate-500">Comanda #${order.id} - Tavolo ${order.tavolo_id}</p>
+          </div>
+          <div class="space-y-1">
+            ${items.map(item => {
+              const m = db.menu.find(x => x.id === item.elemento_menu_id);
+              return `
+                <div class="flex justify-between">
+                  <span>${item.quantita}x ${m ? m.titolo : 'Piatto'}</span>
+                  <span class="font-semibold">€ ${((m ? m.prezzo : 0) * item.quantita).toFixed(2)}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+          <div class="border-t pt-2 flex justify-between font-black text-sm text-brand">
+            <span>TOTALE:</span>
+            <span>€ ${order.totale.toFixed(2)}</span>
+          </div>
+
+          <div class="pt-3">
+            <label class="font-semibold text-slate-600 block mb-1">Metodo di Pagamento</label>
+            <select id="pay-method" class="w-full border p-2 rounded-xl text-xs bg-slate-50">
+              <option value="Carta di Credito">Carta di Credito / POS</option>
+              <option value="Contanti">Contanti</option>
+              <option value="Satispay">Satispay</option>
+            </select>
+          </div>
+        </div>
+      `;
+
+      openModal('Scontrino / Checkout', body, `
+        <button onclick="closeModal()" class="px-3 py-2 text-slate-500 font-bold text-xs">Annulla</button>
+        <button onclick="processPayment(${order.id})" class="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs">Conferma Pagamento</button>
+      `);
+    }
+
+    function processPayment(orderId) {
+      const order = db.orders.find(o => o.id === orderId);
+      const method = document.getElementById('pay-method').value;
+
+      if (order) {
+        order.stato_comanda = 'pagato';
+        db.transactions.push({
+          id: Date.now(),
+          ordine_id: order.id,
+          importo: order.totale,
+          metodo_pagamento: method,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+
+        // Libera il tavolo
+        const tbl = db.tables.find(t => t.numero === order.tavolo_id);
+        if (tbl) tbl.stato = 'libero';
+
+        saveData();
+        closeModal();
+        showToast('Pagamento registrato e tavolo liberato!');
+      }
+    }
+
+    // 5. IMPOSTAZIONI & MENU CRUD
+    function renderSettings(c) {
+      c.innerHTML = `
+        <div class="max-w-2xl mx-auto space-y-6">
+          <div>
+            <h2 class="text-xl font-bold text-brand">Impostazioni & Sistema</h2>
+            <p class="text-xs text-slate-500">Configura il profilo, il menu e i dati di test</p>
+          </div>
+
+          <!-- SELETTORE RUOLO -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <h3 class="font-bold text-sm text-slate-800">Seleziona Ruolo Attivo</h3>
+            <select onchange="db.role=this.value; saveData();" class="w-full text-xs border p-2.5 rounded-xl bg-slate-50">
+              <option value="maitre" ${db.role === 'maitre' ? 'selected' : ''}>Maître / Cassiere</option>
+              <option value="chef" ${db.role === 'chef' ? 'selected' : ''}>Chef / Staff Cucina</option>
+              <option value="cameriera" ${db.role === 'cameriera' ? 'selected' : ''}>Cameriere di Sala</option>
+              <option value="cliente" ${db.role === 'cliente' ? 'selected' : ''}>Cliente al Tavolo</option>
+            </select>
+          </div>
+
+          <!-- GESTIONE MENU -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex justify-between items-center">
+              <h3 class="font-bold text-sm text-slate-800">Gestione Menu Digitale</h3>
+              <button onclick="openMenuItemForm()" class="bg-brand text-white px-3 py-1.5 rounded-lg text-xs font-bold">+ Piatto</button>
+            </div>
+            <div class="space-y-2 max-h-60 overflow-y-auto">
+              ${db.menu.map(m => `
+                <div class="flex justify-between items-center p-2 bg-slate-50 rounded-xl border text-xs">
+                  <div>
+                    <span class="font-bold text-slate-800">${m.titolo}</span>
+                    <p class="text-[10px] text-slate-400">€ ${m.prezzo.toFixed(2)} - ${m.categoria}</p>
+                  </div>
+                  <button onclick="openMenuItemForm(${m.id})" class="text-brand font-bold">Modifica</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- AZIONI DATI -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <h3 class="font-bold text-sm text-slate-800">Gestione Dati LocalStorage</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <button onclick="resetSampleData()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">Ripristina Demo</button>
+              <button onclick="exportCSV()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">Esporta CSV</button>
+              <button onclick="clearAllData()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded-xl transition">Cancella Dati</button>
+            </div>
+          </div>
+
+          <div class="text-center pt-4 border-t border-slate-200">
+            <p class="text-xs text-slate-400">Prototipo realizzato da <span class="font-semibold text-slate-600">CybernetLab</span></p>
+          </div>
+        </div>
+      `;
+    }
+
+    function openMenuItemForm(id = null) {
+      const item = id ? db.menu.find(m => m.id === id) : { titolo: '', descrizione: '', prezzo: 10.00, categoria: 'Primi', allergeni: '', disponibile: true };
+      const body = `
+        <form id="menu-form" class="space-y-3 text-xs">
+          <div>
+            <label class="font-semibold text-slate-600">Titolo Piatto</label>
+            <input type="text" id="m-titolo" value="${item.titolo}" required class="w-full border p-2 rounded-xl mt-1">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-600">Descrizione</label>
+            <textarea id="m-desc" class="w-full border p-2 rounded-xl mt-1">${item.descrizione}</textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-semibold text-slate-600">Prezzo (€)</label>
+              <input type="number" step="0.5" id="m-prezzo" value="${item.prezzo}" required class="w-full border p-2 rounded-xl mt-1">
+            </div>
+            <div>
+              <label class="font-semibold text-slate-600">Categoria</label>
+              <select id="m-cat" class="w-full border p-2 rounded-xl mt-1 bg-white">
+                <option value="Antipasti" ${item.categoria === 'Antipasti' ? 'selected' : ''}>Antipasti</option>
+                <option value="Primi" ${item.categoria === 'Primi' ? 'selected' : ''}>Primi</option>
+                <option value="Secondi" ${item.categoria === 'Secondi' ? 'selected' : ''}>Secondi</option>
+                <option value="Dolci" ${item.categoria === 'Dolci' ? 'selected' : ''}>Dolci</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-600">Allergeni</label>
+            <input type="text" id="m-allergeni" value="${item.allergeni}" class="w-full border p-2 rounded-xl mt-1">
+          </div>
+          <div class="flex items-center gap-2 pt-2">
+            <input type="checkbox" id="m-disp" ${item.disponibile ? 'checked' : ''} class="w-4 h-4">
+            <label for="m-disp" class="font-semibold text-slate-600">Disponibile in menu</label>
+          </div>
+        </form>
+      `;
+      openModal(id ? 'Modifica Piatto' : 'Nuovo Piatto', body, `
+        ${id ? `<button onclick="deleteMenuItem(${id})" class="px-3 py-2 bg-rose-100 text-rose-600 font-bold rounded-xl text-xs mr-auto">Elimina</button>` : ''}
+        <button onclick="saveMenuItem(${id})" class="px-4 py-2 bg-brand text-white font-bold rounded-xl text-xs">Salva Piatto</button>
+      `);
+    }
+
+    function saveMenuItem(id) {
+      const titolo = document.getElementById('m-titolo').value;
+      const desc = document.getElementById('m-desc').value;
+      const prezzo = Number(document.getElementById('m-prezzo').value);
+      const cat = document.getElementById('m-cat').value;
+      const allergeni = document.getElementById('m-allergeni').value;
+      const disponibile = document.getElementById('m-disp').checked;
+
+      if (!titolo || isNaN(prezzo)) return showToast('Inserisci titolo e prezzo valido');
+
+      if (id) {
+        const m = db.menu.find(x => x.id === id);
+        m.titolo = titolo; m.descrizione = desc; m.prezzo = prezzo;
+        m.categoria = cat; m.allergeni = allergeni; m.disponibile = disponibile;
+      } else {
+        db.menu.push({ id: Date.now(), titolo, descrizione: desc, prezzo, categoria: cat, allergeni, disponibile });
+      }
+
+      saveData();
+      closeModal();
+      showToast('Piatto salvato!');
+    }
+
+    function deleteMenuItem(id) {
+      if (confirm('Eliminare questo piatto dal menu?')) {
+        db.menu = db.menu.filter(x => x.id !== id);
+        saveData();
+        closeModal();
+        showToast('Piatto eliminato');
+      }
+    }
+
+    function resetSampleData() {
+      if (confirm('Ripristinare i dati di esempio originali?')) {
+        db = JSON.parse(JSON.stringify(initialData));
+        saveData();
+        showToast('Dati demo ripristinati');
+      }
+    }
+
+    function clearAllData() {
+      if (confirm('Cancellare TUTTI i dati presenti nel sistema?')) {
+        db = { role: 'maitre', cart: [], selectedTable: 1, tables: [], menu: [], orders: [], orderItems: [], transactions: [] };
+        saveData();
+        showToast('Tutti i dati sono stati cancellati');
+      }
+    }
+
+    function exportCSV() {
+      let csv = 'ID Ordine,Tavolo,Totale,Stato\n';
+      db.orders.forEach(o => { csv += `${o.id},${o.tavolo_id},${o.totale},${o.stato_comanda}\n`; });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'ordini_maestrale.csv');
+      a.click();
+      showToast('CSV scaricato');
+    }
+
+    // MODAL UTILS
+    function openModal(title, bodyHtml, footerHtml) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-body').innerHTML = bodyHtml;
+      document.getElementById('modal-footer').innerHTML = footerHtml;
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+
+    // INIT
+    renderNav();
+    render();
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+  </script>
+</body>
+</html>
