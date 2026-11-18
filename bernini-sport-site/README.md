@@ -1,72 +1,76 @@
-# BERNINI SPORT — Mockup e-commerce professionale
+# Bernini Sport — e-commerce multipagina (DEMO)
 
-Sito dimostrativo, responsive, in italiano, realizzato in **HTML + CSS + JavaScript puro**. Nessuna dipendenza, nessuna compilazione e nessun abbonamento tecnico richiesto per pubblicare questa demo statica su GitHub Pages.
+**Versione 2 — sito statico pronto per GitHub Pages.**
 
-**IMPORTANTE: NON È ANCORA UN E-COMMERCE OPERATIVO.** Prodotti e prezzi sono inventati. Il carrello e i preferiti funzionano nel browser e vengono salvati localmente, ma **nessun ordine, pagamento, email o account utente è realmente elaborato**. La demo non comprende un pannello di amministrazione o un database.
+La precedente homepage con catalogo incorporato è stata ristrutturata come **sito a pagine distinte**, mantenendo la grafica Bernini Sport (antracite, arancione e accento lime), il layout responsive e il catalogo dimostrativo di 12 articoli.
 
-## Funzioni già presenti
+> **Non è ancora un negozio abilitato alle vendite.** Non esistono backend, inventario, checkout, database, elaborazione ordini, invio email o pagamenti. I prodotti, i prezzi, gli sconti e le immagini sono esemplificativi. Non attivare acquisti pubblici prima delle integrazioni e verifiche necessarie.
 
-- Home page moderna con stile premium, responsive per smartphone, tablet e desktop
-- Menu discipline sportive, card editoriali e catalogo con 12 articoli demo
-- Ricerca istantanea nel catalogo, filtri per categoria e prodotti scontati
-- Ordinamento per prezzo e nome
-- Scheda prodotto con eventuale selezione taglia
-- Preferiti e carrello con quantità e subtotale, salvati su `localStorage`
-- Newsletter e checkout **solo dimostrativi**, senza invii o addebiti
-- Immagine segnaposto se una foto non è disponibile
-- Logo vettoriale e favicon originale di esempio
+## Struttura del sito
 
-## Come caricare su GitHub
+| Pagina | File | Funzione |
+| --- | --- | --- |
+| Homepage | `index.html` | Hero, categorie, prodotti in evidenza, offerte e anticipazione Chi siamo |
+| Catalogo | `shop.html` | Ricerca, filtro prezzo, offerte, ordinamento e paginazione |
+| Categorie | `categoria-running.html`, `categoria-fitness.html`, `categoria-calcio.html`, `categoria-outdoor.html`, `categoria-tennis.html`, `categoria-accessori.html` | Pagine dedicate per disciplina |
+| Offerte | `offerte.html` | Catalogo dei prodotti scontati |
+| Prodotti | `prodotti/*.html` | 12 pagine prodotto distinte, scelta taglie, quantità, prodotti correlati |
+| Chi siamo | `chi-siamo.html` | Identità del negozio, valori, area da personalizzare con storia e foto reali |
+| Carrello | `carrello.html` | Elenco articoli, varianti, quantità e subtotale, salvato nel browser |
+| Preferiti | `preferiti.html` | Wishlist salvata nel browser |
+| Contatti | `contatti.html` | Struttura contatti e form solo dimostrativo (nessun invio) |
+| Informazioni | `spedizioni-resi.html`, `privacy.html`, `condizioni.html` | Segnaposto da sostituire con contenuti reali e documenti approvati |
+| Errore | `404.html` | Pagina non trovata |
 
-1. Estrai lo ZIP in una cartella sul computer.
-2. Vai su [github.com/new](https://github.com/new), crea un repository, per esempio `bernini-sport`.
-3. Apri il repository e seleziona **Add file → Upload files**.
-4. Trascina **tutti i file e le cartelle contenuti nella cartella `bernini-sport-site`** (non solo `index.html`). Mantieni la stessa struttura.
-5. Fai clic su **Commit changes**.
-6. Vai su **Settings → Pages → Build and deployment**.
-7. Seleziona **Deploy from a branch**, branch **main**, cartella **/(root)**, poi **Save**.
-8. Dopo la pubblicazione GitHub Pages, l'indirizzo normalmente sarà `https://TUO-USERNAME.github.io/bernini-sport/` (dipende dal nome del repository). Usa l'URL effettivamente mostrato da GitHub.
+**File comuni**
+- `styles.css`: grafica e versione mobile.
+- `app.js`: carrello, preferiti, catalogo, filtri, taglie, link tra pagine.
+- `data/products.js`: catalogo dimostrativo; ciascun prodotto ha un ID e uno **slug** che determina la sua pagina `prodotti/<slug>.html`.
+- `assets/`: logo SVG, favicon, segnaposto immagini. Le fotografie dimostrative sono caricate da URL Unsplash, non incluse nel file ZIP.
+- `.nojekyll`: consente la pubblicazione diretta su GitHub Pages senza elaborazione Jekyll.
 
-In alternativa puoi pubblicare con Git:
+## Installazione / GitHub Pages
 
-```bash
-git init
-git add .
-git commit -m "Bernini Sport: prima demo e-commerce"
-git branch -M main
-git remote add origin https://github.com/TUO-USERNAME/bernini-sport.git
-git push -u origin main
-```
+1. Scarica ed estrai lo ZIP.
+2. Apri la cartella `bernini-sport-site`.
+3. Nel repository GitHub esistente, **sostituisci i vecchi file** con i nuovi e carica tutte le cartelle, in particolare `prodotti/`, `data/` e `assets/`. I file come `index.html`, `shop.html` e `styles.css` devono rimanere **nella radice del repository**.
+4. Se è un repository nuovo, crea il progetto su `https://github.com/new` e carica il contenuto della cartella, non la cartella esterna.
+5. In **Settings → Pages**, scegli **Deploy from a branch → main → /(root) → Save**.
+6. Apri l'indirizzo GitHub Pages del tuo repository e prova i collegamenti del menu, una categoria, una scheda prodotto e il carrello.
 
-> GitHub Pages ospita file statici: **non gestisce di per sé ordini, database o pagamenti**.
+Tutti i collegamenti sono relativi: funziona sia all'indirizzo `https://utente.github.io/nome-repo/` sia alla radice di un futuro dominio, senza modificare il codice.
 
-## Personalizzare il negozio
+Per un test locale veloce, apri `index.html` nel browser. Per simulare un server statico, nella cartella del sito avvia `python -m http.server 8000` e visita `http://localhost:8000`.
 
-- **Prodotti e prezzi:** `data/products.js` contiene l'elenco dei prodotti dimostrativi. Sostituisci `name`, `brand`, `category`, `price`, `oldPrice`, `image`, `sizes` e gli altri campi con dati reali.
-- **Immagini:** puoi usare URL di immagini autorizzate, ma per produzione conviene aggiungere immagini ottimizzate nella cartella `assets/images/` e usare `image: 'assets/images/foto.jpg'`. Le foto di esempio sono collegate a Unsplash: **non sono distribuite dentro lo ZIP**, richiedono Internet e vanno sostituite con foto reali e verificandone le autorizzazioni d'uso.
-- **Logo:** `assets/logo.svg` e `assets/logo-light.svg` sono proposte grafiche di esempio e possono essere sostituite con il logo ufficiale del negozio.
-- **Testi, messaggi e contatti:** `index.html`.
-- **Colori, layout e responsive:** `styles.css` (variabili di colore nelle prime righe).
-- **Funzioni del catalogo e carrello:** `app.js`.
+## Cambiare prodotti e contenuti
 
-Apri `index.html` nel browser per vedere la demo. Non è necessario installare Node.js, pacchetti o strumenti di build.
+### Catalogo
+Nel file `data/products.js` modifica nome, marchio, categoria, prezzo, foto, taglie, sconto. Mantieni **ID** e **slug** per preservare i link tra pagine. Se aggiungi prodotti, crea anche la relativa pagina HTML sotto `prodotti/` e assegna un nuovo ID. Per cataloghi numerosi questa generazione statica andrà automatizzata o collegata al futuro gestionale.
 
-## Prima di lanciare il vero e-commerce
+### Chi siamo e contatti
+- `chi-siamo.html`: sostituisci i testi editoriali dimostrativi con storia reale del negozio, missione, persone e foto autorizzate.
+- `contatti.html`: aggiungi indirizzo, telefono, email e orari ufficiali. Il modulo non invia dati: richiede integrazione tecnica e informativa.
+- `assets/logo.svg` / `assets/logo-light.svg`: sostituisci con logo ufficiale se diverso dal concept.
 
-1. Convalidare identità del brand e grafica con il proprietario.
-2. Sostituire i prodotti, le foto, i prezzi, gli sconti e le condizioni demo con contenuti reali autorizzati.
-3. Attivare piattaforma e-commerce/backend con database, varianti, inventario, ordini, email e pannello amministrativo.
-4. Integrare un checkout affidabile (ad esempio un provider pagamenti o una piattaforma e-commerce) e configurare pagamenti, IVA, spedizioni e resi.
-5. Inserire informazioni aziendali e legali reali, privacy/cookie policy, condizioni di vendita e adempimenti applicabili.
-6. Attivare newsletter solo dopo aver configurato un servizio di iscrizione, informativa privacy e raccolta del consenso.
-7. Effettuare test su dispositivi e browser reali, controllo accessibilità, performance, SEO e sicurezza.
-8. Togliere `<meta name="robots" content="noindex, nofollow">` da `index.html` solo quando il sito sarà pronto a essere indicizzato.
-9. Collegare un dominio del negozio e configurare correttamente il DNS.
+### Spedizioni, privacy, condizioni
+Le pagine informative contengono **segnaposto espliciti**, non documenti legali utilizzabili. Prima del lancio commerciale inserire le reali informazioni aziendali, privacy e cookie policy, condizioni di vendita, resi, consegne, imposte e modalità di pagamento, secondo gli obblighi applicabili.
 
-## Note per gli sviluppatori
+## Funzioni della demo
 
-- Il sito è volutamente privo di framework per consentire la pubblicazione immediata su GitHub Pages e facilitare le modifiche con Codex.
-- Non ci sono chiavi segrete o API private.
-- La persistenza di carrello e preferiti usa esclusivamente il browser, non è sincronizzata tra dispositivi.
-- Le foto remote possono non funzionare se il servizio esterno è bloccato/offline: in quel caso appare un segnaposto per le card prodotti.
-- Per un negozio con checkout reale consigliamo una seconda fase architetturale dedicata, non l'aggiunta di soli pulsanti di pagamento a questo prototipo.
+- Navigazione multipagina effettiva, senza router o dipendenze JS.
+- Home e pagine categoria con link propri, utilizzabili tramite link diretti o segnalibri.
+- Schede articolo con URL individuali, taglie e scelta quantità.
+- Carrello e preferiti persistenti nel browser con `localStorage` (chiave compatibile con la vecchia demo `bernini-sport-demo-v1`).
+- Catalogo filtrabile per nome, prezzo massimo, sconto, ordinabile e paginato.
+- Nessun servizio di tracciamento o form invio attivato dal codice.
+- HTML accessibile con link, etichette, descrizioni, navigazione mobile e focus visibile.
+
+## Per arrivare alla vendita online
+
+1. Confermare requisiti del cliente: inventario, marchi, varianti, magazzino, promozioni e spedizioni.
+2. Scegliere una piattaforma e-commerce/backend o un sistema headless con pannello amministrativo.
+3. Collegare pagamenti, ordini, email transazionali e giacenze reali.
+4. Completare contenuti aziendali, condizioni e privacy, aggiornare prodotti e immagini autorizzate.
+5. Verificare prestazioni, SEO, accessibilità, sicurezza e trattamento dei dati. **Solo allora** eliminare il meta tag `noindex,nofollow` dalle pagine destinate all'indicizzazione.
+
+**Nota SEO:** il mockup crea pagine HTML separate per ogni prodotto, così l'architettura e gli URL sono già più vicini a un vero e-commerce. I contenuti prodotto generati via JavaScript vanno resi statici o serviti da una piattaforma appropriata nella versione commerciale.

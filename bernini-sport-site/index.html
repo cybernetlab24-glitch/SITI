@@ -1,104 +1,20 @@
 <!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#121820">
-  <meta name="description" content="Bernini Sport — scopri il concept digitale del nostro negozio di articoli sportivi. Collezioni running, fitness, calcio e outdoor.">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Bernini Sport | Lo sport è la nostra passione</title>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-  <link rel="stylesheet" href="styles.css">
-  <script src="data/products.js" defer></script>
-  <script src="app.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#catalogo">Vai ai prodotti</a>
-  <div class="announcement"><span>BERNINI SPORT / PERFORMANCE IS A MINDSET</span><span class="announcement-side">NUOVA STAGIONE · NUOVE SFIDE</span></div>
-  <header class="site-header" id="top">
-    <div class="container header-main">
-      <a href="#top" class="brand" aria-label="Bernini Sport - pagina iniziale" data-action="home">
-        <img src="assets/logo.svg" width="240" height="58" alt="Bernini Sport">
-      </a>
-      <nav class="desktop-nav" aria-label="Navigazione principale">
-        <button data-category="Tutti" class="nav-link active" type="button">Shop</button>
-        <button data-category="Running" class="nav-link" type="button">Running</button>
-        <button data-category="Fitness" class="nav-link" type="button">Fitness</button>
-        <button data-category="Calcio" class="nav-link" type="button">Calcio</button>
-        <button data-category="Outdoor" class="nav-link" type="button">Outdoor</button>
-        <button data-category="Offerte" class="nav-link nav-link-offer" type="button">Offerte <span>↗</span></button>
-      </nav>
-      <div class="header-tools">
-        <form id="search-form" class="search" role="search">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="7.1"/><path d="m16 16 5 5"/></svg>
-          <input id="search-input" type="search" placeholder="Cerca prodotti..." autocomplete="off" aria-label="Cerca prodotti">
-        </form>
-        <button class="icon-button" id="favorites-toggle" type="button" aria-label="Mostra preferiti" title="Preferiti"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 5.5a5.5 5.5 0 0 0-7.7 0l-.8.8-.8-.8a5.5 5.5 0 0 0-7.7 7.8L12 21l8.5-7.7a5.5 5.5 0 0 0 0-7.8Z"/></svg><span id="favorites-indicator" class="tiny-indicator" hidden></span></button>
-        <button class="icon-button cart-trigger" id="cart-toggle" type="button" aria-label="Apri carrello"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4.5 9h15l-1.2 12H5.7L4.5 9ZM8.5 9V6a3.5 3.5 0 0 1 7 0v3"/></svg><span class="count" id="cart-count">0</span></button>
-      </div>
-    </div>
-    <nav class="mobile-nav container" aria-label="Categorie sportive" id="mobile-nav">
-      <button data-category="Tutti" class="active">Tutti</button><button data-category="Running">Running</button><button data-category="Fitness">Fitness</button><button data-category="Calcio">Calcio</button><button data-category="Outdoor">Outdoor</button><button data-category="Accessori">Accessori</button><button data-category="Offerte">Offerte</button>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-image" role="img" aria-label="Atleta in allenamento running"></div>
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <div class="micro-head"><span class="micro-line"></span> BERNINI SPORT · PERFORMANCE <span class="demo-inline">CONCEPT</span></div>
-          <h1 id="hero-title">L'ENERGIA<br>DI <em>SUPERARTI.</em></h1>
-          <p>Lo sport è fatto di obiettivi, passione e carattere. Trova l'attrezzatura giusta per il tuo prossimo traguardo.</p>
-          <div class="hero-ctas"><button class="btn btn-acid" id="hero-shop" type="button">ESPLORA LO SHOP <span>↗</span></button><button class="btn btn-outline" id="hero-categories" type="button">LE CATEGORIE <span>↓</span></button></div>
-          <div class="hero-footnote"><span class="hero-dash"></span> TRAIN HARD. LIVE SPORT.</div>
-        </div>
-        <div class="hero-vertical">BUILT FOR YOUR NEXT MOVE / 2026</div>
-      </div>
-      <div class="hero-index" aria-hidden="true">01 <span>/</span> 03</div>
-    </section>
-
-    <section class="service-bar" aria-label="Vantaggi del negozio">
-      <div class="container service-inner">
-        <div class="service-item"><span class="service-symbol"><svg viewBox="0 0 24 24"><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8M7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></span><div><strong>SHOP ONLINE</strong><small>Navigazione semplice e intuitiva</small></div></div>
-        <div class="service-item"><span class="service-symbol"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.2 3.4 9.2 8 11 4.6-1.8 8-5.8 8-11V5zM8 12l3 3 5-6"/></svg></span><div><strong>CHECKOUT IN PREPARAZIONE</strong><small>Demo senza pagamenti</small></div></div>
-        <div class="service-item"><span class="service-symbol"><svg viewBox="0 0 24 24"><path d="M4 7h16v11H4zM8 3h8v4M8 12h8M12 9v6"/></svg></span><div><strong>ARTICOLI SELEZIONATI</strong><small>Catalogo dimostrativo</small></div></div>
-      </div>
-    </section>
-
-    <section class="section section-categories container" id="categorie" aria-labelledby="categories-title">
-      <div class="section-head"><div><div class="eyebrow"><i></i> TROVA LA TUA DISCIPLINA</div><h2 id="categories-title">SCEGLI IL TUO <span>TERRENO.</span></h2></div><p>Dalla palestra ai sentieri, ogni sfida comincia con la giusta attrezzatura.</p></div>
-      <div class="category-grid">
-        <button class="category-card category-running" type="button" data-category="Running"><span class="cat-photo"></span><span class="cat-shade"></span><span class="cat-number">01 / PERFORMANCE</span><span class="cat-bottom"><strong>RUNNING</strong><span class="cat-arrow">↗</span></span></button>
-        <button class="category-card category-fitness" type="button" data-category="Fitness"><span class="cat-photo"></span><span class="cat-shade"></span><span class="cat-number">02 / STRENGTH</span><span class="cat-bottom"><strong>FITNESS</strong><span class="cat-arrow">↗</span></span></button>
-        <button class="category-card category-outdoor" type="button" data-category="Outdoor"><span class="cat-photo"></span><span class="cat-shade"></span><span class="cat-number">03 / ADVENTURE</span><span class="cat-bottom"><strong>OUTDOOR</strong><span class="cat-arrow">↗</span></span></button>
-      </div>
-    </section>
-
-    <section class="section catalog-section" id="catalogo" aria-labelledby="catalog-title">
-      <div class="container">
-        <div class="section-head catalog-head"><div><div class="eyebrow"><i></i> SCOPRI LA COLLEZIONE</div><h2 id="catalog-title">SCELTI PER <span>TE.</span></h2><p id="catalog-description">Tutto quello che ti serve per dare il massimo.</p></div><div class="catalog-meta"><span id="result-count">0 prodotti</span><select id="sort-select" aria-label="Ordina prodotti"><option value="featured">In evidenza</option><option value="price-asc">Prezzo: crescente</option><option value="price-desc">Prezzo: decrescente</option><option value="name">Nome: A–Z</option></select></div></div>
-        <div class="catalog-filters" id="catalog-filters" aria-label="Filtra per categoria"></div>
-        <div class="products-grid" id="products-grid" aria-live="polite"></div>
-        <div class="catalog-bottom"><button id="reset-filters" type="button" class="link-button">MOSTRA TUTTI I PRODOTTI <span>↗</span></button></div>
-      </div>
-    </section>
-
-    <section class="editorial container" aria-labelledby="editorial-title">
-      <div class="editorial-copy"><span class="editorial-no">THE BERNINI EDIT / 001</span><div class="eyebrow light">LA PASSIONE NON SI FERMA</div><h2 id="editorial-title">OLTRE IL<br><em>TRAGUARDO.</em></h2><p>Ogni movimento racconta chi sei. Prepara la prossima sfida con Bernini Sport.</p><button class="btn btn-white" type="button" data-category="Running">SCOPRI IL RUNNING <span>↗</span></button></div>
-      <div class="editorial-photo" role="img" aria-label="Allenamento sportivo"></div>
-    </section>
-
-    <section class="newsletter container" aria-labelledby="newsletter-title"><div><div class="eyebrow"><i></i> STAY IN THE GAME</div><h2 id="newsletter-title">NON PERDERTI LE <span>NOVITÀ.</span></h2><p>Unisciti alla community Bernini Sport. Iscrizione dimostrativa.</p></div><form id="newsletter-form"><label for="newsletter-email" class="sr-only">La tua email</label><input id="newsletter-email" type="email" placeholder="La tua email" required><button type="submit" aria-label="Iscriviti alla newsletter">ISCRIVITI <span>↗</span></button></form></section>
-  </main>
-
-  <footer class="footer"><div class="container"><div class="footer-main"><div class="footer-brand"><img src="assets/logo-light.svg" width="228" height="54" alt="Bernini Sport"><p>Lo sport inizia da una scelta.<br>Il prossimo passo è il tuo.</p></div><div class="footer-col"><h3>ESPLORA</h3><button data-category="Running">Running</button><button data-category="Fitness">Fitness</button><button data-category="Calcio">Calcio</button><button data-category="Outdoor">Outdoor</button></div><div class="footer-col"><h3>IL NEGOZIO</h3><button data-action="info">Chi siamo</button><button data-action="info">Spedizioni e resi</button><button data-action="info">Contatti</button><button data-action="info">Privacy e condizioni</button></div><div class="footer-col footer-last"><h3>BERNINI SPORT</h3><p>Il tuo mondo sportivo, online.</p><span class="foot-pill">DEMO E-COMMERCE</span></div></div><div class="footer-bottom"><small>© <span id="year">2026</span> BERNINI SPORT · Mockup dimostrativo</small><small>Progetto web: CybernetLab</small><a href="#top">TORNA SU ↑</a></div></div></footer>
-
-  <div class="overlay" id="cart-overlay" hidden><button class="backdrop" data-action="close-cart" aria-label="Chiudi carrello"></button><aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title"><div class="panel-top"><div><div class="eyebrow">IL TUO SHOPPING</div><h2 id="cart-title">CARRELLO <span id="cart-label-count">(0)</span></h2></div><button class="close-icon" data-action="close-cart" aria-label="Chiudi carrello">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-summary" id="cart-summary"></div></aside></div>
-  <div class="overlay modal-overlay" id="product-overlay" hidden><button class="backdrop" data-action="close-product" aria-label="Chiudi prodotto"></button><section class="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-product-title" id="product-modal-content"></section></div>
-  <div class="overlay modal-overlay" id="info-overlay" hidden><button class="backdrop" data-action="close-info" aria-label="Chiudi informazioni"></button><section class="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-title"><button class="close-icon" data-action="close-info" aria-label="Chiudi">×</button><div class="eyebrow">BERNINI SPORT</div><h2 id="info-title">SEZIONE DA COMPLETARE</h2><p>Questa è una demo. Prima della pubblicazione ufficiale inserire i dati reali del negozio, le condizioni di vendita e i riferimenti legali.</p><button class="btn btn-dark" data-action="close-info">HO CAPITO <span>✓</span></button></section></div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-</body>
-</html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10161c"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Bernini Sport: concept multipagina con abbigliamento e attrezzature per sport, running e outdoor."><title>Home | Bernini Sport</title><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="preconnect" href="https://images.unsplash.com" crossorigin><link rel="stylesheet" href="styles.css"><script defer src="data/products.js"></script><script defer src="app.js"></script></head>
+<body data-page="home" data-root="" ><a class="skip-link" href="#contenuto">Salta al contenuto</a>
+<div class="announcement"><span>BERNINI SPORT / PERFORMANCE IS A MINDSET</span><strong class="announcement-side">IL TUO MONDO SPORTIVO</strong></div>
+<header class="site-header" id="top"><div class="container header-inner">
+<a href="index.html" class="brand" aria-label="Bernini Sport - homepage"><img src="assets/logo.svg" width="240" height="58" alt="Bernini Sport"></a>
+<nav class="desktop-nav" aria-label="Menu principale"><a href="index.html" class="active nav-link" aria-current=page>Home</a><a href="shop.html" class="nav-link" >Shop</a><a href="categoria-running.html" class="nav-link" >Running</a><a href="categoria-fitness.html" class="nav-link" >Fitness</a><a href="categoria-calcio.html" class="nav-link" >Calcio</a><a href="categoria-outdoor.html" class="nav-link" >Outdoor</a><a href="chi-siamo.html" class="nav-link" >Chi siamo</a><a href="offerte.html" class="offernav-link" >Offerte ↗</a></nav>
+<div class="header-tools"><form class="header-search" action="shop.html" method="get" role="search"><label class="sr-only" for="search-global">Cerca prodotti</label><input id="search-global" type="search" name="q" placeholder="Cerca prodotti…"><button type="submit" aria-label="Cerca"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="7.1"/><path d="m16 16 5 5"/></svg></button></form><a class="icon-link" href="preferiti.html" title="Preferiti" aria-label="Vai ai preferiti"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 5.5a5.5 5.5 0 0 0-7.7 0l-.8.8-.8-.8a5.5 5.5 0 0 0-7.7 7.8L12 21l8.5-7.7a5.5 5.5 0 0 0 0-7.8Z"/></svg><span class="cart-badge fav-badge" hidden>0</span></a><a class="icon-link" href="carrello.html" title="Carrello" aria-label="Vai al carrello"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4.5 9h15l-1.2 12H5.7L4.5 9ZM8.5 9V6a3.5 3.5 0 0 1 7 0v3"/></svg><span class="cart-badge">0</span></a><button class="menu-toggle" id="menu-toggle" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+</div><div class="mobile-menu" id="mobile-menu"><nav class="container" aria-label="Menu mobile"><a href="index.html" class="active " aria-current=page>Home</a><a href="shop.html" class="" >Shop</a><a href="categoria-running.html" class="" >Running</a><a href="categoria-fitness.html" class="" >Fitness</a><a href="categoria-calcio.html" class="" >Calcio</a><a href="categoria-outdoor.html" class="" >Outdoor</a><a href="chi-siamo.html" class="" >Chi siamo</a><a href="offerte.html" class="offer" >Offerte ↗</a><a href="preferiti.html">Preferiti</a><a href="carrello.html">Carrello</a><a href="contatti.html">Contatti</a></nav></div></header><main id="contenuto"><section class="hero"><div class="hero-photo" role="img" aria-label="Atleta in movimento"></div><div class="container hero-inner"><div class="hero-copy"><div class="eyebrow light">BERNINI SPORT · PERFORMANCE</div><h1>L'ENERGIA<br>DI <em>SUPERARTI.</em></h1><p>Lo sport è fatto di obiettivi, passione e carattere. Trova l'attrezzatura giusta per il tuo prossimo traguardo.</p><div class="hero-cta"><a class="btn btn-acid" href="shop.html">ESPLORA LO SHOP ↗</a><a class="btn btn-outline" href="chi-siamo.html">SCOPRI BERNINI SPORT ↗</a></div></div><div class="hero-serial">BUILT FOR YOUR NEXT MOVE / 2026</div></div></section>
+<div class="service-strip"><div class="container service-items"><div class="service-item"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 2 2.6 6.8L22 9l-5.7 4.7L18 21l-6-3.8L6 21l1.7-7.3L2 9l7.4-.2z"/></svg></span><div><b>CATALOGO SPORTIVO</b><small>Un mondo di discipline da esplorare</small></div></div><div class="service-item"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4.5 9h15l-1.2 12H5.7L4.5 9ZM8.5 9V6a3.5 3.5 0 0 1 7 0v3"/></svg></span><div><b>SHOP MULTIPAGINA</b><small>Prodotti e categorie sempre a portata</small></div></div><div class="service-item"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.2 3.4 9.2 8 11 4.6-1.8 8-5.8 8-11V5zM8 12l3 3 5-6"/></svg></span><div><b>DEMO SENZA ACQUISTI</b><small>Ordini e pagamenti da integrare</small></div></div></div></div>
+<section class="section container" aria-labelledby="home-categories-title"><div class="section-head"><div><div class="eyebrow">SCEGLI LA DISCIPLINA</div><h2 class="section-title" id="home-categories-title">IL TUO <span>TERRENO.</span></h2></div><p>Dalla pista alla palestra, scegli il tuo sport ed esplora i prodotti dedicati.</p></div>
+<div class="category-grid"><a class="category-card" href="categoria-running.html"><img class="cat-photo" src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&q=82" alt="Runner durante un allenamento" loading="lazy"><span class="cat-top">01 / PERFORMANCE</span><span class="cat-bottom"><strong>RUNNING</strong><i>↗</i></span></a><a class="category-card" href="categoria-fitness.html"><img class="cat-photo" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=82" alt="Allenamento in palestra" loading="lazy"><span class="cat-top">02 / STRENGTH</span><span class="cat-bottom"><strong>FITNESS</strong><i>↗</i></span></a><a class="category-card" href="categoria-outdoor.html"><img class="cat-photo" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=82" alt="Paesaggio montano" loading="lazy"><span class="cat-top">03 / ADVENTURE</span><span class="cat-bottom"><strong>OUTDOOR</strong><i>↗</i></span></a></div></section>
+<section class="section container" style="padding-top:25px" aria-labelledby="home-featured-title"><div class="section-head"><div><div class="eyebrow">SELEZIONE BERNINI SPORT</div><h2 class="section-title" id="home-featured-title">IN <span>EVIDENZA.</span></h2></div><a href="shop.html" class="text-link">VEDI TUTTI I PRODOTTI ↗</a></div><div id="featured-products" class="products-grid" aria-live="polite"></div><div class="product-see-all"><a class="btn btn-dark" href="shop.html">VAI AL CATALOGO COMPLETO ↗</a></div></section>
+<section class="editorial" aria-labelledby="home-campaign"><div class="editorial-copy"><div class="eyebrow light">LA PASSIONE NON SI FERMA</div><h2 id="home-campaign">OLTRE IL<br><em>TRAGUARDO.</em></h2><p>Ogni movimento racconta chi sei. Trova ispirazione per il tuo prossimo allenamento.</p><a class="btn btn-white" href="categoria-fitness.html">SCOPRI IL FITNESS ↗</a></div><div class="editorial-photo" role="img" aria-label="Ambiente di allenamento"></div></section>
+<section class="section container" aria-labelledby="home-offers-title"><div class="section-head"><div><div class="eyebrow">SCOPRI LE OCCASIONI</div><h2 class="section-title" id="home-offers-title">PREZZI <span>SPECIALI.</span></h2></div><a class="text-link" href="offerte.html">TUTTE LE OFFERTE ↗</a></div><div id="offers-products" class="products-grid" aria-live="polite"></div></section>
+<section class="section container about-teaser"><div class="about-teaser-photo" role="img" aria-label="Persona che corre all'aperto"></div><div><div class="eyebrow">IL MONDO BERNINI SPORT</div><h2>LO SPORT È UNA<br>SCELTA DI <span style="color:var(--orange)">PASSIONE.</span></h2><p>Un negozio sportivo è più di un catalogo: è un punto di partenza per chi vuole migliorarsi, provarci ancora e trovare la propria strada. Questa è la direzione che immaginiamo per Bernini Sport.</p><a class="btn btn-dark" href="chi-siamo.html">LA NOSTRA IDENTITÀ ↗</a></div></section></main><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><a href="index.html"><img src="assets/logo-light.svg" alt="Bernini Sport" width="228" height="54"></a><p>Passione, movimento, carattere.<br>Ogni sfida comincia da te.</p><span class="footer-demo">PROGETTO DIMOSTRATIVO</span></div>
+<div class="footer-col"><h3>ESPLORA</h3><a href="shop.html">Tutto lo shop</a><a href="categoria-running.html">Running</a><a href="categoria-fitness.html">Fitness</a><a href="categoria-calcio.html">Calcio</a><a href="categoria-outdoor.html">Outdoor</a><a href="offerte.html">Offerte</a></div>
+<div class="footer-col"><h3>BERNINI SPORT</h3><a href="chi-siamo.html">Chi siamo</a><a href="contatti.html">Contatti</a><a href="preferiti.html">Preferiti</a><a href="carrello.html">Carrello</a></div>
+<div class="footer-col"><h3>INFORMAZIONI</h3><a href="spedizioni-resi.html">Spedizioni e resi</a><a href="privacy.html">Privacy</a><a href="condizioni.html">Termini di vendita</a><p style="color:#a4b0b8;font-size:11px">I documenti informativi sono segnaposto da completare prima della vendita.</p></div></div>
+<div class="footer-bottom"><span>© <span class="year">2026</span> Bernini Sport · Demo multipagina</span><span>Progetto web · CybernetLab</span><a href="#top">TORNA SU ↑</a></div></div></footer><div id="toast" class="toast" role="status" aria-live="polite"></div></body></html>
