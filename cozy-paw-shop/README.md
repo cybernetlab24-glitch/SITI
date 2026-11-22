@@ -1,13 +1,16 @@
 # Cozy Paw Shop
 
-Sito vetrina ecommerce statico, in italiano, ispirato al mockup Cozy Paw.
+Sito statico multipagina, in italiano, ispirato al mockup Cozy Paw.
 
-## Contenuti
-- Home, catalogo filtrabile, storia del brand e richiesta su misura.
-- Carrello laterale con quantità e salvataggio nel browser.
-- Riepilogo d’ordine tramite email; il cliente concorda disponibilità, spedizione e pagamento.
+## Pagine
+- `index.html`: home e prodotti in evidenza.
+- `collezione.html`: catalogo filtrabile.
+- `prodotto.html?id=...`: scheda prodotto, aperta in una nuova scheda cliccando sulle immagini del catalogo.
+- `chi-siamo.html`, `su-misura.html` e `carrello.html`.
 
-## Prima di usare il sito per ordini reali
-Il checkout è dimostrativo: non elabora pagamenti e non registra ordini su un server. Collegare un indirizzo email ufficiale al `mailto:` in `app.js`; per pagamenti online e gestione ordini serve integrare un backend o un servizio ecommerce.
+Il carrello conserva gli articoli nel browser, quindi resta disponibile navigando tra le pagine.
 
-Le fotografie vengono riutilizzate da `../cozy-paw/img/` nel repository.
+## Ordini reali
+Il checkout prepara una richiesta d’ordine ma non elabora pagamenti e non registra ordini su un server. Collegare un indirizzo email ufficiale a `mailto:` in `app.js`; per pagamenti online e gestione degli ordini serve integrare un backend o un servizio ecommerce.
+
+Le fotografie sono riutilizzate da `../cozy-paw/img/` nel repository.
