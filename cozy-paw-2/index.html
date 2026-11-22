@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f9f5ef">
+  <title>Cozy Paw — Accessori a maglia fatti a mano per cani e gatti</title>
+  <meta name="description" content="Maglioni, cappottini, copertine e sciarpe artigianali per cani e gatti. Scopri Cozy Paw e raccontaci l’accessorio a maglia che immagini per il tuo pet.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:title" content="Cozy Paw — Piccole coccole, fatte a mano">
+  <meta property="og:description" content="Accessori a maglia per cani e gatti, realizzati con cura. Colori delicati, trame morbide e dettagli che parlano di te.">
+  <meta property="og:image" content="img/hero-1.jpg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f9f5ef'/%3E%3Cg fill='%23af6d60'%3E%3Cellipse cx='18' cy='25' rx='6' ry='8' transform='rotate(-25 18 25)'/%3E%3Cellipse cx='29' cy='18' rx='6' ry='8'/%3E%3Cellipse cx='42' cy='21' rx='6' ry='8' transform='rotate(20 42 21)'/%3E%3Cellipse cx='50' cy='32' rx='5' ry='7' transform='rotate(30 50 32)'/%3E%3Cpath d='M17 44c0-7 10-19 17-16s17 14 13 21-12 1-16 1-14 3-14-6Z'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#f9f5ef',
+            linen: '#eee6db',
+            blush: '#f1e3de',
+            clay: '#a55f52',
+            claydark: '#88483d',
+            sage: '#777c60',
+            ink: '#403c32',
+            muted: '#71695f'
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['DM Sans', 'sans-serif']
+          },
+          boxShadow: { soft: '0 12px 40px -20px rgba(83,61,43,.22)' }
+        }
+      }
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { -webkit-font-smoothing: antialiased; }
+    ::selection { background: #e9c9be; color: #403c32; }
+    .container-wide { width: min(1200px, calc(100% - 64px)); margin-inline: auto; }
+    .eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 48px; padding: .8rem 1.4rem; border-radius: 999px; font-size: 12px; font-weight: 600; transition: background .2s, transform .2s, box-shadow .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: #a55f52; color: #fff; }
+    .btn-primary:hover { background: #88483d; box-shadow: 0 6px 20px -8px #a55f52; }
+    .btn-outline { border: 1px solid #b58a7c; color: #88483d; background: rgba(249,245,239,.5); }
+    .btn-outline:hover { background: #f1e3de; }
+    .icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .section-heading { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .section-heading:before,.section-heading:after { content: ''; width: 65px; height: 1px; background: linear-gradient(90deg,transparent,#bc9687); }
+    .section-heading:after { transform: rotate(180deg); }
+    .reveal { opacity: 1; transform: none; }
+    .js-motion .reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+    .js-motion .reveal.visible { opacity: 1; transform: none; }
+    .stitch { background-image: repeating-linear-gradient(90deg,#d6beb2 0,#d6beb2 5px,transparent 5px,transparent 12px); height: 1px; }
+    input,textarea,select { font: inherit; }
+    :focus-visible { outline: 3px solid #777c60; outline-offset: 5px; }
+    dialog::backdrop { background: rgba(40,35,30,.5); backdrop-filter: blur(4px); }
+    @media (max-width: 640px) {
+      .container-wide { width: calc(100% - 40px); }
+      .section-heading { gap: 12px; }
+      .section-heading:before,.section-heading:after { width: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,*::before,*::after { transition: none !important; animation: none !important; }
+      .js-motion .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body class="bg-cream text-ink font-sans">
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+    <symbol id="i-paw" viewBox="0 0 24 24"><ellipse cx="5.5" cy="8" rx="2" ry="2.8" transform="rotate(-25 5.5 8)" fill="currentColor" stroke="none"/><ellipse cx="10.3" cy="5.3" rx="2" ry="2.8" fill="currentColor" stroke="none"/><ellipse cx="15.5" cy="6" rx="2" ry="2.8" transform="rotate(20 15.5 6)" fill="currentColor" stroke="none"/><ellipse cx="19" cy="10.5" rx="2" ry="2.7" transform="rotate(30 19 10.5)" fill="currentColor" stroke="none"/><path d="M5.6 17c0-3 3.6-7.5 6.3-7.2s7.4 6.2 5.8 9-4 .5-6 .5-6.1 1-6.1-2.3Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 6l-1.1-1.2a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="i-thread" viewBox="0 0 24 24"><circle cx="11" cy="13" r="8"/><path d="m4 10 12 9M6 7l13 9M10 5l9 7M4 17l11-11M7 20l13-13M15 4l5-3m-1 11c4 0 4 8 0 8"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 3C9 2 3 6 4 13c1 7 14 9 16-10Z M4 21 16 9M9 15V9m0 6h6"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><path d="m3 16 13-13 5 5L8 21Z M13 6l2 2m-5 1 2 2m-5 1 2 2m-5 1 2 2"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="m8 3 3 5-3 3a15 15 0 0 0 5 5l3-3 5 3c-1 7-7 5-12 1S1 6 5 3Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 0 1-13.3 8L3 21l1.5-4.7A9 9 0 1 1 21 11.5Z"/><path d="M8 8c0 4 4 7 7 7l1-2-2-1-1 1-2-2 1-1-1-2Z"/></symbol>
+    <symbol id="i-knit" viewBox="0 0 24 24"><path d="m7 4-5 5 4 4 2-2v10h8V11l2 2 4-4-5-5-2 2H9Z M9 4c0 4 6 4 6 0"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  </svg>
+
+  <a href="#contenuto" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:p-4">Vai al contenuto</a>
+
+  <header class="fixed top-0 inset-x-0 z-50 bg-cream/95 backdrop-blur-md border-b border-ink/10">
+    <div class="container-wide h-[86px] flex items-center justify-between gap-6">
+      <a href="#home" aria-label="Cozy Paw, homepage" class="flex items-center gap-3 shrink-0">
+        <span class="relative text-clay w-12 h-12 rounded-full border border-clay/50 flex items-center justify-center">
+          <svg class="icon w-7 h-7"><use href="#i-paw"/></svg>
+          <svg class="icon absolute -top-2 -right-1 w-4 h-4 bg-cream"><use href="#i-heart"/></svg>
+        </span>
+        <span>
+          <span class="block font-serif text-[35px] leading-[.95] font-semibold tracking-[-.055em]">Cozy Paw<span class="text-clay">.</span></span>
+          <span class="block text-[7px] tracking-[.24em] uppercase mt-1.5 text-muted">Fatto a mano, per amore</span>
+        </span>
+      </a>
+      <nav aria-label="Navigazione principale" class="hidden lg:flex items-center gap-7 text-[12px] font-medium">
+        <a href="#home" class="px-4 py-1.5 bg-blush rounded-full hover:text-clay">Home</a>
+        <a href="#prodotti" class="hover:text-clay transition-colors">Le collezioni</a>
+        <a href="#chi-siamo" class="hover:text-clay transition-colors">Chi siamo</a>
+        <a href="#come-ordinare" class="hover:text-clay transition-colors">Come ordinare</a>
+        <a href="#contatti" class="hover:text-clay transition-colors">Contatti</a>
+      </nav>
+      <a href="#contatti" class="btn btn-primary hidden sm:inline-flex !min-h-10 !py-2 !px-5 !text-[11px]">
+        <svg class="icon w-4 h-4"><use href="#i-thread"/></svg> Il tuo pezzo speciale
+      </a>
+      <button id="menu-toggle" class="lg:hidden p-2 -mr-2 text-ink" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg id="menu-icon" class="icon w-7 h-7" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <nav id="mobile-menu" aria-label="Navigazione mobile" class="hidden lg:hidden border-t border-ink/10 bg-cream px-6 py-6">
+      <div class="flex flex-col gap-5 text-sm">
+        <a href="#home">Home</a><a href="#prodotti">Le collezioni</a><a href="#chi-siamo">Chi siamo</a><a href="#come-ordinare">Come ordinare</a><a href="#contatti">Contatti e personalizzazioni</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenuto" class="pt-[86px]">
+    <section id="home" class="relative overflow-hidden min-h-[570px] lg:min-h-[600px] flex items-center">
+      <img src="img/hero-1.jpg" alt="Un momento di morbidezza con gli accessori artigianali Cozy Paw per animali domestici" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover object-[65%_center]">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#f5ece0] via-[#f5ece0]/90 to-transparent md:via-[#f5ece0]/65 md:to-transparent"></div>
+      <div class="absolute inset-0 bg-cream/25 md:bg-transparent"></div>
+      <div class="container-wide relative py-20 lg:py-24">
+        <div class="max-w-[555px]">
+          <div class="flex items-center gap-3 text-clay eyebrow mb-6">
+            <span class="w-7 h-px bg-clay/60"></span> Intrecci di amore, per loro
+          </div>
+          <h1 class="font-serif text-[52px] sm:text-[64px] lg:text-[76px] leading-[.99] tracking-[-.035em] font-medium">
+            Piccole coccole,<br>fatte <span class="italic text-clay">a mano.</span>
+          </h1>
+          <div class="flex items-center gap-3 mt-7 mb-5 text-clay/75">
+            <span class="w-16 h-px bg-clay/35"></span>
+            <svg class="icon w-5 h-5 -rotate-12"><use href="#i-heart"/></svg>
+            <span class="w-16 h-px bg-clay/35"></span>
+          </div>
+          <p class="text-sm sm:text-[15px] leading-relaxed text-ink/85 max-w-[365px]">
+            Accessori a maglia per cani e gatti, intrecciati con cura. Per le passeggiate più fresche, i sonnellini più lunghi e tutto l’amore di ogni giorno.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-8">
+            <a href="#prodotti" class="btn btn-primary"><svg class="icon w-4 h-4"><use href="#i-paw"/></svg> Scopri le collezioni <svg class="icon w-4 h-4"><use href="#i-arrow"/></svg></a>
+            <a href="#contatti" class="btn btn-outline">Immaginiamolo insieme</a>
+          </div>
+          <p class="mt-7 text-[10px] tracking-wide text-muted flex items-center gap-2">
+            <svg class="icon w-4 h-4 text-clay"><use href="#i-thread"/></svg> Lavorazione artigianale. Dettagli che fanno la differenza.
+          </p>
+        </div>
+      </div>
+      <div class="absolute right-10 bottom-7 hidden lg:flex items-center gap-3 bg-cream/90 backdrop-blur px-5 py-3 rounded-2xl rotate-[-3deg] shadow-soft">
+        <svg class="icon text-clay w-7 h-7"><use href="#i-heart"/></svg>
+        <span class="font-serif text-xl italic leading-tight">Una coccola da indossare.</span>
+      </div>
+    </section>
+
+    <div class="border-y border-ink/10 bg-[#f1ebe1]">
+      <div class="container-wide py-4 flex flex-wrap justify-center gap-x-10 gap-y-3 text-[10px] sm:text-[11px] tracking-wide text-muted">
+        <span class="flex items-center gap-2"><svg class="icon w-4 h-4 text-clay"><use href="#i-thread"/></svg> Fatto a mano, punto dopo punto</span>
+        <span class="flex items-center gap-2"><svg class="icon w-4 h-4 text-clay"><use href="#i-ruler"/></svg> Pensato per il tuo pet</span>
+        <span class="flex items-center gap-2"><svg class="icon w-4 h-4 text-clay"><use href="#i-heart"/></svg> Per cani e gatti, con amore</span>
+      </div>
+    </div>
+
+    <section id="prodotti" class="py-16 lg:py-20">
+      <div class="container-wide">
+        <div class="text-center reveal">
+          <p class="eyebrow text-clay mb-3">Il loro piccolo mondo, più morbido</p>
+          <div class="section-heading"><h2 class="font-serif text-4xl lg:text-[44px] font-semibold tracking-tight">Le nostre collezioni</h2></div>
+          <p class="text-muted text-sm mt-4 max-w-lg mx-auto leading-relaxed">Trame da accarezzare, colori da abbinare e accessori da vivere. Scegli da dove cominciare.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+          <article class="group reveal">
+            <a href="#contatti" data-product="Maglioni e cappottini" class="block relative overflow-hidden rounded-[20px] bg-linen aspect-[4/3]">
+              <img src="img/servizi-3.jpg" loading="lazy" alt="Lavorazione a maglia degli accessori artigianali Cozy Paw" class="w-full h-full object-cover object-left transition-transform duration-700 group-hover:scale-105">
+              <span class="absolute left-4 top-4 bg-cream/95 rounded-full px-3 py-1.5 text-[9px] uppercase tracking-[.15em]">Da indossare</span>
+              <span class="absolute bottom-4 right-4 bg-cream w-10 h-10 rounded-full flex items-center justify-center text-clay group-hover:bg-clay group-hover:text-white transition-colors"><svg class="icon w-5 h-5"><use href="#i-arrow"/></svg></span>
+            </a>
+            <div class="pt-5 px-1">
+              <h3 class="font-serif text-[28px] font-semibold">Maglioni e cappottini</h3>
+              <p class="text-[13px] leading-relaxed text-muted mt-2">Una coccola anche fuori casa. Capi a maglia da pensare nelle misure e nei colori più adatti al tuo amico.</p>
+              <a href="#contatti" data-product="Maglioni e cappottini" class="inline-flex items-center gap-2 text-[11px] font-semibold text-clay mt-4 border-b border-clay/30 pb-1">Scegli il suo prossimo abbraccio <svg class="icon w-3.5 h-3.5"><use href="#i-arrow"/></svg></a>
+            </div>
+          </article>
+          <article class="group reveal">
+            <a href="#contatti" data-product="Copertine" class="block relative overflow-hidden rounded-[20px] bg-linen aspect-[4/3]">
+              <img src="img/hero-1.jpg" loading="lazy" alt="Atmosfera calda e tessuti morbidi per il riposo degli animali domestici" class="w-full h-full object-cover object-[80%_65%] transition-transform duration-700 group-hover:scale-105">
+              <span class="absolute left-4 top-4 bg-cream/95 rounded-full px-3 py-1.5 text-[9px] uppercase tracking-[.15em]">Da coccolare</span>
+              <span class="absolute bottom-4 right-4 bg-cream w-10 h-10 rounded-full flex items-center justify-center text-clay group-hover:bg-clay group-hover:text-white transition-colors"><svg class="icon w-5 h-5"><use href="#i-arrow"/></svg></span>
+            </a>
+            <div class="pt-5 px-1">
+              <h3 class="font-serif text-[28px] font-semibold">Copertine</h3>
+              <p class="text-[13px] leading-relaxed text-muted mt-2">Il suo angolino preferito, ancora più accogliente. Morbidi intrecci per accompagnare i piccoli rituali di riposo.</p>
+              <a href="#contatti" data-product="Copertine" class="inline-flex items-center gap-2 text-[11px] font-semibold text-clay mt-4 border-b border-clay/30 pb-1">Rendi speciale la sua pausa <svg class="icon w-3.5 h-3.5"><use href="#i-arrow"/></svg></a>
+            </div>
+          </article>
+          <article class="group reveal">
+            <a href="#contatti" data-product="Sciarpe a maglia" class="block relative overflow-hidden rounded-[20px] bg-linen aspect-[4/3]">
+              <img src="img/servizi-3.jpg" loading="lazy" alt="Dettagli e intrecci degli accessori a maglia per cani e gatti" class="w-full h-full object-cover object-right transition-transform duration-700 group-hover:scale-105">
+              <span class="absolute left-4 top-4 bg-cream/95 rounded-full px-3 py-1.5 text-[9px] uppercase tracking-[.15em]">Piccoli dettagli</span>
+              <span class="absolute bottom-4 right-4 bg-cream w-10 h-10 rounded-full flex items-center justify-center text-clay group-hover:bg-clay group-hover:text-white transition-colors"><svg class="icon w-5 h-5"><use href="#i-arrow"/></svg></span>
+            </a>
+            <div class="pt-5 px-1">
+              <h3 class="font-serif text-[28px] font-semibold">Sciarpe a maglia</h3>
+              <p class="text-[13px] leading-relaxed text-muted mt-2">Un tocco di colore, una trama delicata. Piccoli accessori che aggiungono personalità alle vostre passeggiate.</p>
+              <a href="#contatti" data-product="Sciarpe a maglia" class="inline-flex items-center gap-2 text-[11px] font-semibold text-clay mt-4 border-b border-clay/30 pb-1">Trova il suo tocco di stile <svg class="icon w-3.5 h-3.5"><use href="#i-arrow"/></svg></a>
+            </div>
+          </article>
+        </div>
+        <p class="mt-8 text-center text-[11px] text-muted">Ogni creazione nasce da un dialogo: disponibilità, materiali, prezzo e tempi si definiscono insieme, prima dell’ordine.</p>
+      </div>
+    </section>
+
+    <section class="pb-16 lg:pb-20" aria-labelledby="perche-title">
+      <div class="container-wide bg-blush/60 rounded-[24px] px-6 lg:px-10 py-9 reveal">
+        <div class="section-heading"><h2 id="perche-title" class="font-serif text-[29px] sm:text-3xl text-center font-semibold">Il bello delle cose fatte con cura</h2></div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mt-8">
+          <div class="text-center lg:border-r border-clay/20 lg:pr-6"><svg class="icon w-8 h-8 text-clay mx-auto mb-3"><use href="#i-thread"/></svg><h3 class="font-serif text-xl font-semibold">Davvero artigianale</h3><p class="text-[11px] leading-relaxed text-muted mt-2 max-w-[210px] mx-auto">Il tempo delle mani e la cura di ogni punto. È qui che nasce il carattere di ogni pezzo.</p></div>
+          <div class="text-center lg:border-r border-clay/20 lg:pr-6"><svg class="icon w-8 h-8 text-clay mx-auto mb-3"><use href="#i-ruler"/></svg><h3 class="font-serif text-xl font-semibold">A modo vostro</h3><p class="text-[11px] leading-relaxed text-muted mt-2 max-w-[210px] mx-auto">Condividi misure, colori e desideri: troviamo insieme la combinazione giusta.</p></div>
+          <div class="text-center lg:border-r border-clay/20 lg:pr-6"><svg class="icon w-8 h-8 text-clay mx-auto mb-3"><use href="#i-leaf"/></svg><h3 class="font-serif text-xl font-semibold">Morbidezza al centro</h3><p class="text-[11px] leading-relaxed text-muted mt-2 max-w-[210px] mx-auto">Scegliamo filati e lavorazioni pensando al comfort e all’uso di ogni accessorio.</p></div>
+          <div class="text-center"><svg class="icon w-8 h-8 text-clay mx-auto mb-3"><use href="#i-heart"/></svg><h3 class="font-serif text-xl font-semibold">Un pensiero speciale</h3><p class="text-[11px] leading-relaxed text-muted mt-2 max-w-[210px] mx-auto">Per il tuo compagno di vita o per chi, come te, ama le piccole attenzioni.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chi-siamo" class="pb-16 lg:pb-24">
+      <div class="container-wide grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+        <div class="relative reveal">
+          <img src="img/chi-siamo-2.jpg" alt="La cura artigianale dietro le creazioni a maglia di Cozy Paw" loading="lazy" class="w-full aspect-[1.12] object-cover rounded-t-[120px] rounded-b-[20px]">
+          <div class="absolute -bottom-5 right-4 sm:-right-5 rounded-full w-28 h-28 bg-sage text-cream flex flex-col items-center justify-center rotate-6 border-[5px] border-cream">
+            <svg class="icon w-6 h-6 mb-1"><use href="#i-paw"/></svg><span class="font-serif text-xl italic">Con amore.</span>
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="eyebrow text-clay mb-4">Il filo che ci unisce</p>
+          <h2 class="font-serif text-[42px] lg:text-[52px] leading-[1.06] tracking-tight font-medium">Mani che creano.<br><span class="italic text-clay">Zampe che ispirano.</span></h2>
+          <p class="text-sm text-muted leading-7 mt-6">Cozy Paw nasce da un’idea semplice: anche i nostri amici a quattro zampe meritano la bellezza delle cose fatte con calma, cura e amore.</p>
+          <p class="text-sm text-muted leading-7 mt-4">Amiamo la maglia, le palette naturali e quei piccoli dettagli che trasformano un accessorio in qualcosa di personale. Ogni creazione è un incontro tra il nostro lavoro artigianale e la storia di chi la sceglie.</p>
+          <p class="font-serif italic text-[23px] leading-snug mt-6">Non soltanto qualcosa da indossare.<br>Un piccolo modo per dire: “sei di casa”.</p>
+          <a href="#contatti" class="inline-flex items-center gap-3 mt-6 text-xs font-semibold text-clay">Raccontaci il tuo amico a quattro zampe <svg class="icon w-4 h-4"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="come-ordinare" class="py-16 lg:py-20 bg-[#f0ece3] border-y border-ink/5">
+      <div class="container-wide">
+        <div class="text-center reveal">
+          <p class="eyebrow text-sage mb-3">Dalla tua idea alle nostre mani</p>
+          <div class="section-heading"><h2 class="font-serif text-[40px] font-semibold">Come ordinare</h2></div>
+          <p class="text-muted text-sm mt-3">Le cose belle cominciano con una chiacchierata.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-5 mt-10">
+          <article class="relative rounded-2xl bg-cream p-7 lg:p-8 reveal">
+            <span class="font-serif text-[58px] leading-none text-clay/25 absolute right-6 top-5">01</span>
+            <svg class="icon w-8 h-8 text-sage mb-6"><use href="#i-knit"/></svg>
+            <h3 class="font-serif text-[27px] font-semibold">Lasciati ispirare</h3>
+            <p class="text-[13px] text-muted leading-6 mt-2">Scegli una collezione o raccontaci quello che immagini. Una foto del tuo pet è sempre un bellissimo inizio.</p>
+          </article>
+          <article class="relative rounded-2xl bg-cream p-7 lg:p-8 reveal">
+            <span class="font-serif text-[58px] leading-none text-clay/25 absolute right-6 top-5">02</span>
+            <svg class="icon w-8 h-8 text-sage mb-6"><use href="#i-ruler"/></svg>
+            <h3 class="font-serif text-[27px] font-semibold">Troviamo il suo stile</h3>
+            <p class="text-[13px] text-muted leading-6 mt-2">Definiamo insieme misure, filati e colori. Ti aiutiamo a raccogliere le informazioni necessarie per il tuo accessorio.</p>
+          </article>
+          <article class="relative rounded-2xl bg-cream p-7 lg:p-8 reveal">
+            <span class="font-serif text-[58px] leading-none text-clay/25 absolute right-6 top-5">03</span>
+            <svg class="icon w-8 h-8 text-sage mb-6"><use href="#i-heart"/></svg>
+            <h3 class="font-serif text-[27px] font-semibold">Diamo vita alla coccola</h3>
+            <p class="text-[13px] text-muted leading-6 mt-2">Ricevi la proposta con prezzo, tempi e modalità di consegna. Solo dopo la tua conferma, l’idea diventa un intreccio.</p>
+          </article>
+        </div>
+        <div class="text-center mt-8 reveal"><a href="#contatti" class="btn btn-primary">Cominciamo dal tuo pet <svg class="icon w-4 h-4"><use href="#i-arrow"/></svg></a></div>
+      </div>
+    </section>
+
+    <section id="contatti" class="py-16 lg:py-24">
+      <div class="container-wide grid lg:grid-cols-[.85fr_1.15fr] gap-12 lg:gap-24">
+        <div class="reveal">
+          <p class="eyebrow text-clay mb-4">Un filo diretto con noi</p>
+          <h2 class="font-serif text-[44px] lg:text-[52px] leading-[1.05] font-medium tracking-tight">La prossima coccola<br><span class="italic text-clay">inizia qui.</span></h2>
+          <p class="text-sm leading-7 text-muted mt-6 max-w-sm">Hai un’idea, una domanda o un colore del cuore? Scrivici. Saremo felici di immaginare qualcosa di speciale per il tuo cane o il tuo gatto.</p>
+          <div class="space-y-5 mt-8">
+            <a href="tel:[TELEFONO]" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-full bg-blush flex items-center justify-center text-clay group-hover:bg-linen transition-colors"><svg class="icon w-5 h-5"><use href="#i-phone"/></svg></span>
+              <span><span class="block text-[10px] uppercase tracking-[.12em] text-muted">Chiama</span><span class="text-sm font-medium">[TELEFONO]</span></span>
+            </a>
+            <a href="https://wa.me/[TELEFONO]" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-full bg-blush flex items-center justify-center text-clay group-hover:bg-linen transition-colors"><svg class="icon w-5 h-5"><use href="#i-chat"/></svg></span>
+              <span><span class="block text-[10px] uppercase tracking-[.12em] text-muted">Scrivici su WhatsApp</span><span class="text-sm font-medium">[TELEFONO WHATSAPP]</span></span>
+            </a>
+            <a href="mailto:[EMAIL]" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-full bg-blush flex items-center justify-center text-clay group-hover:bg-linen transition-colors"><svg class="icon w-5 h-5"><use href="#i-mail"/></svg></span>
+              <span><span class="block text-[10px] uppercase tracking-[.12em] text-muted">Mandaci un’email</span><span class="text-sm font-medium">[EMAIL]</span></span>
+            </a>
+          </div>
+          <div class="mt-8 border-t border-ink/10 pt-5 max-w-sm">
+            <p class="text-[11px] leading-relaxed text-muted">Siamo un progetto artigianale: per informazioni sulle creazioni e sulle modalità d’ordine, contattaci direttamente.</p>
+            <p class="text-[10px] text-clay mt-3">Recapiti in aggiornamento: i campi tra parentesi sono segnaposto da completare.</p>
+          </div>
+        </div>
+        <form id="contact-form" class="bg-white/60 rounded-[24px] border border-linen p-6 sm:p-9 shadow-soft reveal">
+          <h3 class="font-serif text-[29px] font-semibold">Raccontaci la tua idea</h3>
+          <p class="text-xs text-muted mt-1 mb-6">Nessun impegno, solo il piacere di creare insieme.</p>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div><label for="nome" class="block text-[11px] font-medium mb-2">Il tuo nome <span class="text-clay">*</span></label><input id="nome" name="nome" autocomplete="given-name" required placeholder="Come ti chiami?" class="w-full rounded-lg border border-linen bg-cream/70 p-3 text-xs placeholder:text-muted/80"></div>
+            <div><label for="email" class="block text-[11px] font-medium mb-2">La tua email <span class="text-clay">*</span></label><input id="email" name="email" type="email" autocomplete="email" required placeholder="nome@esempio.it" class="w-full rounded-lg border border-linen bg-cream/70 p-3 text-xs placeholder:text-muted/80"></div>
+            <div><label for="pet" class="block text-[11px] font-medium mb-2">Il nome del tuo pet</label><input id="pet" name="pet" placeholder="Presentaci il tuo amico" class="w-full rounded-lg border border-linen bg-cream/70 p-3 text-xs placeholder:text-muted/80"></div>
+            <div><label for="prodotto" class="block text-[11px] font-medium mb-2">Cosa ti piacerebbe?</label><select id="prodotto" name="prodotto" class="w-full rounded-lg border border-linen bg-cream/70 p-3 text-xs"><option value="">Scegli una collezione</option>Maglioni e cappottini</option><option>Copertine</option><option>Sciarpe a maglia</option><option>Un’idea da immaginare insieme</option></select></div>
+            <div class="sm:col-span-2"><label for="messaggio" class="block text-[11px] font-medium mb-2">La tua idea <span class="text-clay">*</span></label><textarea id="messaggio" name="messaggio" rows="4" required placeholder="Colori, misure, desideri… raccontaci tutto quello che hai in mente." class="w-full rounded-lg border border-linen bg-cream/70 p-3 text-xs placeholder:text-muted/80 resize-y"></textarea></div>
+          </div>
+          <label class="flex items-start gap-3 mt-5 text-[10px] leading-relaxed text-muted"><input type="checkbox" required class="mt-0.5 accent-clay w-4 h-4 shrink-0"><span>Ho letto l’<button type="button" data-privacy class="underline underline-offset-2 text-clay">informativa privacy</button> e acconsento all’utilizzo dei miei dati per rispondere alla richiesta. <span aria-hidden="true">*</span></span></label>
+          <button type="submit" class="btn btn-primary mt-6 w-full sm:w-auto">Prepariamo la tua email <svg class="icon w-4 h-4"><use href="#i-arrow"/></svg></button>
+          <p class="text-[10px] leading-relaxed text-muted mt-4">Si aprirà il tuo programma di posta con il messaggio già compilato. Nessun dato viene inviato automaticamente dal sito. * Campi obbligatori.</p>
+          <p id="form-status" role="status" class="text-xs text-clay leading-relaxed mt-3"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="container-wide mb-16 reveal" aria-label="Il pensiero Cozy Paw">
+      <div class="bg-blush rounded-[22px] px-7 py-9 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div class="relative z-10 text-center sm:text-left">
+          <p class="font-serif text-[30px] sm:text-[35px] font-medium leading-tight">Per loro è una coccola.<br class="sm:hidden"> <span class="italic text-clay">Per noi, un gesto d’amore.</span></p>
+          <p class="text-xs text-muted mt-2">Ogni punto racconta quanto sono speciali.</p>
+        </div>
+        <svg class="icon w-16 h-16 text-clay/40 rotate-12 shrink-0"><use href="#i-paw"/></svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-sage text-cream">
+    <div class="container-wide py-11 grid md:grid-cols-[1.2fr_1fr_1fr] gap-9">
+      <div>
+        <a href="#home" class="inline-flex items-center gap-3"><svg class="icon w-9 h-9"><use href="#i-paw"/></svg><span class="font-serif text-4xl tracking-[-.04em] font-semibold">Cozy Paw.</span></a>
+        <p class="text-[11px] leading-6 text-cream/90 mt-3 max-w-xs">Accessori a maglia per cani e gatti.<br>Fatti a mano, pensati con il cuore.</p>
+      </div>
+      <div>
+        <h2 class="text-[10px] uppercase tracking-[.18em] font-semibold mb-4">Esplora il nostro mondo</h2>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-[11px] text-cream/90"><a href="#prodotti" class="hover:underline">Le collezioni</a><a href="#chi-siamo" class="hover:underline">Chi siamo</a><a href="#come-ordinare" class="hover:underline">Come ordinare</a><a href="#contatti" class="hover:underline">Contatti</a></div>
+      </div>
+      <div>
+        <h2 class="text-[10px] uppercase tracking-[.18em] font-semibold mb-4">I dettagli, con trasparenza</h2>
+        <p class="text-[11px] leading-6 text-cream/90">Cozy Paw — [RAGIONE SOCIALE]<br>Sede legale: [INDIRIZZO]<br>P. IVA: [P.IVA] · Email: [EMAIL]</p>
+      </div>
+    </div>
+    <div class="border-t border-cream/25">
+      <div class="container-wide py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-cream/90">
+        <p>© <span id="year">2026</span> Cozy Paw. Tutti i diritti riservati.</p>
+        <button type="button" data-privacy class="underline underline-offset-4 hover:text-white">Informativa privacy</button>
+        <span class="flex items-center gap-2">Intrecciato con cura <svg class="icon w-3.5 h-3.5"><use href="#i-heart"/></svg></span>
+      </div>
+    </div>
+  </footer>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title" class="bg-cream text-ink rounded-2xl p-0 max-w-xl w-[calc(100%-32px)] max-h-[85vh] shadow-2xl">
+    <div class="p-7 sm:p-9">
+      <div class="flex items-center justify-between gap-4 mb-5"><h2 id="privacy-title" class="font-serif text-3xl font-semibold">Informativa privacy</h2><button id="close-privacy" type="button" aria-label="Chiudi informativa" class="p-2"><svg class="icon"><use href="#i-close"/></svg></button></div>
+      <div class="text-xs leading-6 text-muted space-y-4">
+        <p class="text-clay font-medium">Informativa da completare con i dati del titolare prima della pubblicazione del sito.</p>
+        <p><strong>Titolare del trattamento:</strong> [RAGIONE SOCIALE], [INDIRIZZO]. Contatto privacy: [EMAIL].</p>
+        <p><strong>Dati e finalità:</strong> nome, email e informazioni inserite nel messaggio vengono utilizzati per rispondere alle richieste e gestire eventuali attività precontrattuali, ai sensi dell’art. 6, par. 1, lett. b del Regolamento UE 2016/679.</p>
+        <p><strong>Funzionamento del modulo:</strong> i dati inseriti vengono usati nel browser per compilare un’email. Il sito non li trasmette automaticamente a un server. L’invio avviene soltanto tramite il programma di posta scelto dall’utente.</p>
+        <p><strong>Conservazione:</strong> [INDICARE PERIODO DI CONSERVAZIONE]. Eventuali fornitori del servizio di posta possono trattare i dati secondo i rispettivi incarichi e le proprie condizioni.</p>
+        <p><strong>Diritti:</strong> puoi richiedere accesso, rettifica, cancellazione, limitazione o portabilità dei dati, ove applicabile, scrivendo a [EMAIL]. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.</p>
+        <p><strong>Servizi esterni:</strong> questa pagina carica font da Google Fonts e risorse da Tailwind CDN. Questi servizi possono ricevere dati tecnici, come l’indirizzo IP. I collegamenti a WhatsApp e ai programmi di posta aprono servizi esterni. Non sono presenti strumenti di analisi o profilazione nel codice di questa pagina.</p>
+      </div>
+      <button type="button" id="privacy-done" class="btn btn-primary mt-6">Ho capito</button>
+    </div>
+  </dialog>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    function closeMenu() {
+      menu.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Apri menu');
+    }
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      menu.classList.toggle('hidden', !open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+    });
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('js-motion');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    }
+
+    document.querySelectorAll('[data-product]').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('prodotto').value = link.dataset.product;
+      });
+    });
+
+    const privacy = document.getElementById('privacy-dialog');
+    document.querySelectorAll('[data-privacy]').forEach(button => button.addEventListener('click', () => privacy.showModal()));
+    document.getElementById('close-privacy').addEventListener('click', () => privacy.close());
+    document.getElementById('privacy-done').addEventListener('click', () => privacy.close());
+    privacy.addEventListener('click', event => {
+      const bounds = privacy.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) privacy.close();
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const subject = 'Una coccola Cozy Paw — ' + (data.get('prodotto') || 'Richiesta informazioni');
+      const body = [
+        'Ciao Cozy Paw!', '',
+        'Sono ' + data.get('nome') + '.',
+        'La mia email: ' + data.get('email'),
+        'Il mio pet: ' + (data.get('pet') || 'Non specificato'),
+        'Mi interessa: ' + (data.get('prodotto') || 'Da definire'), '',
+        data.get('messaggio'), '',
+        'Ho letto l’informativa privacy.'
+      ].join('\n');
+      document.getElementById('form-status').textContent = 'La bozza si aprirà nel tuo programma di posta. Attenzione: il destinatario [EMAIL] è un segnaposto e deve essere sostituito con il recapito ufficiale Cozy Paw prima dell’invio.';
+      window.location.href = 'mailto:[EMAIL]?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
