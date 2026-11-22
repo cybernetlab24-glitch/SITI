@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F7F3EA">
+  <title>Cozy Paw — Piccole maglie, grandi coccole</title>
+  <meta name="description" content="Maglioni, cappottini e coperte fatti a mano per cani e gatti. Scopri Cozy Paw e crea un accessorio a maglia su misura per il tuo amico a quattro zampe.">
+  <meta property="og:title" content="Cozy Paw — Piccole maglie, grandi coccole">
+  <meta property="og:description" content="Un filo di cura, una coccola da indossare. Accessori a maglia fatti a mano per cani e gatti, da personalizzare insieme.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:image" content="img/servizi-3.jpg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23F7F3EA'/%3E%3Cg fill='%23445D6A'%3E%3Cellipse cx='20' cy='23' rx='6' ry='8' transform='rotate(-25 20 23)'/%3E%3Cellipse cx='33' cy='18' rx='6' ry='8'/%3E%3Cellipse cx='46' cy='24' rx='6' ry='8' transform='rotate(25 46 24)'/%3E%3Cpath d='M17 44c0-7 9-17 16-17s16 10 16 17c0 10-10 6-16 6s-16 4-16-6Z'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { cream: '#F7F3EA', paper: '#FFFDF8', ink: '#303C39', blue: '#445D6A', honey: '#D9B77C', blush: '#EAD9CF', line: '#DEDCD2' },
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], serif: ['DM Serif Display', 'serif'] },
+          borderRadius: { '4xl': '2rem' }
+        }
+      }
+    };
+  </script>
+  <style>
+    html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{font-family:'DM Sans',sans-serif}
+    ::selection{background:#D9B77C;color:#303C39}
+    :focus-visible{outline:3px solid #445D6A;outline-offset:5px}
+    .knit-pattern{background-image:repeating-linear-gradient(65deg,transparent,transparent 8px,#ffffff18 9px,#ffffff18 10px),repeating-linear-gradient(-65deg,transparent,transparent 8px,#ffffff18 9px,#ffffff18 10px)}
+    .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+    .reveal{transition:opacity .75s ease,transform .75s ease}
+    .js-reveal{opacity:0;transform:translateY(22px)}
+    .reveal.visible{opacity:1;transform:none}
+    .product-art{transition:transform .5s ease}
+    .group:hover .product-art{transform:translateY(-5px) rotate(-3deg)}
+    dialog::backdrop{background:#26352b77;backdrop-filter:blur(4px)}
+    dialog[open]{animation:appear .2s ease}
+    @keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.js-reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="bg-cream text-ink antialiased">
+  <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+    <symbol id="paw" viewBox="0 0 32 32"><ellipse cx="7" cy="11" rx="3" ry="4" transform="rotate(-25 7 11)" fill="currentColor"/><ellipse cx="15" cy="7" rx="3" ry="4" fill="currentColor"/><ellipse cx="24" cy="11" rx="3" ry="4" transform="rotate(25 24 11)" fill="currentColor"/><path d="M7 24c0-5 5-11 9-11s10 6 10 11c0 6-6 3-10 3S7 30 7 24Z" fill="currentColor"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="heart" viewBox="0 0 24 24"><path d="M20 5c-3-3-6-1-8 1C10 4 7 2 4 5c-5 5 3 11 8 15 5-4 13-10 8-15Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Zm3 0V6a4 4 0 0 1 8 0v2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <a href="#contenuto" class="sr-only focus:not-sr-only focus:fixed focus:top-24 focus:left-4 focus:z-50 focus:bg-paper focus:p-4">Salta al contenuto</a>
+
+  <header class="fixed top-0 inset-x-0 z-40 bg-cream/95 backdrop-blur-md border-b border-line">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between gap-4">
+      <a href="#home" class="inline-flex items-center gap-2.5" aria-label="Cozy Paw, homepage">
+        <svg class="w-8 h-8 text-blue"><use href="#paw"/></svg>
+        <span class="font-serif text-3xl tracking-tight">cozy paw<span class="text-honey">.</span></span>
+      </a>
+      <nav aria-label="Navigazione principale" class="hidden lg:flex gap-7 text-sm">
+        <a href="#prodotti" class="hover:text-blue">Le nostre coccole</a>
+        <a href="#chi-siamo" class="hover:text-blue">Chi siamo</a>
+        <a href="#come-ordinare" class="hover:text-blue">Su misura per te</a>
+        <a href="#contatti" class="hover:text-blue">Contatti</a>
+      </nav>
+      <div class="flex items-center gap-3 sm:gap-5">
+        <button type="button" data-open-bag class="flex items-center gap-2 text-sm p-2" aria-label="Apri la tua selezione">
+          <svg class="w-5 h-5"><use href="#bag"/></svg>
+          <span data-cart-count class="text-xs rounded-full bg-blue text-white w-5 h-5 grid place-items-center">0</span>
+        </button>
+        <a href="#contatti" class="hidden sm:inline-flex bg-blue text-white px-5 py-3 rounded-full text-sm hover:bg-ink transition-colors">Creiamo una coccola</a>
+        <button id="menu-toggle" class="lg:hidden p-2" aria-expanded="false" aria-controls="mobile-menu" aria-label="Apri menu">
+          <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="mobile-menu" hidden aria-label="Navigazione mobile" class="lg:hidden bg-cream border-t border-line px-6 py-5 space-y-1">
+      <a href="#home" class="block py-3">Home</a>
+      <a href="#prodotti" class="block py-3">Le nostre coccole</a>
+      <a href="#chi-siamo" class="block py-3">Chi siamo</a>
+      <a href="#come-ordinare" class="block py-3">Su misura per te</a>
+      <a href="#contatti" class="block py-3">Contatti</a>
+    </nav>
+  </header>
+
+  <main id="contenuto">
+    <section id="home" class="pt-28 sm:pt-36 pb-16 lg:pb-24 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-14 items-center">
+        <div class="relative py-5 lg:py-10">
+          <p class="eyebrow text-blue flex items-center gap-3"><span class="w-7 h-px bg-honey"></span> Fatto a mano. Pensato per loro.</p>
+          <h1 class="font-serif text-[3.4rem] sm:text-7xl xl:text-[5.3rem] leading-[1.04] tracking-tight mt-7">Piccole maglie,<br>grandi <em class="text-blue font-normal">coccole.</em></h1>
+          <p class="mt-7 text-base sm:text-lg leading-relaxed text-ink/75 max-w-md">Ci sono abbracci che si possono indossare. Creiamo accessori a maglia per cani e gatti, un punto alla volta e con tutto il cuore.</p>
+          <div class="flex flex-wrap items-center gap-5 mt-9">
+            <a href="#prodotti" class="inline-flex items-center gap-6 bg-blue text-white px-7 py-4 rounded-full text-sm font-medium hover:bg-ink transition-colors">Scopri le nostre creazioni <svg class="w-5 h-5"><use href="#arrow"/></svg></a>
+            <a href="#contatti" class="text-sm underline underline-offset-4 decoration-honey hover:text-blue">Parliamone insieme</a>
+          </div>
+          <div class="mt-10 flex items-center gap-3 text-xs text-ink/70">
+            <svg class="w-5 h-5 text-blue"><use href="#heart"/></svg>
+            <span>Per le passeggiate. Per i pisolini. Per sentirsi a casa.</span>
+          </div>
+        </div>
+        <div class="relative mx-3 lg:mx-0">
+          <div class="absolute -inset-3 border border-honey/70 rounded-t-[48%] rounded-b-[2rem] rotate-3" aria-hidden="true"></div>
+          <img src="img/servizi-3.jpg" alt="Una delle creazioni artigianali Cozy Paw per gli amici a quattro zampe" class="w-full h-[430px] sm:h-[550px] lg:h-[590px] object-cover rounded-t-[48%] rounded-b-[2rem]" fetchpriority="high">
+          <div class="absolute -left-5 sm:-left-9 bottom-8 bg-paper rounded-2xl px-5 py-4 shadow-lg shadow-ink/5 flex items-center gap-4 rotate-[-4deg]">
+            <svg class="w-9 h-9 text-blue"><use href="#paw"/></svg>
+            <div><p class="font-serif text-xl">Unico, proprio come lui.</p><p class="text-xs mt-1 text-ink/65">Piccoli dettagli, tanto amore.</p></div>
+          </div>
+          <div class="absolute -right-2 -top-3 w-24 h-24 rounded-full bg-honey flex flex-col items-center justify-center rotate-12 text-blue border-4 border-cream">
+            <svg class="w-7 h-7 mb-1"><use href="#heart"/></svg><span class="text-[10px] uppercase tracking-widest text-center font-bold">Fatto<br>a mano</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="border-y border-line bg-[#EEEDE4]">
+      <div class="max-w-7xl mx-auto px-6 py-6 grid sm:grid-cols-3 gap-5 text-center text-xs sm:text-sm">
+        <p class="flex items-center justify-center gap-3"><span class="text-blue">✧</span> Lavorazioni artigianali</p>
+        <p class="flex items-center justify-center gap-3"><span class="text-blue">✧</span> Colori e misure da personalizzare</p>
+        <p class="flex items-center justify-center gap-3"><span class="text-blue">✧</span> Per cani e gatti, con amore</p>
+      </div>
+    </div>
+
+    <section id="prodotti" class="py-20 lg:py-28 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+        <div><p class="eyebrow text-blue mb-4">Il guardaroba delle coccole</p><h2 class="font-serif text-4xl sm:text-5xl leading-tight">Morbide cose.<br><em class="text-blue">Momenti felici.</em></h2></div>
+        <p class="text-ink/70 leading-relaxed max-w-sm text-sm">Scegli da dove iniziare. Ogni creazione nasce su richiesta: definiamo insieme filato, colore, misure e preventivo.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-7">
+        <article class="reveal group">
+          <div class="relative h-80 bg-[#E8DDD0] rounded-t-[7rem] rounded-b-2xl flex items-center justify-center overflow-hidden">
+            <span class="absolute top-5 left-5 bg-paper/90 rounded-full px-3 py-1.5 text-[10px] tracking-wider uppercase">La coccola quotidiana</span>
+            <svg class="product-art w-60 h-60 drop-shadow-xl" viewBox="0 0 240 240" role="img" aria-label="Illustrazione di un maglioncino blu lavorato a maglia">
+              <defs><pattern id="stitch1" width="12" height="12" patternUnits="userSpaceOnUse"><path d="m2 2 4 7 4-7" fill="none" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="1.2"/></pattern></defs>
+              <path d="m83 53-35 22-26 53 32 19 22-30-4 89q48 13 96 0l-4-89 22 30 32-19-26-53-35-22Z" fill="#627D89"/>
+              <path d="m83 53-35 22-26 53 32 19 22-30-4 89q48 13 96 0l-4-89 22 30 32-19-26-53-35-22Z" fill="url(#stitch1)"/>
+              <path d="M83 53q37 29 74 0l-5-18q-32 16-64 0Z" fill="#445D6A"/>
+              <path d="M74 193q46 11 92 0v13q-46 12-94 0Z" fill="#445D6A"/>
+              <path d="M111 83v102m18-102v102" fill="none" stroke="#B3C0C2" stroke-opacity=".55" stroke-width="3" stroke-dasharray="5 3"/>
+            </svg>
+          </div>
+          <div class="pt-5 flex justify-between gap-4 items-start">
+            <div><h3 class="font-serif text-2xl">Maglioncini</h3><p class="text-sm text-ink/65 mt-2 leading-relaxed">Una morbida carezza per le giornate più fresche.</p></div>
+            <button data-product="Maglioncino" class="shrink-0 w-11 h-11 border border-line rounded-full grid place-items-center hover:bg-blue hover:text-white transition-colors" aria-label="Aggiungi un maglioncino alla selezione"><svg class="w-5 h-5"><use href="#bag"/></svg></button>
+          </div>
+          <p class="text-xs text-blue mt-4">Su ordinazione · Prezzo su preventivo</p>
+        </article>
+        <article class="reveal group">
+          <div class="relative h-80 bg-[#DFE4DF] rounded-t-[7rem] rounded-b-2xl flex items-center justify-center overflow-hidden">
+            <span class="absolute top-5 left-5 bg-paper/90 rounded-full px-3 py-1.5 text-[10px] tracking-wider uppercase">Per piccoli esploratori</span>
+            <svg class="product-art w-60 h-60 drop-shadow-xl" viewBox="0 0 240 240" role="img" aria-label="Illustrazione di un cappottino color miele">
+              <defs><pattern id="stitch2" width="10" height="10" patternUnits="userSpaceOnUse"><path d="m1 1 4 7 4-7" fill="none" stroke="#FFF" stroke-opacity=".25"/></pattern></defs>
+              <path d="m84 48-34 26-24 49 31 18 19-29-9 93q52 18 105 0l-8-93 19 29 31-18-24-49-34-26Z" fill="#BD9861"/>
+              <path d="m84 48-34 26-24 49 31 18 19-29-9 93q52 18 105 0l-8-93 19 29 31-18-24-49-34-26Z" fill="url(#stitch2)"/>
+              <path d="m84 48 17-14 19 19 20-19 16 14-20 38-16-24-17 24Z" fill="#EAD8B7"/>
+              <path d="M120 68v145" stroke="#8D724C" stroke-width="3"/>
+              <g fill="#F7F3EA"><circle cx="129" cy="102" r="4"/><circle cx="129" cy="130" r="4"/><circle cx="129" cy="158" r="4"/><circle cx="129" cy="186" r="4"/></g>
+              <path d="M82 150h25v24H82Zm55 0h23v24h-23Z" fill="#D1AE77"/>
+            </svg>
+          </div>
+          <div class="pt-5 flex justify-between gap-4 items-start">
+            <div><h3 class="font-serif text-2xl">Cappottini</h3><p class="text-sm text-ink/65 mt-2 leading-relaxed">Un abbraccio in più per le passeggiate insieme.</p></div>
+            <button data-product="Cappottino" class="shrink-0 w-11 h-11 border border-line rounded-full grid place-items-center hover:bg-blue hover:text-white transition-colors" aria-label="Aggiungi un cappottino alla selezione"><svg class="w-5 h-5"><use href="#bag"/></svg></button>
+          </div>
+          <p class="text-xs text-blue mt-4">Su ordinazione · Prezzo su preventivo</p>
+        </article>
+        <article class="reveal group">
+          <div class="relative h-80 bg-[#EADDD7] rounded-t-[7rem] rounded-b-2xl flex items-center justify-center overflow-hidden">
+            <span class="absolute top-5 left-5 bg-paper/90 rounded-full px-3 py-1.5 text-[10px] tracking-wider uppercase">Il suo posto del cuore</span>
+            <svg class="product-art w-60 h-60 drop-shadow-xl" viewBox="0 0 240 240" role="img" aria-label="Illustrazione di una copertina rosa a maglia">
+              <defs><pattern id="stitch3" width="12" height="12" patternUnits="userSpaceOnUse"><path d="m2 2 4 7 4-7" fill="none" stroke="#FFF" stroke-opacity=".35" stroke-width="1.5"/></pattern></defs>
+              <path d="m55 47 135 15-10 143-139-16Z" fill="#BC8E83"/>
+              <path d="m55 47 135 15-10 143-139-16Z" fill="url(#stitch3)"/>
+              <path d="m55 47 135 15-3 35L50 80Z" fill="#D7B5A9"/>
+              <path d="m55 47 135 15-3 35L50 80Z" fill="url(#stitch3)"/>
+              <path d="m46 192-2 14m13-12-2 14m13-13-2 14m13-12-2 14m13-13-2 14m13-12-2 14m13-13-2 14m13-12-2 14m13-13-2 14m13-12-2 14m13-13-2 14m13-12-2 14" stroke="#BC8E83" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="pt-5 flex justify-between gap-4 items-start">
+            <div><h3 class="font-serif text-2xl">Copertine</h3><p class="text-sm text-ink/65 mt-2 leading-relaxed">Un piccolo nido per sonnellini lunghi e sogni belli.</p></div>
+            <button data-product="Copertina" class="shrink-0 w-11 h-11 border border-line rounded-full grid place-items-center hover:bg-blue hover:text-white transition-colors" aria-label="Aggiungi una copertina alla selezione"><svg class="w-5 h-5"><use href="#bag"/></svg></button>
+          </div>
+          <p class="text-xs text-blue mt-4">Su ordinazione · Prezzo su preventivo</p>
+        </article>
+      </div>
+      <p class="mt-9 text-center text-xs text-ink/60">Le illustrazioni sono indicative. Ogni pezzo prende forma insieme a te, con dettagli e disponibilità da concordare.</p>
+    </section>
+
+    <section id="chi-siamo" class="bg-[#ECEDE5] py-20 lg:py-24">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+        <div class="reveal relative">
+          <img src="img/chi-siamo-2.jpg" alt="Il mondo artigianale di Cozy Paw e la cura dedicata alle creazioni a maglia" class="w-full h-[420px] lg:h-[520px] object-cover rounded-t-[10rem] rounded-b-2xl" loading="lazy">
+          <div class="absolute bottom-5 right-5 bg-cream rounded-full w-28 h-28 flex flex-col items-center justify-center text-blue -rotate-12 border border-honey">
+            <svg class="w-7 h-7 mb-1"><use href="#heart"/></svg><span class="font-serif text-lg">Punto dopo<br>punto.</span>
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="eyebrow text-blue mb-5">Il filo che ci unisce</p>
+          <h2 class="font-serif text-4xl sm:text-5xl leading-[1.12]">Le cose più belle<br>nascono <em class="text-blue">con calma.</em></h2>
+          <p class="mt-7 text-ink/75 leading-relaxed">Cozy Paw nasce da un'idea semplice: dedicare ai nostri compagni di vita la stessa cura che mettiamo nelle cose a cui teniamo di più.</p>
+          <p class="mt-4 text-ink/75 leading-relaxed">Per questo scegliamo il ritmo del fatto a mano. Un intreccio alla volta, trasformiamo un filo in qualcosa di personale: un maglioncino che segue le sue forme, una coperta che diventa il suo angolo preferito.</p>
+          <p class="font-serif text-2xl text-blue mt-7">Non solo accessori.<br>Un modo per dire “ti voglio bene”.</p>
+          <div class="mt-8 flex gap-3 items-center"><span class="w-10 h-px bg-honey"></span><span class="text-xs uppercase tracking-widest">Con amore, Cozy Paw</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="come-ordinare" class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 lg:py-28">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <p class="eyebrow text-blue mb-4">La sua coccola, a modo tuo</p>
+        <h2 class="font-serif text-4xl sm:text-5xl">Ogni zampa ha la sua <em class="text-blue">storia.</em></h2>
+        <p class="mt-5 text-ink/70 leading-relaxed">Tu ci racconti chi è. Noi ti aiutiamo a scegliere la creazione giusta, senza fretta e senza acquisti al buio.</p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-9 lg:gap-14 mt-14">
+        <div class="reveal border-t border-line pt-6"><span class="font-serif text-4xl text-blue/55">01<span class="text-honey">.</span></span><h3 class="font-serif text-2xl mt-5">Scegli la tua coccola</h3><p class="text-sm leading-relaxed text-ink/70 mt-3">Aggiungi le creazioni alla tua selezione o scrivici la tua idea. Maglioncino, cappottino o coperta: da cosa cominciamo?</p></div>
+        <div class="reveal border-t border-line pt-6"><span class="font-serif text-4xl text-blue/55">02<span class="text-honey">.</span></span><h3 class="font-serif text-2xl mt-5">Diamole la sua forma</h3><p class="text-sm leading-relaxed text-ink/70 mt-3">Definiamo misure, colori e filati disponibili. Per i capi ti aiutiamo a rilevare collo, torace e lunghezza del dorso.</p></div>
+        <div class="reveal border-t border-line pt-6"><span class="font-serif text-4xl text-blue/55">03<span class="text-honey">.</span></span><h3 class="font-serif text-2xl mt-5">Iniziamo a intrecciare</h3><p class="text-sm leading-relaxed text-ink/70 mt-3">Ricevi il preventivo con tempi, pagamento e consegna. Solo dopo la tua conferma diamo il via alla lavorazione.</p></div>
+      </div>
+      <div class="reveal mt-14 rounded-3xl bg-blue text-white px-7 sm:px-10 py-9 flex flex-col sm:flex-row gap-7 items-start sm:items-center justify-between relative overflow-hidden">
+        <div class="absolute inset-0 knit-pattern opacity-40 pointer-events-none"></div>
+        <div class="relative"><p class="font-serif text-3xl">Hai un'idea speciale in mente?</p><p class="text-white/80 text-sm mt-2">Partiamo da un colore, una misura, una piccola abitudine.</p></div>
+        <a href="#contatti" class="relative bg-cream text-blue rounded-full px-6 py-4 text-sm inline-flex gap-5 items-center shrink-0">Raccontacela <svg class="w-5 h-5"><use href="#arrow"/></svg></a>
+      </div>
+    </section>
+
+    <section id="contatti" class="bg-paper border-t border-line py-20 lg:py-24">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-24">
+        <div class="reveal">
+          <p class="eyebrow text-blue mb-4">Facciamo due chiacchiere</p>
+          <h2 class="font-serif text-4xl sm:text-5xl">Una nuova coccola<br>inizia con un <em class="text-blue">ciao.</em></h2>
+          <p class="mt-6 text-ink/70 leading-relaxed max-w-md">Hai una domanda o vuoi personalizzare una creazione? Raccontaci del tuo cane o del tuo gatto: ci farà piacere conoscerlo.</p>
+          <div class="flex flex-wrap gap-3 mt-8">
+            <a href="tel:[TELEFONO]" class="border border-line rounded-full px-5 py-3 text-sm inline-flex items-center gap-2 hover:bg-cream"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 4 4-3 3c2 4 3 5 7 7l3-3 4 4c-1 5-5 4-9 2S3 13 2 8 3 3 6 3Z"/></svg>Chiama</a>
+            <a href="https://wa.me/[TELEFONO]" target="_blank" rel="noopener noreferrer" class="border border-line rounded-full px-5 py-3 text-sm inline-flex items-center gap-2 hover:bg-cream"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5A9 9 0 0 1 8 20L3 21l1-5A9 9 0 1 1 21 11.5Z"/><path d="M8 8c0 4 2 6 6 7l2-2-3-1-1 1-2-3 1-1-2-2Z"/></svg>WhatsApp</a>
+            <a href="mailto:[EMAIL]" class="border border-line rounded-full px-5 py-3 text-sm inline-flex items-center gap-2 hover:bg-cream"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>Email</a>
+          </div>
+          <div class="mt-8 text-sm text-ink/65 space-y-2"><p>Telefono: [TELEFONO]</p><p>Email: [EMAIL]</p></div>
+          <p class="text-xs text-ink/60 mt-6 max-w-sm leading-relaxed">Le creazioni si ordinano su richiesta. Questo sito raccoglie richieste di preventivo: non è previsto un pagamento online.</p>
+        </div>
+        <form id="contact-form" class="reveal bg-cream rounded-3xl p-6 sm:p-8">
+          <h3 class="font-serif text-2xl mb-6">Parlaci del tuo piccolo amico</h3>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div><label for="name" class="block text-sm mb-2">Il tuo nome <span aria-hidden="true">*</span></label><input id="name" name="name" autocomplete="name" required class="w-full bg-paper border border-line rounded-xl px-4 py-3" placeholder="Come ti chiami?"></div>
+            <div><label for="email" class="block text-sm mb-2">La tua email <span aria-hidden="true">*</span></label><input id="email" name="email" type="email" autocomplete="email" required class="w-full bg-paper border border-line rounded-xl px-4 py-3" placeholder="nome@esempio.it"></div>
+          </div>
+          <div class="mt-5"><label for="interest" class="block text-sm mb-2">A cosa stai pensando?</label><select id="interest" name="interest" class="w-full bg-paper border border-line rounded-xl px-4 py-3"><option>Vorrei un consiglio</option><option>Maglioncino</option><option>Cappottino</option><option>Copertina</option><option>Una creazione personalizzata</option></select></div>
+          <div class="mt-5"><label for="message" class="block text-sm mb-2">Il tuo messaggio <span aria-hidden="true">*</span></label><textarea id="message" name="message" rows="4" required class="w-full bg-paper border border-line rounded-xl px-4 py-3 resize-y" placeholder="Nome del tuo pet, taglia, colori preferiti… raccontaci la tua idea."></textarea></div>
+          <label class="flex gap-3 items-start mt-5 text-xs leading-relaxed"><input type="checkbox" required class="mt-1 accent-blue w-4 h-4 shrink-0"><span>Ho letto l'<button type="button" data-open-privacy class="underline underline-offset-2">informativa privacy</button> e acconsento all'utilizzo dei dati per rispondere alla mia richiesta.</span></label>
+          <button type="submit" class="mt-6 w-full bg-blue text-white rounded-full px-6 py-4 text-sm flex justify-between items-center hover:bg-ink transition-colors">Prepariamo la tua email <svg class="w-5 h-5"><use href="#arrow"/></svg></button>
+          <p class="text-[11px] text-ink/60 mt-3 leading-relaxed">Si aprirà il tuo programma di posta con il messaggio già compilato. Controllalo e invialo per completare la richiesta.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-blue text-cream">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-12 pb-7">
+      <div class="flex flex-col sm:flex-row gap-8 justify-between pb-10 border-b border-white/20">
+        <div><a href="#home" class="font-serif text-3xl inline-flex items-center gap-2"><svg class="w-7 h-7 text-honey"><use href="#paw"/></svg>cozy paw.</a><p class="mt-3 text-sm text-cream/75">Un filo di cura. Una vita di coccole.</p></div>
+        <nav aria-label="Link nel footer" class="flex flex-wrap content-start gap-x-7 gap-y-4 text-sm text-cream/85"><a href="#prodotti">Creazioni</a><a href="#chi-siamo">La nostra storia</a><a href="#come-ordinare">Come ordinare</a><a href="#contatti">Scrivici</a></nav>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between gap-4 pt-6 text-[11px] text-cream/75 leading-relaxed">
+        <p>© <span id="year"></span> Cozy Paw · [RAGIONE SOCIALE] · P. IVA [P.IVA]<br>Sede legale: [INDIRIZZO SEDE LEGALE]</p>
+        <button type="button" data-open-privacy class="underline underline-offset-4 self-start">Informativa privacy</button>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-ink text-white px-6 py-4 rounded-2xl shadow-xl text-sm max-w-[90vw] text-center" hidden></div>
+
+  <dialog id="bag-dialog" aria-labelledby="bag-title" class="w-[calc(100%-2rem)] max-w-lg rounded-3xl bg-paper text-ink p-6 sm:p-8 max-h-[85vh]">
+    <div class="flex justify-between items-center gap-3"><h2 id="bag-title" class="font-serif text-3xl">Le tue coccole</h2><button type="button" data-close-dialog aria-label="Chiudi selezione" class="w-10 h-10 rounded-full border border-line text-xl">×</button></div>
+    <p class="text-sm text-ink/65 mt-3">Una selezione di idee, non un ordine vincolante. Prezzi, personalizzazioni e tempi saranno concordati insieme.</p>
+    <ul id="bag-items" class="my-6 space-y-4"></ul>
+    <button id="request-selection" class="w-full bg-blue text-white rounded-full px-5 py-4 text-sm">Richiedi un preventivo</button>
+    <p class="text-xs text-ink/60 mt-3">Nessun pagamento richiesto in questa fase.</p>
+  </dialog>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title" class="w-[calc(100%-2rem)] max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl bg-paper text-ink p-6 sm:p-8">
+    <div class="flex justify-between items-center gap-4"><h2 id="privacy-title" class="font-serif text-3xl">Informativa privacy</h2><button type="button" data-close-dialog aria-label="Chiudi informativa" class="w-10 h-10 shrink-0 rounded-full border border-line text-xl">×</button></div>
+    <div class="text-sm leading-relaxed text-ink/80 mt-6 space-y-4">
+      <p><strong>Titolare del trattamento:</strong> [RAGIONE SOCIALE], [INDIRIZZO SEDE LEGALE]. Contatto: [EMAIL].</p>
+      <p>I dati che scegli di comunicare (nome, indirizzo email e contenuto del messaggio) sono utilizzati per rispondere alle tue domande e predisporre un eventuale preventivo. La base giuridica è l'esecuzione di misure precontrattuali richieste dall'interessato, ai sensi dell'art. 6, par. 1, lett. b del GDPR.</p>
+      <p>Il modulo non invia dati a un server del sito: apre il tuo programma email. La comunicazione avviene solo quando invii il messaggio. Le richieste saranno conservate per il tempo necessario alla loro gestione, fatti salvi eventuali obblighi di legge.</p>
+      <p>Puoi chiedere accesso, rettifica, cancellazione, limitazione o portabilità dei tuoi dati e opporti al trattamento nei casi previsti, scrivendo a [EMAIL]. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.</p>
+      <p>Non vengono impiegati strumenti di analisi o cookie di profilazione in questo file. Font e librerie sono caricati da Google Fonts e Tailwind CDN: tali servizi ricevono i dati tecnici necessari alla connessione. I collegamenti WhatsApp si aprono su un servizio esterno con una propria informativa.</p>
+      <p class="bg-cream p-4 rounded-xl"><strong>Nota:</strong> i dati aziendali tra parentesi quadre sono segnaposto da completare prima della pubblicazione.</p>
+    </div>
+  </dialog>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    function closeMenu() {
+      mobileMenu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Apri menu');
+    }
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      mobileMenu.hidden = !open;
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth >= 1024) closeMenu(); });
+
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      }), { threshold: .08 });
+      document.querySelectorAll('.reveal').forEach(el => { el.classList.add('js-reveal'); observer.observe(el); });
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const bag = new Map();
+    const bagDialog = document.getElementById('bag-dialog');
+    const privacyDialog = document.getElementById('privacy-dialog');
+    const toast = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 3200);
+    }
+    function renderBag() {
+      const total = [...bag.values()].reduce((sum, quantity) => sum + quantity, 0);
+      document.querySelectorAll('[data-cart-count]').forEach(el => { el.textContent = total; });
+      const list = document.getElementById('bag-items');
+      list.replaceChildren();
+      if (!total) {
+        const empty = document.createElement('li');
+        empty.className = 'py-8 text-center text-sm text-ink/65';
+        empty.textContent = 'La tua selezione è ancora vuota. Troviamo la coccola giusta?';
+        list.append(empty);
+      }
+      bag.forEach((quantity, name) => {
+        const item = document.createElement('li');
+        item.className = 'flex items-center justify-between gap-4 border-b border-line pb-4';
+        const text = document.createElement('span');
+        text.className = 'text-sm';
+        text.textContent = name + ' · Quantità: ' + quantity;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'text-xs underline underline-offset-4 p-2';
+        remove.textContent = 'Rimuovi';
+        remove.setAttribute('aria-label', 'Rimuovi un articolo: ' + name);
+        remove.addEventListener('click', () => {
+          if (quantity > 1) bag.set(name, quantity - 1); else bag.delete(name);
+          renderBag();
+        });
+        item.append(text, remove);
+        list.append(item);
+      });
+      document.getElementById('request-selection').disabled = total === 0;
+      document.getElementById('request-selection').classList.toggle('opacity-40', total === 0);
+    }
+    document.querySelectorAll('[data-product]').forEach(button => button.addEventListener('click', () => {
+      const name = button.dataset.product;
+      bag.set(name, (bag.get(name) || 0) + 1);
+      renderBag();
+      showToast(name + ' aggiunto alla tua selezione.');
+    }));
+    document.querySelectorAll('[data-open-bag]').forEach(button => button.addEventListener('click', () => { renderBag(); bagDialog.showModal(); }));
+    document.querySelectorAll('[data-open-privacy]').forEach(button => button.addEventListener('click', () => privacyDialog.showModal()));
+    document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
+    document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click', event => {
+      const box = dialog.getBoundingClientRect();
+      if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
+    }));
+    document.getElementById('request-selection').addEventListener('click', () => {
+      const selection = [...bag].map(([name, quantity]) => '• ' + name + ' × ' + quantity).join('\n');
+      document.getElementById('message').value = 'Ciao Cozy Paw! Vorrei un preventivo per:\n' + selection + '\n\nIl mio pet si chiama: \nLe sue misure: \nI colori che mi piacerebbero: ';
+      bagDialog.close();
+      document.getElementById('contatti').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      document.getElementById('name').focus({ preventScroll: true });
+    });
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const subject = 'Cozy Paw — ' + data.get('interest');
+      const body = 'Ciao Cozy Paw!\n\nMi chiamo ' + data.get('name') + '.\nLa mia email: ' + data.get('email') + '\nInteresse: ' + data.get('interest') + '\n\n' + data.get('message') + '\n\nHo letto l’informativa privacy e richiedo di essere ricontattato/a.';
+      window.location.href = 'mailto:[EMAIL]?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      showToast('Email preparata. Inviala dal tuo programma di posta per completare la richiesta.');
+    });
+    renderBag();
+  </script>
+</body>
+</html>
