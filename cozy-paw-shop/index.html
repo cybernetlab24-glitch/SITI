@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf7f2">
+  <meta name="description" content="Accessori artigianali per cani, fatti a mano con amore. Scopri la collezione Cozy Paw o raccontaci la tua idea su misura.">
+  <title>Cozy Paw — Piccole coccole, fatte a mano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement">Fatto a mano, un punto alla volta <span>✿</span> Spedizione gratuita da 120 €</div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Cozy Paw, home"><span class="brand-mark">♡<small>🐾</small></span><span class="brand-name">Cozy Paw<small>HANDMADE PET COLLECTION</small></span></a>
+    <button class="menu-toggle" type="button" aria-label="Apri menu" aria-expanded="false">☰</button>
+    <nav class="main-nav" aria-label="Navigazione principale"><a href="#home">Home</a><a href="#prodotti">Collezione</a><a href="#chi-siamo">Chi siamo</a><a href="#su-misura">Su misura</a></nav>
+    <button class="cart-trigger" type="button" data-cart-open aria-label="Apri il carrello">Carrello <span data-cart-count>0</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg></button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-photo" role="img" aria-label="Un piccolo cane tra accessori Cozy Paw fatti a mano"></div>
+      <div class="hero-copy"><p class="eyebrow">Un mondo morbido, per voi due</p><h1>Una coccola<br>da <em>indossare.</em></h1><p>Accessori artigianali per cani e proprietari. Creati con calma, cura e tanto amore per le vostre avventure insieme.</p><div class="hero-actions"><a class="button button-primary" href="#prodotti">Scopri la collezione <span>→</span></a><a class="button button-light" href="#su-misura">La immaginiamo insieme</a></div><div class="hero-note"><span>✳</span> Ogni pezzo è realizzato a mano, per davvero.</div></div>
+      <div class="hero-stamp">fatto a<br><em>mano</em><br>con amore</div>
+    </section>
+
+    <section class="promise-row" aria-label="I nostri valori"><span>✳ Fatto a mano</span><i></i><span>♡ Misure personalizzabili</span><i></i><span>✿ Materiali selezionati</span><i></i><span>☼ Piccole serie, grande cura</span></section>
+
+    <section class="shop-section section-wrap" id="prodotti">
+      <div class="section-intro"><p class="eyebrow">Piccoli tesori, grandi momenti</p><h2>La collezione <em>Cozy Paw</em></h2><p>Trame da accarezzare e colori che fanno sorridere. Scegli la tua prossima coccola.</p></div>
+      <div class="filters" role="group" aria-label="Filtra i prodotti"><button class="filter active" type="button" data-filter="tutti">Tutti</button><button class="filter" type="button" data-filter="nanna">Nanna</button><button class="filter" type="button" data-filter="wear">Da indossare</button><button class="filter" type="button" data-filter="accessori">Accessori</button></div>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      <p class="catalog-note">Ogni creazione è unica e lavorata con cura nel nostro piccolo atelier.</p>
+    </section>
+
+    <section class="about-section" id="chi-siamo"><div class="about-image" role="img" aria-label="Filati e mani al lavoro nell'atelier Cozy Paw"></div><div class="about-copy"><p class="eyebrow">Una storia intrecciata con amore</p><h2>Mani che creano.<br><em>Zampe che ispirano.</em></h2><p>Cozy Paw nasce da un’idea semplice: rendere ancora più speciali i momenti di ogni giorno con i nostri amici a quattro zampe.</p><p>Selezioniamo filati morbidi e resistenti e realizziamo ogni accessorio con la cura che metteremmo in una coccola. Perché un oggetto fatto a mano porta con sé qualcosa di chi lo crea.</p><a class="text-link" href="#su-misura">Scopri la nostra cura <span>→</span></a><div class="signature">Con amore, punto dopo punto <b>♡</b></div></div></section>
+
+    <section class="custom-section" id="su-misura"><div class="custom-inner"><div class="custom-copy"><p class="eyebrow">Il tuo pet, il suo pezzo unico</p><h2>Hai in mente qualcosa<br>di <em>speciale?</em></h2><p>Un colore preciso, una misura fuori standard o un’idea tutta tua? Raccontacela: progetteremo insieme la sua prossima coccola.</p><ul><li><span>01</span> Ci racconti la tua idea e le misure</li><li><span>02</span> Scegliamo insieme colori e materiali</li><li><span>03</span> Lo realizziamo, con calma e cura</li></ul><a class="button button-primary" href="#richiesta">Raccontaci la tua idea <span>→</span></a></div><div class="custom-image"></div><span class="custom-heart">♡</span></div></section>
+
+    <section class="custom-form-section" id="richiesta"><div class="section-intro"><p class="eyebrow">La tua idea, il nostro prossimo intreccio</p><h2>Cominciamo da un <em>ciao.</em></h2><p>Compila il modulo: ci aiuterà a immaginare insieme il pezzo perfetto per il tuo amico.</p></div><form id="custom-form" class="custom-form"><label>Il tuo nome<input name="name" autocomplete="name" required placeholder="Come ti chiami?"></label><label>La tua email<input type="email" name="email" autocomplete="email" required placeholder="nome@esempio.it"></label><label>Per chi creiamo?<input name="pet" placeholder="Nome e razza del tuo pet"></label><label>Cosa immagini?<select name="item"><option>Un maglioncino</option><option>Una cuccia o copertina</option><option>Una bandana o un accessorio</option><option>Un’idea da inventare insieme</option></select></label><label class="form-wide">Raccontaci la tua idea<textarea name="message" rows="4" required placeholder="Colori, misure, dettagli speciali…"></textarea></label><p class="form-note form-wide">Il modulo apre il tuo programma email con la richiesta già pronta. I recapiti Cozy Paw potranno essere collegati qui prima della pubblicazione finale.</p><button class="button button-primary form-wide" type="submit">Prepara la richiesta <span>→</span></button><p id="form-status" class="form-wide" role="status"></p></form></section>
+
+    <section class="newsletter"><div><p class="eyebrow">Una coccola nella tua inbox</p><h2>Novità morbide, ogni tanto.</h2></div><form id="newsletter-form"><label class="sr-only" for="newsletter-email">La tua email</label><input id="newsletter-email" type="email" required placeholder="La tua email"><button type="submit" aria-label="Iscriviti">→</button></form><p id="newsletter-status" role="status"></p></section>
+  </main>
+
+  <footer class="site-footer"><a class="brand brand-footer" href="#home"><span class="brand-mark">♡<small>🐾</small></span><span class="brand-name">Cozy Paw<small>HANDMADE PET COLLECTION</small></span></a><p>Piccole coccole, fatte a mano.<br>Per tutte le vostre avventure insieme.</p><nav aria-label="Link footer"><a href="#prodotti">Collezione</a><a href="#chi-siamo">Chi siamo</a><a href="#su-misura">Su misura</a></nav><small>© <span id="year"></span> Cozy Paw · Fatto con amore e qualche gomitolo.</small></footer>
+
+  <div class="drawer-backdrop" data-cart-close hidden></div><aside class="cart-drawer" id="cart-drawer" aria-label="Il tuo carrello" aria-hidden="true"><div class="drawer-head"><div><p class="eyebrow">Le tue coccole</p><h2>Il carrello</h2></div><button class="icon-button" type="button" data-cart-close aria-label="Chiudi carrello">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-empty" id="cart-empty"><span>♡</span><p>Il carrello è ancora vuoto.</p><button class="text-link" type="button" data-cart-close>Scopri la collezione →</button></div><div class="cart-footer" id="cart-footer"><div class="subtotal"><span>Subtotale</span><strong id="cart-subtotal">€ 0,00</strong></div><p>Spedizione e dettagli si concordano al momento dell’ordine.</p><button class="button button-primary checkout-button" type="button" data-checkout>Procedi con la richiesta d’ordine <span>→</span></button></div></aside>
+  <dialog class="checkout-dialog" id="checkout-dialog"><form id="checkout-form" method="dialog"><button class="icon-button dialog-close" value="cancel" aria-label="Chiudi">×</button><p class="eyebrow">Quasi una coccola in più</p><h2>Completa la richiesta</h2><p>Inserisci i tuoi recapiti: prepareremo il riepilogo da inviare via email.</p><label>Nome e cognome<input name="customer" autocomplete="name" required></label><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Indirizzo di consegna<textarea name="address" rows="2" required></textarea></label><div class="order-summary" id="order-summary"></div><button class="button button-primary" type="submit" value="confirm">Prepara la richiesta <span>→</span></button><p class="form-note">Nessun pagamento viene elaborato su questo sito: riceverai conferma di disponibilità e modalità d’ordine.</p><p id="checkout-status" role="status"></p></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
