@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091d33">
+  <title>DA.MA. Servizi Immobiliari | Il valore di sentirsi a casa</title>
+  <meta name="description" content="Acquistare, vendere o affittare casa con un percorso chiaro e un interlocutore dedicato. Scopri DA.MA. Servizi Immobiliari e raccontaci il tuo progetto.">
+  <meta property="og:title" content="DA.MA. Servizi Immobiliari">
+  <meta property="og:description" content="La tua prossima casa. Il tuo nuovo inizio. Un servizio immobiliare attento, dalla prima domanda alla firma.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23091d33'/%3E%3Cpath d='M12 29 32 13 52 29M20 27v24h24V27M29 51V37h8v14' fill='none' stroke='%23b79655' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { navy: '#091d33', gold: '#b79655', cream: '#f6f5f0', ink: '#455260' },
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], heading: ['Manrope', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root{--navy:#091d33;--gold:#b79655}html{scroll-behavior:smooth;scroll-padding-top:110px}body{color:var(--navy);background:#fff}h1,h2,h3{font-family:Manrope,sans-serif}::selection{background:#b79655;color:#fff}button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}a,button{transition:background .2s,color .2s,transform .2s}button{cursor:pointer}a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:5px}.wrap{width:min(1240px,calc(100% - 48px));margin-inline:auto}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.btn{display:inline-flex;align-items:center;justify-content:center;gap:18px;padding:15px 23px;font-size:13px;font-weight:600;min-height:50px}.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:#c9ad77;transform:translateY(-2px)}.btn-navy{background:var(--navy);color:white}.btn-navy:hover{background:#183852;transform:translateY(-2px)}.btn-line{border:1px solid #cbd0d5}.btn-line:hover{background:#f6f5f0}.icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.nav-link{position:relative;font-size:13px;padding:10px 0;color:#455260}.nav-link[aria-current=page]{color:var(--navy);font-weight:700}.nav-link[aria-current=page]:after{content:"";position:absolute;bottom:0;left:0;width:20px;height:2px;background:var(--gold)}.page[hidden]{display:none!important}.reveal{opacity:1;transform:none}.js-motion .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}.js-motion .reveal.visible{opacity:1;transform:none}.field{width:100%;border:1px solid #d9dddF;padding:13px 14px;background:white;border-radius:0;color:var(--navy);font-size:14px}.field:focus{outline:2px solid var(--gold);outline-offset:2px}.art-panel{background:linear-gradient(150deg,#e3e9e7,#c5d4d4);overflow:hidden}.service-card:hover .service-arrow{transform:translate(4px,-4px)}.service-arrow{transition:transform .2s}.gold-rule{width:40px;height:2px;background:var(--gold)}#toast{transition:opacity .2s}svg text{font-family:Manrope,sans-serif}@media(max-width:640px){.wrap{width:calc(100% - 36px)}.btn{padding:14px 18px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.js-motion .reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="antialiased">
+  <a href="#contenuto" class="fixed -top-20 left-4 z-[100] bg-navy text-white px-5 py-3 focus:top-4">Vai al contenuto</a>
+  <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+    <defs>
+      <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+      <symbol id="diagonal" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
+      <symbol id="house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/></symbol>
+      <symbol id="key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><path d="m11.5 11.5 9 9M15 15l3-3m0 6 3-3"/></symbol>
+      <symbol id="building" viewBox="0 0 24 24"><path d="M4 21V4h10v17M14 10h6v11M2 21h20M8 8h2m-2 4h2m-2 4h2m6-2h1m-1 4h1"/></symbol>
+      <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+      <symbol id="phone" viewBox="0 0 24 24"><path d="m7 3 3 5-3 3a15 15 0 0 0 6 6l3-3 5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z"/></symbol>
+      <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/></symbol>
+      <symbol id="chat" viewBox="0 0 24 24"><path d="M21 11.5A9 9 0 0 1 7 19l-5 2 2-5a9 9 0 1 1 17-4.5Z"/><path d="M8 8c0 4 2 6 6 7l2-2-3-2-1 1-2-2 1-1-2-2Z"/></symbol>
+      <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="home-art" viewBox="0 0 800 660">
+        <defs>
+          <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#cedddb"/><stop offset="1" stop-color="#f0eee3"/></linearGradient>
+          <linearGradient id="wall" x2="1" y2="1"><stop stop-color="#f6f2e7"/><stop offset="1" stop-color="#d8d3c6"/></linearGradient>
+          <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#526e76"/><stop offset="1" stop-color="#182e3c"/></linearGradient>
+        </defs>
+        <rect width="800" height="660" fill="url(#sky)"/>
+        <circle cx="625" cy="134" r="70" fill="#f9f4de" opacity=".75"/>
+        <path d="M0 403q160-100 340-28t460-70v355H0Z" fill="#b2c0ae"/>
+        <path d="M0 467q190-75 390-8t410-25v226H0Z" fill="#859b84"/>
+        <path d="m95 486 398-42 307 132v84H0Z" fill="#d5d1c2"/>
+        <path d="m153 486 169-70 363 82-170 94Z" fill="#b5b0a1"/>
+        <path d="M160 251 470 206l223 94-311 57Z" fill="#fcf9ef"/>
+        <path d="M160 251v234l222 69V320Z" fill="#d5d0c2"/>
+        <path d="m382 320 311-20v209l-311 45Z" fill="url(#wall)"/>
+        <path d="m182 283 172 40v156l-172-48Z" fill="url(#glass)"/>
+        <path d="M239 297v150m58-136v153" stroke="#b9b3a5" stroke-width="5"/>
+        <path d="m405 349 254-19v159l-254 37Z" fill="url(#glass)"/>
+        <path d="M467 344v173m64-178v169m65-173v164" stroke="#cec8ba" stroke-width="5"/>
+        <path d="m405 349 254-19-125 178-129 18Z" fill="#819794" opacity=".2"/>
+        <path d="m124 249 346-54 250 99-27 15-224-88-309 46Z" fill="#eeece3"/>
+        <path d="M347 364 712 322v16l-365 48Z" fill="#9f947b"/>
+        <path d="m347 386 365-48v7l-365 48Z" fill="#4e5a55"/>
+        <path d="M691 339v190m-332-145v173" stroke="#8c8371" stroke-width="6"/>
+        <path d="m309 556 395-60 36 14-398 68Z" fill="#eeeadf"/>
+        <path d="m342 578 398-68v11l-398 68Z" fill="#b9b3a3"/>
+        <path d="m379 592 362-60 36 14-363 62Z" fill="#eeeadf"/>
+        <path d="m414 608 363-62v10l-363 63Z" fill="#b9b3a3"/>
+        <path d="m27 553 229 41 76 66H0Z" fill="#a4b9b5"/>
+        <path d="m35 566 212 40 39 34L16 588Z" fill="#c7d7d0"/>
+        <g fill="#647d64"><ellipse cx="99" cy="462" rx="39" ry="18"/><ellipse cx="730" cy="482" rx="49" ry="22"/><ellipse cx="755" cy="462" rx="30" ry="21"/></g>
+        <path d="M69 471V261" stroke="#787a60" stroke-width="10"/>
+        <g fill="#758b71"><ellipse cx="67" cy="245" rx="58" ry="104"/><ellipse cx="36" cy="290" rx="45" ry="75"/><ellipse cx="94" cy="295" rx="41" ry="65"/></g>
+        <path d="M0 638q170-38 297 22H0Z" fill="#5d785d"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-navy/10">
+    <div class="wrap h-[90px] flex items-center justify-between gap-6">
+      <a href="#home" aria-label="DA.MA. Servizi Immobiliari, pagina iniziale" class="shrink-0">
+        <div class="relative pt-2 w-[169px]">
+          <svg class="absolute w-[89px] h-4 top-0 right-4 text-gold" viewBox="0 0 100 18" aria-hidden="true"><path d="m0 18 50-18 50 18-50-12Z" fill="currentColor"/></svg>
+          <span class="font-heading font-extrabold text-[37px] leading-none tracking-[-.065em]">DA<span class="text-gold">.</span>MA<span class="text-gold">.</span></span>
+          <span class="block mt-1 pt-1 border-t-2 border-gold text-[8px] font-bold tracking-[.23em]">SERVIZI IMMOBILIARI</span>
+        </div>
+      </a>
+      <nav aria-label="Navigazione principale" class="hidden md:flex items-center gap-7 lg:gap-9">
+        <a class="nav-link" href="#home">Home</a>
+        <a class="nav-link" href="#immobili">Immobili</a>
+        <a class="nav-link" href="#servizi">Servizi</a>
+        <a class="nav-link" href="#agenzia">L’agenzia</a>
+        <a class="nav-link" href="#contatti">Contatti</a>
+      </nav>
+      <a href="#contatti" class="hidden lg:inline-flex btn btn-navy">Parliamo di casa <svg class="icon w-4 h-4"><use href="#diagonal"/></svg></a>
+      <button id="menu-toggle" class="md:hidden p-3" aria-expanded="false" aria-controls="mobile-menu" aria-label="Apri menu"><svg class="icon" id="menu-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+    <nav id="mobile-menu" aria-label="Navigazione mobile" class="hidden md:hidden border-t border-navy/10 bg-white px-6 py-5">
+      <div class="flex flex-col gap-2"><a href="#home" class="nav-link">Home</a><a href="#immobili" class="nav-link">Immobili</a><a href="#servizi" class="nav-link">Servizi</a><a href="#agenzia" class="nav-link">L’agenzia</a><a href="#contatti" class="nav-link">Contatti</a></div>
+    </nav>
+  </header>
+
+  <main id="contenuto" class="pt-[90px]">
+    <div class="page" id="page-home" data-page="home">
+      <section class="bg-cream relative overflow-hidden">
+        <div class="wrap grid lg:grid-cols-[1fr_1.05fr] min-h-[620px]">
+          <div class="pt-16 pb-14 lg:pt-24 lg:pb-24 relative z-10 lg:pr-10">
+            <div class="eyebrow flex items-center gap-3 mb-7"><span class="gold-rule"></span> DA.MA. Servizi Immobiliari</div>
+            <h1 class="text-[44px] sm:text-[58px] xl:text-[66px] font-medium tracking-[-.055em] leading-[1.09] max-w-xl">Ogni casa,<br>un nuovo <span class="text-[#987738]">inizio.</span></h1>
+            <p class="text-ink text-base sm:text-lg leading-relaxed mt-7 max-w-md">Ci sono luoghi che diventano parte della tua vita. Ti aiutiamo a trovare il tuo, con ascolto, cura e una direzione chiara.</p>
+            <div class="flex flex-wrap gap-3 mt-9">
+              <a href="#immobili" class="btn btn-navy">Trova la tua casa <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a>
+              <a href="#contatti" class="btn btn-line">Vuoi vendere?</a>
+            </div>
+            <div class="mt-12 flex items-center gap-3 text-xs text-ink"><svg class="icon text-[#947333]"><use href="#house"/></svg> Al tuo fianco, dalla prima visita alla firma.</div>
+          </div>
+          <div class="relative min-h-[360px] lg:min-h-full lg:-mr-[max(24px,calc((100vw-1240px)/2))]">
+            <svg class="absolute inset-0 w-full h-full object-cover" viewBox="0 0 800 660" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrazione di una villa contemporanea immersa nel verde"><use href="#home-art"/></svg>
+            <div class="absolute inset-0 bg-gradient-to-r from-cream/20 to-transparent"></div>
+            <div class="absolute bottom-7 left-5 sm:left-8 right-5 sm:right-auto bg-white/95 backdrop-blur px-6 py-5 flex gap-5 items-center shadow-lg">
+              <span class="h-11 w-11 border border-gold/40 flex items-center justify-center text-[#947333]"><svg class="icon"><use href="#key"/></svg></span>
+              <div><p class="text-sm font-semibold">Il tuo progetto, la nostra attenzione.</p><p class="text-xs text-ink mt-1">Acquisto · Vendita · Locazione</p></div>
+            </div>
+            <span class="absolute top-4 right-4 text-[9px] tracking-widest uppercase text-navy/65">Illustrazione architettonica</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-b border-navy/10">
+        <div class="wrap grid md:grid-cols-3 py-7 gap-6">
+          <div class="flex gap-4 items-center md:border-r border-navy/10"><span class="text-gold text-xl font-heading">01</span><p class="text-sm">Ascoltiamo le tue esigenze</p></div>
+          <div class="flex gap-4 items-center md:justify-center md:border-r border-navy/10"><span class="text-gold text-xl font-heading">02</span><p class="text-sm">Diamo valore al tuo immobile</p></div>
+          <div class="flex gap-4 items-center md:justify-end"><span class="text-gold text-xl font-heading">03</span><p class="text-sm">Ti accompagniamo nelle scelte</p></div>
+        </div>
+      </section>
+
+      <section class="wrap py-20 lg:py-24 reveal">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 mb-11">
+          <div><p class="eyebrow text-[#947333] mb-4">Cosa possiamo fare per te</p><h2 class="text-3xl md:text-[40px] tracking-[-.04em] font-medium">Una casa. Tante possibilità.</h2></div>
+          <a href="#servizi" class="text-sm font-semibold inline-flex items-center gap-4">Tutti i servizi <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a>
+        </div>
+        <div class="grid md:grid-cols-3 gap-5">
+          <a href="#servizi" class="service-card p-8 lg:p-9 bg-cream border border-transparent hover:border-gold/50"><div class="flex justify-between mb-12"><svg class="icon w-9 h-9 text-[#947333]"><use href="#house"/></svg><svg class="icon service-arrow w-5 h-5"><use href="#diagonal"/></svg></div><h3 class="font-semibold text-xl mb-4">Comprare casa</h3><p class="text-sm text-ink leading-7">Partiamo da ciò che conta per te, per cercare uno spazio da vivere e chiamare casa.</p></a>
+          <a href="#servizi" class="service-card p-8 lg:p-9 bg-navy text-white"><div class="flex justify-between mb-12"><svg class="icon w-9 h-9 text-gold"><use href="#key"/></svg><svg class="icon service-arrow w-5 h-5 text-gold"><use href="#diagonal"/></svg></div><h3 class="font-semibold text-xl mb-4">Vendere bene</h3><p class="text-sm text-white/75 leading-7">Una valutazione ragionata e una presentazione curata, per far emergere il valore del tuo immobile.</p></a>
+          <a href="#servizi" class="service-card p-8 lg:p-9 bg-cream border border-transparent hover:border-gold/50"><div class="flex justify-between mb-12"><svg class="icon w-9 h-9 text-[#947333]"><use href="#building"/></svg><svg class="icon service-arrow w-5 h-5"><use href="#diagonal"/></svg></div><h3 class="font-semibold text-xl mb-4">Affittare con cura</h3><p class="text-sm text-ink leading-7">Mettiamo in relazione proprietari e inquilini, con attenzione alle esigenze di entrambe le parti.</p></a>
+        </div>
+      </section>
+
+      <section class="bg-cream py-20 lg:py-24">
+        <div class="wrap grid lg:grid-cols-2 gap-12 lg:gap-24 items-center reveal">
+          <div class="relative min-h-[400px] bg-[#e6e3d9] overflow-hidden">
+            <svg viewBox="0 0 560 460" class="absolute w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrazione di un interno luminoso con arco e pianta">
+              <rect width="560" height="460" fill="#e7e4da"/><path d="M0 360h560v100H0Z" fill="#d0c6b2"/><path d="M140 360V155a120 120 0 0 1 240 0v205Z" fill="#f6f4e9"/><path d="M159 360V156a101 101 0 0 1 202 0v204Z" fill="#aebfc1"/><path d="M260 55v305M159 209h202" stroke="#eee9dc" stroke-width="9"/><path d="m160 360 201-151v151Z" fill="#dbe2d9"/><path d="m0 425 260-66h101l-95 101H0Z" fill="#efe9d8"/><path d="M415 371v-137" stroke="#6c755a" stroke-width="4"/><g fill="#748367"><ellipse cx="392" cy="273" rx="16" ry="40" transform="rotate(-40 392 273)"/><ellipse cx="434" cy="246" rx="15" ry="39" transform="rotate(35 434 246)"/><ellipse cx="432" cy="304" rx="13" ry="35" transform="rotate(50 432 304)"/></g><path d="m386 351 9 62h41l9-62Z" fill="#b59562"/><rect x="67" y="324" width="118" height="65" rx="6" fill="#f5f0e1"/><path d="M75 389v15m101-15v15" stroke="#89765e" stroke-width="5"/><rect x="76" y="300" width="100" height="51" rx="9" fill="#c6b899"/>
+            </svg>
+            <div class="absolute left-5 bottom-5 bg-navy text-white py-5 px-6"><p class="eyebrow text-gold mb-2">La nostra idea di immobiliare</p><p class="font-heading text-lg">Prima le persone.<br>Poi gli immobili.</p></div>
+          </div>
+          <div><p class="eyebrow text-[#947333] mb-5">Piacere, siamo DA.MA.</p><h2 class="text-3xl md:text-[40px] font-medium tracking-[-.04em] leading-tight">Le scelte importanti<br>meritano attenzione.</h2><p class="mt-6 text-ink leading-7">Una casa non è solo una metratura o un indirizzo. È un cambiamento, un investimento, un progetto che prende forma.</p><p class="mt-4 text-ink leading-7">Per questo crediamo in un rapporto diretto: domande giuste, informazioni comprensibili e un confronto sincero, in ogni fase del percorso.</p><a href="#agenzia" class="inline-flex items-center gap-5 mt-8 text-sm font-semibold border-b border-gold pb-3">Scopri la nostra agenzia <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></div>
+        </div>
+      </section>
+
+      <section class="wrap py-20 lg:py-24 reveal">
+        <div class="grid md:grid-cols-[1fr_1.2fr] gap-10">
+          <div><p class="eyebrow text-[#947333] mb-4">Il primo passo è semplice</p><h2 class="text-3xl md:text-[40px] tracking-[-.04em] font-medium">Raccontaci la casa<br>che hai in mente.</h2></div>
+          <div class="md:pl-10 md:border-l border-navy/15"><p class="text-ink leading-7 mb-7">Cerchi un nuovo spazio o vuoi capire come valorizzare il tuo? Iniziamo con una conversazione, senza impegno. Mettiamo a fuoco le tue priorità e i prossimi passi.</p><a href="#contatti" class="btn btn-navy">Prenota un primo incontro <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="page" id="page-immobili" data-page="immobili" hidden>
+      <section class="bg-cream py-16 md:py-24"><div class="wrap"><p class="eyebrow text-[#947333] mb-5">La tua ricerca, al centro</p><h1 class="text-4xl md:text-6xl font-medium tracking-[-.05em]">Lo spazio per il tuo futuro.</h1><p class="text-ink leading-7 max-w-2xl mt-6">Una casa da abitare, uno spazio per lavorare, un immobile da mettere a reddito. Raccontaci cosa cerchi: definiamo insieme le caratteristiche che fanno davvero la differenza.</p></div></section>
+      <section class="wrap py-16">
+        <div class="border-l-2 border-gold pl-5 text-sm text-ink leading-6 mb-10">Le illustrazioni qui sotto rappresentano tipologie immobiliari, non annunci disponibili. Contattaci per conoscere le proposte attuali.</div>
+        <div class="grid md:grid-cols-3 gap-7">
+          <article class="border border-navy/10"><div class="h-60 art-panel"><svg viewBox="0 0 800 660" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Villa contemporanea illustrata"><use href="#home-art"/></svg></div><div class="p-7"><p class="eyebrow text-[#947333] mb-3">Residenziale</p><h2 class="text-xl font-semibold">Ville e case indipendenti</h2><p class="text-sm text-ink leading-6 mt-3">Privacy, spazi all’aperto e ambienti da vivere secondo il tuo ritmo.</p></div></article>
+          <article class="border border-navy/10"><div class="h-60 bg-[#e4e0d6]"><svg viewBox="0 0 400 260" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Palazzo residenziale illustrato"><rect width="400" height="260" fill="#d9e1de"/><path d="M65 260V50h218v210" fill="#ede9dd"/><path d="m283 50 58 37v173h-58" fill="#c1b9a8"/><g fill="#34515c"><path d="M87 75h40v47H87zm66 0h40v47h-40zm66 0h40v47h-40zM87 151h40v47H87zm66 0h40v47h-40zm66 0h40v47h-40z"/></g><path d="M76 128h196M76 205h196" stroke="#b79655" stroke-width="5"/><path d="M0 243h400v17H0" fill="#9da58e"/></svg></div><div class="p-7"><p class="eyebrow text-[#947333] mb-3">Residenziale</p><h2 class="text-xl font-semibold">Appartamenti</h2><p class="text-sm text-ink leading-6 mt-3">Il giusto equilibrio fra posizione, funzionalità e nuovi modi di abitare.</p></div></article>
+          <article class="border border-navy/10"><div class="h-60 bg-[#d9dfdc]"><svg viewBox="0 0 400 260" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Spazio commerciale illustrato"><rect width="400" height="260" fill="#e8e6df"/><path d="M40 260V40h320v220" fill="#bdb6a5"/><path d="M64 75h272v185H64Z" fill="#34515c"/><path d="M154 75v185M246 75v185" stroke="#d4cdbd" stroke-width="6"/><path d="m64 75 90 0-90 130zm182 0h90l-90 130Z" fill="#8baca9" opacity=".4"/><path d="M40 38h320v32H40" fill="#091d33"/><path d="M0 247h400v13H0" fill="#cfc7b5"/></svg></div><div class="p-7"><p class="eyebrow text-[#947333] mb-3">Commerciale</p><h2 class="text-xl font-semibold">Spazi per la tua attività</h2><p class="text-sm text-ink leading-6 mt-3">Ambienti che incontrano le esigenze del tuo lavoro e dei tuoi progetti.</p></div></article>
+        </div>
+        <div class="mt-12 p-8 md:p-10 bg-cream flex flex-col md:flex-row items-start md:items-center justify-between gap-6"><div><h2 class="text-2xl font-medium">Non partire dagli annunci. Parti da te.</h2><p class="text-ink mt-3 text-sm">Indicaci zona, budget e caratteristiche desiderate.</p></div><a class="btn btn-navy shrink-0" href="#contatti" data-interest="Acquistare un immobile">Raccontaci cosa cerchi <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></div>
+      </section>
+    </div>
+
+    <div class="page" id="page-servizi" data-page="servizi" hidden>
+      <section class="bg-navy text-white py-16 md:py-24"><div class="wrap"><p class="eyebrow text-gold mb-5">I nostri servizi</p><h1 class="text-4xl md:text-6xl font-medium tracking-[-.05em]">Un percorso chiaro.<br>In ogni direzione.</h1><p class="text-white/75 mt-6 leading-7 max-w-xl">Che tu stia vendendo, acquistando o cercando una locazione, partiamo dalle tue esigenze per costruire un percorso comprensibile.</p></div></section>
+      <section class="wrap py-16 md:py-20">
+        <div class="grid md:grid-cols-3 gap-9">
+          <article class="reveal"><svg class="icon text-[#947333] w-10 h-10 mb-7"><use href="#key"/></svg><h2 class="text-2xl font-semibold mb-4">Vuoi vendere?</h2><p class="text-ink leading-7">Analizziamo le caratteristiche dell’immobile e il contesto di mercato per impostare una proposta coerente. Curiamo la presentazione e l’organizzazione delle visite.</p><ul class="mt-6 space-y-3 text-sm"><li>— Valutazione e strategia di proposta</li><li>— Valorizzazione dell’immobile</li><li>— Gestione dei contatti e delle visite</li><li>— Affiancamento nella trattativa</li></ul><a href="#contatti" data-interest="Vendere un immobile" class="inline-flex gap-3 items-center mt-8 text-sm font-semibold">Parliamo del tuo immobile <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></article>
+          <article class="reveal md:border-l md:pl-9 border-navy/15"><svg class="icon text-[#947333] w-10 h-10 mb-7"><use href="#house"/></svg><h2 class="text-2xl font-semibold mb-4">Vuoi acquistare?</h2><p class="text-ink leading-7">Mettiamo in ordine desideri, priorità e budget. Ti aiutiamo a leggere le opportunità con attenzione, dalla visita alla definizione della proposta.</p><ul class="mt-6 space-y-3 text-sm"><li>— Analisi delle tue esigenze</li><li>— Ricerca delle soluzioni adatte</li><li>— Visite e confronto sugli immobili</li><li>— Supporto nei passaggi di acquisto</li></ul><a href="#contatti" data-interest="Acquistare un immobile" class="inline-flex gap-3 items-center mt-8 text-sm font-semibold">Iniziamo la tua ricerca <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></article>
+          <article class="reveal md:border-l md:pl-9 border-navy/15"><svg class="icon text-[#947333] w-10 h-10 mb-7"><use href="#building"/></svg><h2 class="text-2xl font-semibold mb-4">Pensi a un affitto?</h2><p class="text-ink leading-7">Diamo spazio alle necessità di proprietari e inquilini, favorendo un confronto chiaro sulle condizioni e sull’utilizzo dell’immobile.</p><ul class="mt-6 space-y-3 text-sm"><li>— Definizione delle esigenze</li><li>— Presentazione dell’immobile</li><li>— Organizzazione degli incontri</li><li>— Supporto al percorso di locazione</li></ul><a href="#contatti" data-interest="Affittare un immobile" class="inline-flex gap-3 items-center mt-8 text-sm font-semibold">Troviamo il giusto incontro <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></article>
+        </div>
+      </section>
+      <section class="bg-cream py-16"><div class="wrap grid md:grid-cols-2 gap-12"><h2 class="text-3xl md:text-4xl tracking-tight">Prima di decidere,<br>facciamo chiarezza.</h2><div><p class="text-ink leading-7">Durante il primo incontro definiamo insieme attività, tempi e condizioni dell’incarico. Nessuna promessa di risultati automatici: un confronto concreto sul tuo progetto.</p><a href="#contatti" class="btn btn-navy mt-7">Richiedi una consulenza <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></div></div></section>
+    </div>
+
+    <div class="page" id="page-agenzia" data-page="agenzia" hidden>
+      <section class="wrap py-16 md:py-24"><div class="grid lg:grid-cols-2 gap-14 items-center"><div><p class="eyebrow text-[#947333] mb-5">L’agenzia</p><h1 class="text-4xl md:text-5xl font-medium tracking-[-.05em] leading-tight">Il valore di una casa.<br>La fiducia di una persona.</h1><p class="text-ink leading-7 mt-7">DA.MA. Servizi Immobiliari nasce da un’idea semplice di questo lavoro: accompagnare le persone nelle scelte immobiliari con attenzione, chiarezza e disponibilità al confronto.</p><p class="text-ink leading-7 mt-4">Non partiamo da una soluzione già pronta. Partiamo dalla tua storia, dal motivo per cui vuoi cambiare e dalle domande a cui cerchi risposta.</p></div><div class="h-[400px] art-panel"><svg viewBox="0 0 800 660" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Architettura contemporanea nel verde, illustrazione"><use href="#home-art"/></svg></div></div></section>
+      <section class="bg-cream py-16 md:py-20"><div class="wrap"><p class="eyebrow text-[#947333] mb-4">Il nostro modo di lavorare</p><h2 class="text-3xl md:text-4xl tracking-tight mb-10">Meno distanza. Più dialogo.</h2><div class="grid md:grid-cols-3 gap-9"><article><span class="text-gold text-3xl font-heading">01.</span><h3 class="text-xl font-semibold mt-5 mb-3">Ascolto reale</h3><p class="text-ink text-sm leading-7">Dedichiamo tempo a capire priorità, aspettative e vincoli. Una buona ricerca inizia dalle domande giuste.</p></article><article><span class="text-gold text-3xl font-heading">02.</span><h3 class="text-xl font-semibold mt-5 mb-3">Informazioni chiare</h3><p class="text-ink text-sm leading-7">Rendiamo comprensibili passaggi e condizioni, per aiutarti a scegliere con maggiore consapevolezza.</p></article><article><span class="text-gold text-3xl font-heading">03.</span><h3 class="text-xl font-semibold mt-5 mb-3">Cura del percorso</h3><p class="text-ink text-sm leading-7">Dalla prima visita alla conclusione, manteniamo il dialogo aperto e l’attenzione sui prossimi passi.</p></article></div></div></section>
+      <section class="wrap py-16 flex flex-col md:flex-row gap-8 justify-between md:items-center"><h2 class="text-3xl tracking-tight">Conosciamoci, senza impegno.</h2><a href="#contatti" class="btn btn-navy self-start">Fissa un appuntamento <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a></section>
+    </div>
+
+    <div class="page" id="page-contatti" data-page="contatti" hidden>
+      <section class="bg-cream py-14 md:py-20"><div class="wrap"><p class="eyebrow text-[#947333] mb-4">Siamo qui per ascoltarti</p><h1 class="text-4xl md:text-6xl font-medium tracking-[-.05em]">Parliamo del tuo prossimo passo.</h1><p class="text-ink mt-6 max-w-xl leading-7">Una domanda, una casa da vendere, un progetto ancora da definire. Scegli come contattarci o scrivici un messaggio.</p></div></section>
+      <section class="wrap py-16 grid lg:grid-cols-[.85fr_1.15fr] gap-14 lg:gap-20">
+        <div>
+          <h2 class="text-2xl font-semibold mb-7">Un contatto diretto.</h2>
+          <div class="space-y-4">
+            <a href="tel:[TELEFONO]" data-contact="phone" class="border border-navy/15 p-5 flex items-center gap-4 hover:bg-cream"><svg class="icon text-[#947333]"><use href="#phone"/></svg><div class="flex-1"><span class="block text-sm font-semibold">Chiama l’agenzia</span><span class="text-sm text-ink">[TELEFONO]</span></div><svg class="icon w-4 h-4"><use href="#diagonal"/></svg></a>
+            <a href="https://wa.me/[TELEFONO]" data-contact="whatsapp" class="border border-navy/15 p-5 flex items-center gap-4 hover:bg-cream"><svg class="icon text-[#947333]"><use href="#chat"/></svg><div class="flex-1"><span class="block text-sm font-semibold">Scrivici su WhatsApp</span><span class="text-sm text-ink">[TELEFONO]</span></div><svg class="icon w-4 h-4"><use href="#diagonal"/></svg></a>
+            <a href="mailto:[EMAIL]" data-contact="email" class="border border-navy/15 p-5 flex items-center gap-4 hover:bg-cream"><svg class="icon text-[#947333]"><use href="#mail"/></svg><div class="flex-1"><span class="block text-sm font-semibold">Invia un’email</span><span class="text-sm text-ink">[EMAIL]</span></div><svg class="icon w-4 h-4"><use href="#diagonal"/></svg></a>
+          </div>
+          <p class="text-xs text-ink mt-5 leading-6">I recapiti tra parentesi sono da completare. Le azioni di contatto saranno disponibili dopo l’inserimento dei dati dell’agenzia.</p>
+          <div class="mt-10 border-t border-navy/15 pt-8"><div class="flex gap-3"><svg class="icon text-[#947333] shrink-0"><use href="#pin"/></svg><div><h3 class="font-semibold">Dove siamo</h3><p class="text-ink text-sm mt-2">[INDIRIZZO], [CAP] [CITTÀ] ([PROVINCIA])</p><a href="https://www.google.com/maps/search/?api=1&amp;query=%5BINDIRIZZO%5D%20%5BCITT%C3%80%5D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm border-b border-gold pb-1 mt-4">Apri Google Maps <svg class="icon w-3 h-3"><use href="#diagonal"/></svg></a></div></div><div class="flex gap-3 mt-8"><svg class="icon text-[#947333] shrink-0"><use href="#clock"/></svg><div><h3 class="font-semibold">Orari di apertura</h3><p class="text-ink text-sm mt-2">Lunedì – Venerdì: [ORARI]</p><p class="text-ink text-sm mt-2">Sabato: [ORARI]</p><p class="text-ink text-sm mt-2">Domenica: [ORARI / CHIUSO]</p><p class="text-xs text-ink mt-4">Contattaci per concordare un appuntamento.</p></div></div></div>
+        </div>
+        <div class="bg-cream p-6 md:p-9 self-start">
+          <h2 class="text-2xl font-semibold">Raccontaci il tuo progetto.</h2><p class="text-sm text-ink leading-6 mt-3 mb-7">Compila i campi: apriremo il tuo programma di posta con il messaggio pronto. I campi con * sono obbligatori.</p>
+          <form id="contact-form" class="space-y-5">
+            <div class="grid sm:grid-cols-2 gap-5"><div><label for="name" class="block text-xs font-semibold mb-2">Nome e cognome *</label><input id="name" name="name" autocomplete="name" class="field" required maxlength="120" placeholder="Come ti chiami?"></div><div><label for="email" class="block text-xs font-semibold mb-2">Email *</label><input id="email" name="email" type="email" autocomplete="email" class="field" required placeholder="La tua email"></div></div>
+            <div><label for="phone" class="block text-xs font-semibold mb-2">Telefono</label><input id="phone" name="phone" type="tel" autocomplete="tel" class="field" placeholder="Un recapito, se preferisci essere chiamato"></div>
+            <div><label for="interest" class="block text-xs font-semibold mb-2">Come possiamo aiutarti? *</label><select id="interest" name="interest" class="field" required><option value="">Seleziona un argomento</option>Acquistare un immobile</option><option>Vendere un immobile</option><option>Affittare un immobile</option><option>Richiedere informazioni</option></select></div>
+            <div><label for="message" class="block text-xs font-semibold mb-2">Il tuo messaggio *</label><textarea id="message" name="message" rows="5" class="field resize-y" required maxlength="5000" placeholder="Zona, esigenze, dubbi: da dove iniziamo?"></textarea></div>
+            <label class="flex gap-3 items-start text-xs leading-6 text-ink"><input type="checkbox" required class="mt-1.5 accent-[#091d33] w-4 h-4 shrink-0"><span>Ho letto l’<a href="#privacy" class="underline underline-offset-2">informativa privacy</a> e comprendo che il messaggio verrà inviato tramite il mio programma di posta. *</span></label>
+            <button type="submit" class="btn btn-navy w-full">Prepara la tua email <svg class="icon w-4 h-4"><use href="#arrow"/></svg></button>
+            <p id="form-status" class="text-xs leading-6 text-ink" role="status">Il sito non invia né salva il contenuto del modulo su un server.</p>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <div class="page" id="page-privacy" data-page="privacy" hidden>
+      <section class="wrap max-w-3xl py-16 md:py-24">
+        <p class="eyebrow text-[#947333] mb-4">Informazioni sul trattamento dei dati</p><h1 class="text-4xl font-medium tracking-tight mb-8">Privacy e utilizzo del sito</h1>
+        <div class="bg-cream border-l-2 border-gold p-5 text-sm leading-7 mb-9">Informativa da completare prima della pubblicazione con i dati del titolare e la verifica degli strumenti effettivamente utilizzati.</div>
+        <div class="space-y-7 text-ink leading-7 text-sm">
+          <section><h2 class="text-xl font-semibold text-navy mb-2">Titolare del trattamento</h2><p>[RAGIONE SOCIALE], con sede in [INDIRIZZO], [CAP] [CITTÀ]. Contatto per la privacy: [EMAIL].</p></section>
+          <section><h2 class="text-xl font-semibold text-navy mb-2">Contatti e modulo</h2><p>Il modulo prepara un messaggio nel programma di posta dell’utente tramite un collegamento mailto. Il sito non trasmette il modulo a un proprio server e non ne conserva il contenuto. L’invio effettivo avviene solo dal programma di posta dell’utente.</p><p class="mt-3">I dati comunicati all’agenzia saranno utilizzati per rispondere alla richiesta e per le eventuali attività precontrattuali richieste dall’interessato, ai sensi dell’art. 6, par. 1, lett. b del GDPR. Si invita a non inviare dati sensibili o documenti non necessari.</p></section>
+          <section><h2 class="text-xl font-semibold text-navy mb-2">Conservazione e destinatari</h2><p>I tempi di conservazione e le categorie di eventuali fornitori autorizzati al trattamento devono essere specificati dal titolare prima della pubblicazione: [TEMPI DI CONSERVAZIONE E DESTINATARI].</p></section>
+          <section><h2 class="text-xl font-semibold text-navy mb-2">Servizi esterni e cookie</h2><p>Questa pagina non imposta cookie di profilazione né utilizza strumenti di analisi. Carica risorse esterne da Google Fonts e dal CDN di Tailwind CSS, i cui fornitori possono ricevere informazioni tecniche quali indirizzo IP e dati del browser. I collegamenti a Google Maps e WhatsApp aprono servizi esterni regolati dalle rispettive informative. Le condizioni degli eventuali trasferimenti di dati devono essere verificate prima della messa online.</p></section>
+          <section><h2 class="text-xl font-semibold text-navy mb-2">I tuoi diritti</h2><p>Nei casi previsti dal GDPR, puoi richiedere accesso, rettifica, cancellazione, limitazione, portabilità o opporti al trattamento scrivendo a [EMAIL]. Puoi inoltre proporre reclamo al Garante per la protezione dei dati personali.</p></section>
+        </div><a href="#contatti" class="btn btn-navy mt-10">Torna ai contatti <svg class="icon w-4 h-4"><use href="#arrow"/></svg></a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-navy text-white">
+    <div class="wrap pt-14 pb-10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 pb-12 border-b border-white/15">
+        <div><a href="#home" class="inline-block" aria-label="DA.MA. Servizi Immobiliari, home"><span class="text-4xl font-heading font-extrabold tracking-[-.06em]">DA<span class="text-gold">.</span>MA<span class="text-gold">.</span></span><span class="block text-[8px] tracking-[.25em] border-t border-gold mt-2 pt-2">SERVIZI IMMOBILIARI</span></a><p class="text-sm text-white/65 mt-5 leading-6 max-w-xs">Ogni casa, un nuovo inizio.<br>Facciamo insieme il primo passo.</p></div>
+        <div><h2 class="text-sm font-semibold mb-5">Esplora</h2><div class="flex flex-col gap-3 text-sm text-white/65"><a href="#immobili" class="hover:text-gold">Immobili</a><a href="#servizi" class="hover:text-gold">I nostri servizi</a><a href="#agenzia" class="hover:text-gold">L’agenzia</a><a href="#contatti" class="hover:text-gold">Contatti</a></div></div>
+        <div><h2 class="text-sm font-semibold mb-5">Vieni a trovarci</h2><p class="text-sm text-white/65 leading-7">[INDIRIZZO]<br>[CAP] [CITTÀ] ([PROVINCIA])</p><a href="#contatti" class="inline-flex text-xs mt-4 gap-2 items-center text-gold">Sede e orari <svg class="icon w-3 h-3"><use href="#arrow"/></svg></a></div>
+        <div><h2 class="text-sm font-semibold mb-5">Restiamo in contatto</h2><p class="text-sm text-white/65 leading-7">[TELEFONO]<br>[EMAIL]</p><a href="#contatti" class="inline-flex text-xs mt-4 gap-2 items-center text-gold">Scrivici <svg class="icon w-3 h-3"><use href="#arrow"/></svg></a></div>
+      </div>
+      <div class="pt-7 flex flex-col lg:flex-row justify-between gap-4 text-[11px] text-white/55 leading-6"><p>© <span id="year"></span> DA.MA. Servizi Immobiliari · [RAGIONE SOCIALE] · P.IVA [P.IVA] · REA [NUMERO REA]</p><a href="#privacy" class="underline underline-offset-4 hover:text-white self-start">Privacy e informazioni legali</a></div>
+    </div>
+  </footer>
+  <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 left-5 right-5 sm:left-auto sm:w-96 z-[80] bg-navy text-white border border-gold px-6 py-5 shadow-xl hidden text-sm leading-6"></div>
+
+  <script>
+    const pageTitles = {
+      home: 'DA.MA. Servizi Immobiliari | Il valore di sentirsi a casa',
+      immobili: 'Immobili e ricerca casa | DA.MA. Servizi Immobiliari',
+      servizi: 'Acquisto, vendita e affitto | DA.MA. Servizi Immobiliari',
+      agenzia: 'La nostra agenzia | DA.MA. Servizi Immobiliari',
+      contatti: 'Contatti e appuntamenti | DA.MA. Servizi Immobiliari',
+      privacy: 'Privacy e informazioni legali | DA.MA. Servizi Immobiliari'
+    };
+    const menu = document.getElementById('mobile-menu');
+    const menuToggle = document.getElementById('menu-toggle');
+    function closeMenu() {
+      menu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Apri menu');
+    }
+    menuToggle.addEventListener('click', () => {
+      const opened = menuToggle.getAttribute('aria-expanded') === 'true';
+      menu.classList.toggle('hidden', opened);
+      menuToggle.setAttribute('aria-expanded', String(!opened));
+      menuToggle.setAttribute('aria-label', opened ? 'Apri menu' : 'Chiudi menu');
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a');
+      if (a && a.dataset.interest) document.getElementById('interest').value = a.dataset.interest;
+      if (a && a.closest('#mobile-menu')) closeMenu();
+    });
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('js-motion');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+    function route(initial = false) {
+      let key = location.hash.slice(1) || 'home';
+      if (key === 'contenuto') { document.getElementById('contenuto').focus(); return; }
+      if (!pageTitles[key]) key = 'home';
+      document.querySelectorAll('[data-page]').forEach(el => { el.hidden = el.dataset.page !== key; });
+      document.querySelectorAll('.nav-link').forEach(a => {
+        if (a.getAttribute('href') === '#' + key) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+      document.title = pageTitles[key];
+      closeMenu();
+      if (!initial) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        const heading = document.querySelector('#page-' + key + ' h1');
+        if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+      }
+    }
+    window.addEventListener('hashchange', () => route());
+    document.getElementById('contenuto').setAttribute('tabindex', '-1');
+    route(true);
+    document.getElementById('year').textContent = new Date().getFullYear();
+    let toastTimer;
+    function notify(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add('hidden'), 6500);
+    }
+    // Inserire qui i recapiti reali prima della pubblicazione.
+    const contact = { phone: '[TELEFONO]', email: '[EMAIL]' };
+    document.querySelectorAll('[data-contact]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const type = a.dataset.contact;
+        const value = type === 'email' ? contact.email : contact.phone;
+        if (value.includes('[')) { notify('Recapito non ancora disponibile: i dati dell’agenzia devono essere completati.'); return; }
+        if (type === 'email') location.href = 'mailto:' + value;
+        else if (type === 'phone') location.href = 'tel:' + value.replace(/[^\d+]/g, '');
+        else window.open('https://wa.me/' + value.replace(/\D/g, ''), '_blank', 'noopener,noreferrer');
+      });
+    });
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const subject = 'Richiesta DA.MA. — ' + data.get('interest');
+      const body = 'Nome: ' + data.get('name') + '\nEmail: ' + data.get('email') + '\nTelefono: ' + (data.get('phone') || 'Non indicato') + '\nInteresse: ' + data.get('interest') + '\n\n' + data.get('message');
+      document.getElementById('form-status').textContent = contact.email.includes('[')
+        ? 'Apertura del programma di posta. Attenzione: sostituisci [EMAIL] con l’indirizzo reale dell’agenzia prima di inviare. Nessun messaggio è stato inviato dal sito.'
+        : 'Apertura del programma di posta: controlla il messaggio e conferma l’invio. Se non si apre, utilizza il pulsante Email.';
+      location.href = 'mailto:' + contact.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  </script>
+</body>
+</html>
